@@ -1,0 +1,190 @@
+// =============================================================================
+// TOKEN-EBENE
+// =============================================================================
+// Kein Bauteil enthält einen rohen Wert. Alles hier ist eine
+// CSS-Custom-Property.
+//
+// Farben stehen in oklch — nicht aus Modernität, sondern weil dieselbe
+// Änderung an L überall dieselbe wahrgenommene Helligkeitsänderung bedeutet.
+// Eine Abstufung wie 0.160 → 0.205 → 0.250 wirkt deshalb gleichmäßig, während
+// dieselbe Reihe in Hex geraten wäre.
+//
+// Alle Kontrastwerte in den Kommentaren sind gerechnet: `src/lib/color.ts`
+// konvertiert oklch → sRGB → WCAG-Leuchtdichte, und `tokens.test.ts` liest
+// DIESE Datei und prüft sie bei jedem Testlauf.
+//
+// -----------------------------------------------------------------------------
+// NUR DUNKEL
+// -----------------------------------------------------------------------------
+// Es gibt keinen Hellmodus mehr. Das ist eine Gestaltungsentscheidung, keine
+// Auslassung: Auf einem festen dunklen Grund funktionieren Dinge, die in einem
+// umschaltbaren System nicht gehen — Leuchten, additive Überlagerungen,
+// Linienobjekte, die aus Dichte statt aus Fläche bestehen. Jede dieser Techniken
+// bricht im Hellmodus, und ein Entwurf, der in beiden Modi bestehen muss,
+// landet zwangsläufig beim kleinsten gemeinsamen Nenner: flache Flächen und
+// Rahmen.
+//
+// Zurückholen wäre kein Umbau, sondern eine zweite Palette an dieser Stelle.
+//
+// -----------------------------------------------------------------------------
+// Keine Akzentfarbe
+// -----------------------------------------------------------------------------
+// Die Seite ist monochrom. Eine einzelne Akzentfarbe muss verdient sein, und
+// auf einer Seite, deren Aussage „vollständige Systeme statt Oberflächen" ist,
+// trägt der Kontrast selbst mehr als ein bunter Knopf.
+//
+// Das Markenorange (--c-brand) bleibt erhalten, erscheint aber nur dort, wo es
+// die Marke IDENTIFIZIERT: Favicon und Vorschaubild.
+// =============================================================================
+
+:root {
+  color-scheme: dark;
+
+  // ---------------------------------------------------------------------------
+  // Flächen
+  // ---------------------------------------------------------------------------
+  // Der Grund ist nicht rein #000: Reines Schwarz erzeugt gegen helle Schrift
+  // ein Nachbild-Flimmern und lässt jede Erhebung darüber grau statt hell
+  // wirken. Für echte Tiefe gibt es --c-void — die Fläche, die UNTER dem Grund
+  // liegt und ihn dadurch als Ebene sichtbar macht.
+  --c-void:          oklch(0.115 0.004 260);
+  --c-bg:            oklch(0.160 0.004 260);   // #0c0d0f
+  --c-surface:       oklch(0.205 0.005 260);
+  --c-surface-high:  oklch(0.250 0.006 260);
+
+  --c-line:          oklch(0.300 0.005 260);   // 1.42:1 — reine Trennung
+  --c-line-strong:   oklch(0.390 0.006 260);
+  --c-border-control: oklch(0.505 0.006 260);  // 3.31:1 Grund / 3.05:1 Fläche
+
+  // ---------------------------------------------------------------------------
+  // Text
+  // ---------------------------------------------------------------------------
+  // WARMES CREME statt Weiß. Das ist die eine Entscheidung, die eine
+  // Graustufenseite teuer statt hart aussehen lässt: Der Grund ist minimal kühl
+  // (Farbwinkel 260), der Text minimal warm (85). Man sieht keine Farbe — man
+  // sieht, dass die Fläche lebt. Reines Weiß auf reinem Schwarz wirkt dagegen
+  // wie ein Terminal.
+  --c-text:          oklch(0.955 0.012 85);    // 17.02:1 — #f4f0e7
+  --c-text-muted:    oklch(0.720 0.009 85);    //  7.82:1
+  --c-text-subtle:   oklch(0.610 0.007 85);    //  5.12:1 Grund / 4.73:1 Fläche
+
+  // In einer Graustufenseite IST der Akzent die gefüllte helle Fläche.
+  --c-emphasis:      oklch(0.955 0.012 85);
+  --c-on-emphasis:   oklch(0.160 0.004 260);   // 17.02:1
+
+  // Signalfarben bleiben farbig — sie sind funktional, nicht dekorativ. Ein
+  // Fehlerzustand in Grau wäre kein Signal mehr.
+  --c-success:       oklch(0.780 0.150 155);
+  --c-danger:        oklch(0.700 0.170 25);
+
+  // Marke. Nur Favicon und Vorschaubild.
+  --c-brand:         oklch(0.665 0.212 44);    // = #FF5C00
+
+  // ---------------------------------------------------------------------------
+  // Leuchten
+  // ---------------------------------------------------------------------------
+  // Erst auf festem dunklem Grund möglich. Sparsam: ein Leuchten markiert, dass
+  // etwas AKTIV ist — ein laufender Prozess, ein getroffener Zustand. Nicht,
+  // dass etwas wichtig ist.
+  --glow-soft: 0 0 40px oklch(0.955 0.012 85 / 0.06);
+  --glow-edge: 0 0 0 1px oklch(0.955 0.012 85 / 0.14);
+
+  --shadow-raised: 0 1px 2px oklch(0 0 0 / 0.6), 0 24px 60px oklch(0 0 0 / 0.5);
+
+  // Erscheinungsbild der Systemkugel. Gehört in die Palette, weil es eine
+  // Farbentscheidung ist und keine Bauteillogik.
+  --sphere-opacity: 0.72;
+  --sphere-depth-floor: 0.05;
+
+  // ---------------------------------------------------------------------------
+  // Abstände — eine Skala, Basis 4
+  // ---------------------------------------------------------------------------
+  // Benannt nach dem Pixelwert, damit ein Zwischenwert wie 40 gar nicht erst
+  // unauffällig schreibbar ist.
+  --space-4: 0.25rem;
+  --space-8: 0.5rem;
+  --space-12: 0.75rem;
+  --space-16: 1rem;
+  --space-24: 1.5rem;
+  --space-32: 2rem;
+  --space-48: 3rem;
+  --space-64: 4rem;
+  --space-96: 6rem;
+  --space-128: 8rem;
+  --space-192: 12rem;
+  --space-256: 16rem;
+
+  // Abstand ZWISCHEN Sektionen. Deutlich größer als zuvor: Der vorige Entwurf
+  // wirkte gedrängt, weil Sektionsabstand und Innenabstand zu nah beieinander
+  // lagen. Faustregel eingehalten und verschärft — der Abstand zwischen zwei
+  // Blöcken ist hier mindestens das Dreifache des größten Abstands innerhalb.
+  --space-section: clamp(var(--space-128), 15vw, var(--space-256));
+
+  // ---------------------------------------------------------------------------
+  // Maße
+  // ---------------------------------------------------------------------------
+  --measure-prose: 62ch;    // 60–75 Zeichen — darüber verliert das Auge die Zeile
+  --measure-lead: 46ch;
+  --width-page: 92rem;
+  --width-narrow: 44rem;
+  // Der Seitenrand wächst stärker mit: Auf 1440 px sind es 96 statt 64 px.
+  --gutter: clamp(var(--space-24), 5.5vw, var(--space-96));
+
+  // ---------------------------------------------------------------------------
+  // Schrift
+  // ---------------------------------------------------------------------------
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  // NUR für Maschinenwerte: Technologien, Testzahlen, Daten, Versionen. Nicht
+  // für Sektionsüberschriften — daran ist ein früherer Entwurf gescheitert,
+  // weil dann jede Sektion gleich anfing.
+  --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+
+  --fs-micro: 0.6875rem;  // 11px — Ecklabels, Versalien
+  --fs-small: 0.8125rem;  // 13px — Meta, Bildunterschrift
+  --fs-body:  1.0625rem;  // 17px — Fließtext
+  --fs-lead:  clamp(1.125rem, 0.5vw + 1.02rem, 1.375rem);
+  --fs-h3:    clamp(1.25rem, 1vw + 1.05rem, 1.75rem);
+  --fs-h2:    clamp(2rem, 3.4vw + 1.2rem, 4rem);
+  --fs-h1:    clamp(2.5rem, 5vw + 1.3rem, 5.25rem);
+  --fs-display: clamp(2.75rem, 9.2vw + 0.4rem, 9rem);
+
+  // Zeilenhöhe bei Displaygraden unter 1. Bei fetter Schrift enger als bei
+  // leichter: Die Versalhöhe füllt die Zeile stärker aus.
+  --lh-display: 0.90;
+  --lh-heading: 1.06;
+  --lh-lead: 1.5;
+  --lh-body: 1.68;
+
+  // Fett läuft optisch weiter auseinander als leicht — die Korrektur muss
+  // deshalb stärker ausfallen.
+  --ls-display: -0.042em;
+  --ls-heading: -0.02em;
+  --ls-body: 0;
+  // Mikrotypografie: Versalien in 11 px laufen ohne positive Laufweite zusammen.
+  --ls-micro: 0.13em;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  // Displaygrade laufen in Bold.
+  --fw-bold: 700;
+
+  // ---------------------------------------------------------------------------
+  // Radien
+  // ---------------------------------------------------------------------------
+  --radius-sm: 3px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  // Nur für große Bildflächen. Auf einem Knopf wäre dieser Radius verspielt.
+  --radius-canvas: clamp(16px, 1.6vw, 28px);
+
+  // ---------------------------------------------------------------------------
+  // Bewegung — drei Dauern, eine Easing-Familie
+  // ---------------------------------------------------------------------------
+  --dur-fast: 140ms;   // Hover, Fokus
+  --dur-base: 260ms;   // Zustandswechsel
+  --dur-slow: 520ms;   // Einblendungen, große Wege
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --stagger: 70ms;
+}

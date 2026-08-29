@@ -1,0 +1,71 @@
+// Eine Aussage, die sich beim Scrollen selbst aufbaut.
+//
+// Die Bewegung hat hier eine Aufgabe: Sie zwingt zum Lesen. Ein langer Absatz
+// in großem Grad wird sonst überflogen; wenn die Wörter der Reihe nach
+// aufhellen, folgt das Auge dem Satz. Das ist ENTHÜLLEN im Wortsinn und nicht
+// „lebendig aussehen".
+//
+// Kosten: Pro Wort eine Deckkraft, abgeleitet aus einem einzigen Scrollwert.
+// Kein Layout, kein Repaint — nur Compositing.
+
+.section {
+  padding-block: var(--space-section);
+}
+
+.label {
+  @include micro-label;
+  color: var(--c-text-subtle);
+  margin-block-end: clamp(var(--space-32), 5vw, var(--space-64));
+}
+
+.statement {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-medium);
+  line-height: 1.22;
+  letter-spacing: var(--ls-heading);
+  // Bewusst breiter als die übliche Satzbreite: Der Absatz IST hier die
+  // Sektion, nicht ein Textblock darin. Bei 62 Zeichen wirkte er wie ein
+  // Zitat, bei 34 Wörtern pro Zeile wie eine Wand — 46 ist die Mitte.
+  max-width: 46ch;
+  color: var(--c-text);
+  text-wrap: initial;
+}
+
+.word {
+  // `inline-block` ist nötig, damit die Deckkraft je Wort eine eigene
+  // Compositing-Ebene bekommt; ohne das müsste der Browser bei jeder Änderung
+  // den ganzen Absatz neu zeichnen.
+  display: inline-block;
+  white-space: pre;
+  will-change: opacity;
+}
+
+// Nachgestellte Randnotiz, rechts ausgerichtet — sie bricht die linke Achse
+// der Sektion bewusst.
+.aside {
+  margin-block-start: clamp(var(--space-48), 6vw, var(--space-96));
+  display: grid;
+  gap: var(--space-24);
+
+  @include mq('md') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-48);
+  }
+}
+
+.asideItem {
+  padding-block-start: var(--space-16);
+  border-top: 1px solid var(--c-line);
+}
+
+.asideTerm {
+  @include micro-label;
+  color: var(--c-text);
+}
+
+.asideText {
+  margin-block-start: var(--space-12);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--c-text-muted);
+}

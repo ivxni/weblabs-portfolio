@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-hidden="true" focusable="false">
+  <!--
+    Marke in currentColor, NICHT in Orange.
+    Auf einer streng monochromen Seite ist ein einzelnes farbiges Zeichen kein
+    Markenauftritt, sondern ein Rest. Das Markenorange lebt weiter dort, wo es
+    die Marke identifiziert statt sie zu schmücken: Favicon und Vorschaubild.
+
+    Platzhaltermarke — durch die Originaldatei ersetzen, currentColor beibehalten.
+  -->
+  <path fill="currentColor" d="M17.6 2.4h11.2v7.2L14.4 20.1v2.3h-6.4v-7.2L22.4 4.5v-2.1z"/>
+  <path fill="currentColor" d="M14.4 29.6H3.2v-7.2l14.4-10.5V9.6h6.4v7.2L9.6 27.5v2.1z" opacity="0.55"/>
+</svg>

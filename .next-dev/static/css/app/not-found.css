@@ -1,0 +1,115 @@
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[14].oneOf[7].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[14].oneOf[7].use[5]!./src/components/ui/Button.module.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.Button_base__OgWMs {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-24);
+  border-radius: 999px;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.Button_base__OgWMs:hover {
+  transform: translateY(-2px);
+}
+.Button_base__OgWMs:active {
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .Button_base__OgWMs:hover {
+    transform: none;
+  }
+}
+
+.Button_primary__KcBxk {
+  background-color: var(--c-emphasis);
+  color: var(--c-on-emphasis);
+}
+.Button_primary__KcBxk:hover {
+  background-color: var(--c-emphasis);
+  color: var(--c-on-emphasis);
+}
+
+.Button_secondary__uUg9S {
+  border-color: var(--c-border-control);
+  color: var(--c-text);
+}
+.Button_secondary__uUg9S:hover {
+  border-color: var(--c-text);
+  color: var(--c-text);
+}
+
+.Button_quiet__vun_B {
+  padding-inline: 0;
+  color: var(--c-text-subtle);
+}
+.Button_quiet__vun_B:hover {
+  color: var(--c-text);
+}
+
+.Button_icon__l9wiG {
+  font-size: 0.9em;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.Button_base__OgWMs:hover .Button_icon__l9wiG {
+  transform: translateX(3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .Button_base__OgWMs:hover .Button_icon__l9wiG {
+    transform: none;
+  }
+}
+
+.Button_full__uTwGq {
+  width: 100%;
+  justify-content: center;
+}
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[14].oneOf[7].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[14].oneOf[7].use[5]!./src/app/not-found.module.scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.not-found_wrap__7tb_Y {
+  padding-block: clamp(var(--space-96), 12vw, var(--space-192));
+}
+
+.not-found_code__1grN5 {
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-micro);
+  text-transform: uppercase;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  color: var(--c-emphasis);
+  font-size: var(--fs-small);
+}
+
+.not-found_heading__RJUGf {
+  -webkit-margin-before: var(--space-24);
+          margin-block-start: var(--space-24);
+  font-size: var(--fs-h1);
+  max-width: 16ch;
+}
+
+.not-found_body__V2BD7 {
+  -webkit-margin-before: var(--space-24);
+          margin-block-start: var(--space-24);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--c-text-muted);
+  max-width: var(--measure-prose);
+}
+
+.not-found_links__Xl4q8 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+  -webkit-margin-before: var(--space-48);
+          margin-block-start: var(--space-48);
+}

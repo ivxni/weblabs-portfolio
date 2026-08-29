@@ -1,0 +1,98 @@
+@use 'styles/abstracts' as *;
+
+// Elementgrundlagen. Alles hier ist Standardverhalten, kein Bauteil.
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  // Ein Farbwechsel beim Theme-Umschalten ohne Übergang wirkt wie ein Fehler.
+  // 220ms auf `background-color`/`color` ist die einzige Stelle, an der hier
+  // bewusst etwas anderes als transform/opacity animiert wird: Es betrifft
+  // genau einen Moment (Klick auf den Umschalter), nicht jedes Bild.
+  transition: background-color var(--dur-base) var(--ease-in-out),
+              color var(--dur-base) var(--ease-in-out);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--c-text);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading);
+  // Verhindert die einsame Hurenkind-Zeile mit einem Wort.
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+// Zahlen, die untereinander stehen können, brauchen gleiche Ziffernbreite.
+// Springende Breiten in einer Jahresspalte sind ein sofort sichtbarer Fehler.
+time,
+[data-numeric] {
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--c-line-strong);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: color var(--dur-fast) var(--ease-out),
+              text-decoration-color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--c-text);
+    text-decoration-color: var(--c-emphasis);
+  }
+}
+
+::selection {
+  background-color: var(--c-emphasis);
+  color: var(--c-on-emphasis);
+}
+
+// Sanftes Scrollen NUR bei Ankerklicks innerhalb der Seite — nicht global.
+@media (prefers-reduced-motion: no-preference) {
+  :has(:target) {
+    scroll-behavior: smooth;
+  }
+}
+
+// Visuell versteckt, für Screenreader vorhanden. Als globale Klasse, weil sie
+// in Bauteilen quer über SCSS-Module hinweg gebraucht wird.
+.visually-hidden {
+  @include visually-hidden;
+}
+
+// Sprungmarke zum Inhalt. Sie ist die erste fokussierbare Stelle der Seite und
+// wird sichtbar, sobald sie den Fokus bekommt — ohne sie muss sich jemand mit
+// Tastatur durch die gesamte Navigation arbeiten, auf jeder Seite neu.
+.skip-link {
+  position: absolute;
+  inset-block-start: var(--space-8);
+  inset-inline-start: var(--space-8);
+  z-index: 100;
+  padding: var(--space-12) var(--space-16);
+  background-color: var(--c-emphasis);
+  color: var(--c-on-emphasis);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  transform: translateY(-200%);
+
+  &:focus-visible {
+    transform: translateY(0);
+  }
+}

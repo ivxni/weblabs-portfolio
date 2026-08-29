@@ -1,0 +1,126 @@
+.profileGrid {
+  display: grid;
+  gap: var(--space-64);
+
+  @include mq('lg') {
+    grid-template-columns: minmax(14rem, 1fr) 2fr;
+    gap: var(--space-96);
+    align-items: start;
+  }
+}
+
+.profileAside {
+  padding-block-start: var(--space-24);
+  border-top: 1px solid var(--c-line-strong);
+}
+
+.profileKey { @include micro-label; color: var(--c-emphasis); }
+
+.profileThesis {
+  margin-block-start: var(--space-32);
+  max-width: 22ch;
+  color: var(--c-text);
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+  letter-spacing: var(--ls-heading);
+}
+
+.text {
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  max-width: var(--measure-prose);
+
+  p + p {
+    margin-block-start: var(--space-32);
+  }
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-24);
+  margin-block-start: clamp(var(--space-64), 8vw, var(--space-128));
+  padding-block-start: var(--space-32);
+  border-top: 1px solid var(--c-line);
+
+  @include mq('sm') {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-32);
+  }
+}
+
+.factTerm {
+  @include micro-label;
+  color: var(--c-text-subtle);
+}
+
+.factValue {
+  margin: 0;
+  margin-block-start: var(--space-8);
+  color: var(--c-text);
+}
+
+// -----------------------------------------------------------------------------
+// Technologien
+// -----------------------------------------------------------------------------
+// Keine Prozentbalken. Eine Zahl wie „React 85 %" ist nicht überprüfbar, und
+// jeder technische Leser weiß das. Die Gruppierung nach Einsatzgebiet sagt
+// mehr aus: Sie zeigt, an welcher Stelle im System jemand arbeitet.
+
+.heading {
+  font-size: var(--fs-h2);
+}
+
+.groups {
+  margin-block-start: var(--space-48);
+  border-top: 1px solid var(--c-line);
+}
+
+.group {
+  display: grid;
+  gap: var(--space-16);
+  padding-block: var(--space-32);
+  border-bottom: 1px solid var(--c-line);
+
+  @include mq('lg') {
+    grid-template-columns: minmax(14rem, 1fr) 2fr;
+    gap: var(--space-64);
+    align-items: start;
+    padding-block: var(--space-48);
+  }
+}
+
+.groupKey {
+  @include micro-label;
+  color: var(--c-emphasis);
+}
+
+.groupTitle {
+  margin-block-start: var(--space-8);
+  font-size: var(--fs-h3);
+}
+
+.groupNote {
+  margin-block-start: var(--space-12);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--c-text-subtle);
+  max-width: 44ch;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  @include micro-label;
+  padding: var(--space-8) var(--space-12);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-sm);
+  color: var(--c-text-muted);
+  letter-spacing: 0.05em;
+}

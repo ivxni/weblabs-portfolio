@@ -1,0 +1,141 @@
+// Kopfleiste.
+//
+// Sie liegt ÜBER der Hero-Leinwand und ist dort ohne eigene Fläche — die
+// Leinwand ist das Bild, und ein Balken darüber würde sie beschneiden. Erst
+// beim Scrollen bekommt sie einen Grund, weil sie dann über Text liegt und
+// gelesen werden muss.
+
+.header {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 50;
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+  border-bottom: 1px solid transparent;
+}
+
+.scrolled {
+  background-color: var(--c-bg);
+  border-bottom-color: var(--c-line);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+  block-size: 4rem;
+}
+
+.desktopNav {
+  display: none;
+
+  @include mq('lg') {
+    display: flex;
+    align-items: center;
+    // Weit auseinander statt eng gruppiert. Eine kompakte Linkgruppe rechts
+    // sieht nach Anwendungsmenü aus; verteilte Punkte sehen nach Satz aus.
+    gap: clamp(var(--space-24), 3vw, var(--space-64));
+    margin-inline-start: auto;
+    margin-inline-end: clamp(var(--space-24), 3vw, var(--space-64));
+  }
+}
+
+.navLink {
+  position: relative;
+  @include micro-label;
+  color: var(--c-text-subtle);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--c-text);
+  }
+}
+
+.navLinkActive {
+  color: var(--c-text);
+
+  // Ein Punkt statt einer Unterstreichung: Bei Versalien in 11 px sitzt eine
+  // Unterstreichung so nah am Text, dass sie ihn beschmutzt.
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 50%;
+    inset-block-end: -0.5rem;
+    inline-size: 3px;
+    block-size: 3px;
+    border-radius: 50%;
+    background-color: var(--c-emphasis);
+    transform: translateX(-50%);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  flex-shrink: 0;
+}
+
+
+.menuButton {
+  display: grid;
+  place-items: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  margin-inline-end: calc(var(--space-8) * -1);
+  border-radius: var(--radius-sm);
+  color: var(--c-text);
+
+  @include mq('lg') {
+    display: none;
+  }
+}
+
+// Ausklapppanel, kein Dialog.
+//
+// Bewusste Entscheidung: Ein modaler Dialog braucht eine Fokusfalle,
+// `aria-modal`, Rückgabe des Fokus und Sperrung des Hintergrunds. Ein
+// Ausklapppanel direkt nach dem auslösenden Knopf braucht nichts davon — die
+// Tab-Reihenfolge stimmt von selbst, weil die DOM-Reihenfolge stimmt.
+.panel {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  background-color: var(--c-bg);
+  border-bottom: 1px solid var(--c-line);
+  box-shadow: var(--shadow-raised);
+
+  @include mq('lg') {
+    display: none;
+  }
+}
+
+.panelInner {
+  display: flex;
+  flex-direction: column;
+  padding-block: var(--space-16) var(--space-24);
+}
+
+.panelLink {
+  padding: var(--space-16) 0;
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-light);
+  letter-spacing: var(--ls-heading);
+  color: var(--c-text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--c-line);
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+.panelLinkActive {
+  color: var(--c-emphasis);
+}
+
+

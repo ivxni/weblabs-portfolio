@@ -1,0 +1,88 @@
+@use 'breakpoints' as bp;
+
+/// Mobile-First-Media-Query. `@include mq('md') { … }`
+@mixin mq($name) {
+  @media (min-width: bp.bp($name)) {
+    @content;
+  }
+}
+
+/// Nur unterhalb eines Breakpoints. Sparsam einsetzen — Mobile-First ist die
+/// Regel; dies ist für die wenigen Fälle, in denen eine Desktop-Eigenschaft
+/// aktiv zurückgenommen werden muss (z. B. `position: sticky`).
+@mixin mq-below($name) {
+  @media (max-width: calc(#{bp.bp($name)} - 0.0625rem)) {
+    @content;
+  }
+}
+
+/// Der ruhige Zustand. Alles darin gilt für Nutzer, die weniger Bewegung
+/// wollen — und muss für sich funktionieren, nicht bloß „Animation aus" sein.
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+/// Ein einziger Fokusring für die ganze Seite. Er liegt außerhalb des Elements
+/// (`outline-offset`), damit er auch auf gefüllten Flächen sichtbar bleibt,
+/// und nutzt den Akzent — Fokus ist die wichtigste Handlung im Moment.
+@mixin focus-ring($offset: 3px) {
+  outline: 2px solid var(--c-emphasis);
+  outline-offset: $offset;
+  border-radius: var(--radius-sm);
+}
+
+/// Haarlinie. `border` mit 1px wird auf Retina zu 0.5 CSS-Pixeln gerundet und
+/// wirkt dann ungleichmäßig; ein Pseudo-Element mit `transform: scaleY()` wäre
+/// exakter, kostet aber ein Element pro Linie. 1px auf einem gedämpften
+/// Linienton ist der Kompromiss, der überall gleich aussieht.
+@mixin hairline($side: bottom, $color: var(--c-line)) {
+  border-#{$side}: 1px solid $color;
+}
+
+/// Versalien-Mikrolabel.
+///
+/// Bewusst in der TEXTSCHRIFT und nicht in einer Monospace. Im vorigen Entwurf
+/// war jedes dieser Labels Mono — über jeder Sektion, in jeder Karte, in jeder
+/// Meta-Zeile. Das Ergebnis war, dass alle Sektionen gleich anfingen und die
+/// Seite nach zusammengesteckten Bausteinen aussah statt nach Satz.
+///
+/// Die positive Laufweite ist hier notwendig, nicht dekorativ: Versalien in
+/// 11 px laufen ohne sie zusammen.
+@mixin micro-label {
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-micro);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+}
+
+/// Maschinenwert in Mono.
+///
+/// NUR für Dinge, die tatsächlich Werte sind: Technologien, Testzahlen, Daten,
+/// Versionen, Statuswerte. Nicht für Sektionsüberschriften — daran ist ein
+/// früherer Entwurf gescheitert, weil dann jede Sektion mit demselben kleinen
+/// Versalienlabel begann.
+@mixin mono-value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-regular);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+/// Visuell versteckt, für Screenreader vorhanden.
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,139 @@
+.form {
+  display: grid;
+  gap: var(--space-24);
+  max-width: 40rem;
+}
+
+.row {
+  display: grid;
+  gap: var(--space-24);
+
+  @include mq('sm') {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.label {
+  @include micro-label;
+  color: var(--c-text-subtle);
+}
+
+.optional {
+  color: var(--c-text-subtle);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.input,
+.textarea {
+  inline-size: 100%;
+  padding: var(--space-12) var(--space-16);
+  background-color: var(--c-bg);
+  // 3:1 gegen den Grund — die Mindestanforderung für Ränder von
+  // Bedienelementen. Ein Feld, dessen Rand man suchen muss, ist kein Feld.
+  border: 1px solid var(--c-border-control);
+  border-radius: var(--radius-md);
+  color: var(--c-text);
+  font-size: var(--fs-body);
+  transition: border-color var(--dur-fast) var(--ease-out);
+
+  &::placeholder {
+    color: var(--c-text-subtle);
+  }
+
+  &:hover {
+    border-color: var(--c-text-subtle);
+  }
+
+  &:focus {
+    border-color: var(--c-emphasis);
+  }
+}
+
+.textarea {
+  min-block-size: 10rem;
+  resize: vertical;
+  line-height: var(--lh-body);
+}
+
+.inputInvalid {
+  border-color: var(--c-danger);
+}
+
+.error {
+  font-size: var(--fs-small);
+  color: var(--c-danger);
+}
+
+// Der Honigtopf. `display: none` würde ihn auch für Bots erkennbar machen —
+// viele überspringen unsichtbare Felder inzwischen. Er wird deshalb aus dem
+// sichtbaren Bereich geschoben und gleichzeitig für Screenreader und die
+// Tab-Reihenfolge entfernt (`aria-hidden` + `tabindex="-1"` im Bauteil).
+.honeypot {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-12);
+  align-items: start;
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--c-text-muted);
+}
+
+.checkbox {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  margin-block-start: 0.15em;
+  accent-color: var(--c-emphasis);
+}
+
+.consentLink {
+  color: var(--c-text);
+  text-decoration-color: var(--c-emphasis);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+// Rückmeldung nach dem Absenden. Sie steht ÜBER dem Knopf und trägt
+// `role="status"`, damit sie auch angesagt wird und nicht nur farbig ist.
+.feedback {
+  display: grid;
+  gap: var(--space-8);
+  padding: var(--space-16);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--c-line);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+}
+
+.feedbackSuccess {
+  border-color: var(--c-success);
+  color: var(--c-text);
+}
+
+.feedbackError {
+  border-color: var(--c-danger);
+  color: var(--c-text);
+}
+
+.feedbackLink {
+  color: var(--c-emphasis);
+}

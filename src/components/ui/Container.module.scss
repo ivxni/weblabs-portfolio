@@ -1,0 +1,40 @@
+.container {
+  width: 100%;
+  margin-inline: auto;
+  // Der Seitenrand wächst mit der Breite. Ein fester Rand von 24px sieht auf
+  // 1440px aus, als wäre der Inhalt an die Kante gerutscht.
+  padding-inline: var(--gutter);
+}
+
+// Die volle Seitenbreite. Für Indizes, Faktenbänder, alles Randlose.
+.page {
+  max-width: var(--width-page);
+}
+
+// Die schmale redaktionelle Spalte. Bewusst NICHT zentriert im Seitenraster,
+// sondern links gesetzt — siehe `.offsetLeft`.
+.narrow {
+  max-width: var(--width-narrow);
+}
+
+// Volle Breite ohne Maximum. Nur für Flächen, die wirklich bis zum Rand gehen.
+.bleed {
+  max-width: none;
+}
+
+// Asymmetrie: Die Textspalte sitzt links im Seitenraster, rechts bleibt Luft.
+// Das wirkt teurer als dieselbe Textmenge mittig — und es hält den linken
+// Satzspiegel, an dem sich das Auge beim Scrollen festhält.
+.offsetLeft {
+  max-width: var(--width-page);
+
+  > * {
+    max-width: var(--width-narrow);
+  }
+
+  @include mq('lg') {
+    > * {
+      margin-inline-start: 0;
+    }
+  }
+}

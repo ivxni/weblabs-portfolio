@@ -1,0 +1,92 @@
+@use 'styles/abstracts' as *;
+
+// Minimaler Reset. Kein normalize.css: Das meiste darin korrigiert Browser,
+// die es nicht mehr gibt. Hier steht nur, was 2026 tatsächlich stört.
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  // Kein `scroll-behavior: smooth` global: Es überschreibt auch das Springen
+  // per Tastatur und per Browser-Suche und macht die Seite für Screenreader
+  // schwerer nachvollziehbar. Sanftes Scrollen gibt es nur bei Ankerklicks —
+  // und dort in `_base.scss` mit Rücknahme bei reduzierter Bewegung.
+  -webkit-text-size-adjust: 100%;
+  // Verhindert, dass ein Anker unter dem festen Kopf landet.
+  scroll-padding-top: var(--space-96);
+}
+
+body {
+  min-height: 100dvh;
+  // `overflow-x: clip` statt `hidden`: `hidden` erzeugt auf dem body einen
+  // Scroll-Container und macht damit jedes `position: sticky` im Inneren
+  // wirkungslos. `clip` schneidet nur ab.
+  overflow-x: clip;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+li {
+  overflow-wrap: break-word;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+// Fokus ist nie unsichtbar. `:focus-visible` statt `:focus`, damit ein
+// Mausklick keinen Ring hinterlässt, die Tastatur aber immer einen bekommt.
+:focus-visible {
+  @include focus-ring;
+}
+
+// Ohne dies verlöre die Seite bei „Bewegung reduzieren" jede Übergangsdauer
+// auch dort, wo ein Übergang eine ZUSTANDSÄNDERUNG erklärt (etwa ein sich
+// öffnendes Menü). Deshalb wird nicht auf 0 gesetzt, sondern auf einen Wert,
+// der noch verbindet, aber nicht mehr auffällt.
+@include reduced-motion {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 60ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,48 @@
+# Portfolio — Deployment auf Coolify (web-labs.io)
+#
+# ============================================================================
+# BEWUSST KEINE TRAEFIK-LABELS.
+# ============================================================================
+# Coolify betreibt seinen eigenen Proxy und schreibt die Labels selbst, sobald
+# dem Dienst in der Oberfläche eine Domain zugewiesen wird. Handgeschriebene
+# Labels kollidieren damit: Man bekommt entweder zwei Router auf derselben
+# Regel oder ein Zertifikat, das nie ausgestellt wird.
+#
+# Es gibt hier keine Datenbank und keinen zweiten Dienst. Das ist kein
+# Sparzwang: Die Seite hat keine Inhalte, die sich zur Laufzeit ändern. Eine
+# Datenbank wäre reiner Betriebsaufwand — Backups, Migrationen,
+# Versionssprünge — für Daten, die im Repository besser aufgehoben sind.
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+
+      # ---- Kontaktformular ------------------------------------------------
+      # Alle fünf zusammen oder gar keines. Fehlt eines, meldet das Formular
+      # einen ehrlichen Fehler mit Mailto-Verweis, statt einen Versand
+      # vorzutäuschen (siehe src/app/api/kontakt/route.ts).
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      # Postfach, in dem die Anfragen landen.
+      CONTACT_TO: ${CONTACT_TO:-}
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3

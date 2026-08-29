@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.github
+.claude
+*.log
+.env
+.env.local
+.DS_Store
+coverage
+README.md
+DESIGNSYSTEM.md

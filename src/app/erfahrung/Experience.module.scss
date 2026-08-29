@@ -1,0 +1,163 @@
+.signals {
+  display: grid;
+  border-block: 1px solid var(--c-line);
+  margin-block-end: clamp(var(--space-64), 8vw, var(--space-128));
+
+  @include mq('md') { grid-template-columns: repeat(3, 1fr); }
+
+  > div {
+    padding-block: var(--space-24);
+
+    @include mq('md') {
+      padding-inline: var(--space-24);
+      border-inline-end: 1px solid var(--c-line);
+      &:first-child { padding-inline-start: 0; }
+      &:last-child { border-inline-end: 0; }
+    }
+  }
+
+  dt { @include micro-label; color: var(--c-text-subtle); }
+  dd { margin: var(--space-12) 0 0; color: var(--c-text); font-size: var(--fs-h3); }
+}
+
+.position {
+  display: grid;
+  gap: var(--space-32);
+
+  // Zeitraum links im Rand, Inhalt rechts. Eine Zeitleiste mit Punkten und
+  // Verbindungslinie wäre die naheliegende Lösung — bei genau einer Station
+  // wäre sie aber eine Grafik ohne Aussage.
+  @include mq('lg') {
+    grid-template-columns: minmax(12rem, 1fr) 3fr;
+    gap: var(--space-64);
+    align-items: start;
+  }
+}
+
+.period {
+  @include micro-label;
+  color: var(--c-emphasis);
+  padding-block-start: 0.4em;
+}
+
+.company {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-regular);
+  letter-spacing: var(--ls-display);
+}
+
+.role {
+  margin-block-start: var(--space-12);
+  font-size: var(--fs-lead);
+  color: var(--c-text-muted);
+  max-width: 40ch;
+}
+
+.summary {
+  margin-block-start: var(--space-32);
+  max-width: var(--measure-prose);
+}
+
+.highlights {
+  margin-block-start: var(--space-32);
+  list-style: none;
+  padding: 0;
+}
+
+.highlight {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-16);
+  padding-block: var(--space-16);
+  @include hairline(top);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--c-text-muted);
+
+  &:last-child {
+    @include hairline(bottom);
+  }
+}
+
+.highlightKey {
+  @include micro-label;
+  color: var(--c-text-subtle);
+  padding-block-start: 0.2em;
+}
+
+.stackLabel {
+  @include micro-label;
+  color: var(--c-text-subtle);
+  margin-block-start: var(--space-32);
+}
+
+.stack {
+  margin-block-start: var(--space-12);
+  @include micro-label;
+  color: var(--c-text-muted);
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  max-width: 72ch;
+}
+
+// -----------------------------------------------------------------------------
+// Abschlüsse
+// -----------------------------------------------------------------------------
+.heading {
+  font-size: var(--fs-h2);
+}
+
+.qualifications {
+  margin-block-start: var(--space-48);
+  list-style: none;
+  padding: 0;
+  border-top: 1px solid var(--c-line);
+}
+
+.qualification {
+  display: grid;
+  gap: var(--space-8);
+  padding-block: var(--space-24);
+  border-bottom: 1px solid var(--c-line);
+
+  @include mq('md') {
+    grid-template-columns: 3fr 2fr auto;
+    gap: var(--space-32);
+    align-items: baseline;
+  }
+}
+
+.qualificationTitle {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--c-text);
+}
+
+.qualificationInstitution {
+  font-size: var(--fs-small);
+  color: var(--c-text-subtle);
+}
+
+.qualificationResult {
+  @include micro-label;
+  color: var(--c-emphasis);
+  white-space: nowrap;
+
+  @include mq('md') {
+    text-align: end;
+  }
+}
+
+.note {
+  margin-block-start: var(--space-48);
+  padding-inline-start: var(--space-24);
+  border-inline-start: 2px solid var(--c-line-strong);
+  max-width: 62ch;
+  color: var(--c-text-muted);
+}
+
+.noteLabel {
+  @include micro-label;
+  color: var(--c-text-subtle);
+  margin-block-end: var(--space-12);
+}

@@ -1,0 +1,331 @@
+// =============================================================================
+// Live-Demo: Agentenlauf mit Guardrails
+// =============================================================================
+// Die Seite behauptet an mehreren Stellen, dass Modellaktionen begrenzt sind.
+// Hier kann man es ausprobieren: Schalter umlegen, Lauf starten, zusehen, wo
+// er hängen bleibt und warum.
+//
+// Das ist der Grund, warum diese Sektion überhaupt existiert. Ein Satz über
+// Guardrails ist eine Behauptung; ein Schalter, der einen Lauf nachweislich
+// stoppt, ist ein Beleg.
+
+.section {
+  padding-block: var(--space-section);
+  border-top: 1px solid var(--c-line);
+}
+
+.header {
+  display: grid;
+  gap: var(--space-24);
+  margin-block-end: clamp(var(--space-48), 6vw, var(--space-96));
+
+  @include mq('lg') {
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-96);
+    align-items: end;
+  }
+}
+
+.heading {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-heading);
+  line-height: var(--lh-heading);
+  max-width: 18ch;
+}
+
+.intro {
+  color: var(--c-text-muted);
+  max-width: var(--measure-prose);
+}
+
+// Der Hinweis steht direkt an der Demo, nicht im Kleingedruckten. Eine
+// Simulation als Live-System auszugeben wäre genau die Sorte Behauptung,
+// gegen die sich diese Seite richtet.
+.disclaimer {
+  margin-block-start: var(--space-16);
+  @include micro-label;
+  color: var(--c-text-subtle);
+}
+
+.board {
+  display: grid;
+  gap: var(--space-32);
+
+  @include mq('lg') {
+    grid-template-columns: 20rem 1fr;
+    gap: var(--space-64);
+    align-items: start;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Schalter
+// -----------------------------------------------------------------------------
+.controls {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  padding-block: var(--space-16);
+  border-bottom: 1px solid var(--c-line);
+  font-size: var(--fs-small);
+  color: var(--c-text-muted);
+  cursor: pointer;
+}
+
+.controlName {
+  color: var(--c-text);
+}
+
+.controlHint {
+  display: block;
+  margin-block-start: var(--space-4);
+  @include micro-label;
+  color: var(--c-text-subtle);
+}
+
+// Schalter als Bahn mit Knopf. Kein Kästchen: Ein Kippschalter sagt „Zustand",
+// ein Kästchen sagt „Auswahl" — und hier geht es um Zustände eines Systems.
+.switch {
+  position: relative;
+  inline-size: 2.25rem;
+  block-size: 1.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--c-border-control);
+  background-color: transparent;
+  flex-shrink: 0;
+  transition: background-color var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out);
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 3px;
+  inline-size: 0.75rem;
+  block-size: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--c-text-subtle);
+  translate: 0 -50%;
+  transition: translate var(--dur-base) var(--ease-out),
+              background-color var(--dur-base) var(--ease-out);
+}
+
+.switchOn {
+  background-color: var(--c-emphasis);
+  border-color: var(--c-emphasis);
+}
+
+.switchOn::after {
+  translate: 1rem -50%;
+  background-color: var(--c-on-emphasis);
+}
+
+// Der Rollenschalter braucht mehr Breite als ein Kippschalter. In der
+// 20rem-Spalte brach die Beschriftung daneben dreizeilig um — deshalb steht er
+// als eigene Zeile unter seinem Label statt daneben.
+.controlStacked {
+  display: block;
+}
+
+.roleGroup {
+  display: flex;
+  gap: var(--space-4);
+  padding: 3px;
+  margin-block-start: var(--space-12);
+  border: 1px solid var(--c-line);
+  border-radius: 999px;
+  inline-size: fit-content;
+}
+
+.roleOption {
+  padding: var(--space-4) var(--space-12);
+  border-radius: 999px;
+  @include micro-label;
+  color: var(--c-text-subtle);
+  transition: background-color var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--c-text);
+  }
+}
+
+.roleOptionActive {
+  background-color: var(--c-surface-high);
+  color: var(--c-text);
+}
+
+.run {
+  margin-block-start: var(--space-32);
+}
+
+// -----------------------------------------------------------------------------
+// Die Kette
+// -----------------------------------------------------------------------------
+.pipeline {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-16);
+  padding-block: var(--space-16);
+
+  @include mq('md') {
+    grid-template-columns: auto 12rem 1fr;
+    gap: var(--space-24);
+    align-items: baseline;
+  }
+}
+
+// Die senkrechte Leitung zwischen den Stationen. Sie ist der Grund, warum die
+// Kette als Weg gelesen wird und nicht als Liste.
+.stage:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 1.75rem;
+  inset-block-end: -0.25rem;
+  inset-inline-start: 0.4375rem;
+  inline-size: 1px;
+  background-color: var(--c-line);
+}
+
+.node {
+  inline-size: 0.9375rem;
+  block-size: 0.9375rem;
+  border-radius: 50%;
+  border: 1px solid var(--c-line-strong);
+  background-color: var(--c-bg);
+  flex-shrink: 0;
+  margin-block-start: 0.28em;
+  transition: border-color var(--dur-base) var(--ease-out),
+              background-color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+}
+
+.stageName {
+  @include micro-label;
+  color: var(--c-text-subtle);
+  transition: color var(--dur-base) var(--ease-out);
+}
+
+.stageRole {
+  grid-column: 2;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--c-text-subtle);
+
+  @include mq('md') {
+    grid-column: 3;
+  }
+}
+
+// Ergebnis einer durchlaufenen Station. Erscheint erst, wenn sie erreicht ist.
+.stageMessage {
+  grid-column: 2;
+  margin-block-start: var(--space-8);
+  @include mono-value;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--fs-small);
+  line-height: 1.55;
+
+  @include mq('md') {
+    grid-column: 3;
+  }
+}
+
+// ---- Zustände ---------------------------------------------------------------
+.reached .stageName {
+  color: var(--c-text);
+}
+
+.pass .node {
+  border-color: var(--c-text);
+  background-color: var(--c-text);
+}
+
+.pass .stageMessage {
+  color: var(--c-text-muted);
+}
+
+.fallback .node {
+  border-color: var(--c-text);
+  // Halb gefüllt: Die Station hat geliefert, aber nicht wie vorgesehen.
+  background: linear-gradient(to right, var(--c-text) 50%, transparent 50%);
+}
+
+.fallback .stageMessage {
+  color: var(--c-text);
+}
+
+.block .node {
+  border-color: var(--c-danger);
+  background-color: var(--c-danger);
+  // Das Leuchten markiert den EINEN Punkt, an dem der Lauf endet. Es ist die
+  // einzige Stelle der Seite, an der etwas leuchtet — deshalb funktioniert es.
+  box-shadow: 0 0 0 4px oklch(0.700 0.170 25 / 0.16);
+}
+
+.block .stageMessage {
+  color: var(--c-danger);
+}
+
+// Die Leitung unterhalb einer blockierten Station wird nicht mehr gezeichnet.
+.block:not(:last-child)::before {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--c-line) 0 3px,
+    transparent 3px 7px
+  );
+  background-color: transparent;
+}
+
+.running .node {
+  animation: pulse 900ms var(--ease-in-out) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.35); }
+}
+
+@include reduced-motion {
+  // Ruhiger Zustand: Das Ergebnis erscheint vollständig, ohne Ablauf. Die
+  // Aussage der Demo — wo der Lauf endet und warum — bleibt unverändert.
+  .running .node {
+    animation: none;
+  }
+}
+
+.verdict {
+  margin-block-start: var(--space-32);
+  padding-block-start: var(--space-24);
+  border-top: 1px solid var(--c-line);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--c-text-muted);
+  max-width: 62ch;
+}
+
+.verdictKey {
+  @include micro-label;
+  display: block;
+  margin-block-end: var(--space-8);
+  color: var(--c-text);
+}

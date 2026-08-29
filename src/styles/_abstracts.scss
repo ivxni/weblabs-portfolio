@@ -1,0 +1,6 @@
+// Sammelpunkt für alles, was KEIN CSS ausgibt. Diese Datei wird über
+// `sassOptions.additionalData` in jedes SCSS-Modul injiziert. Genau deshalb
+// darf hier niemals eine Regel stehen, die Output erzeugt — sonst stünde sie
+// in jedem einzelnen Modul noch einmal.
+@forward 'breakpoints';
+@forward 'mixins';

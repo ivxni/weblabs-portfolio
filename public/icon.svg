@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Favicon: Hier IDENTIFIZIERT das Orange die Marke im Tab-Streifen, statt
+       auf der Seite zu dekorieren. Deshalb bleibt es genau hier. -->
+  <rect width="32" height="32" rx="7" fill="#0c0d0f"/>
+  <path fill="#FF5C00" d="M17.6 4.4h9.2v6.2L14.4 19.6v2.1h-5.4v-6.2L21.4 6.3v-1.9z"/>
+  <path fill="#FF5C00" opacity="0.55" d="M14.4 27.6H5.2v-6.2l12.4-9.1V10.4h5.4v6.2L10.6 25.7v1.9z"/>
+</svg>

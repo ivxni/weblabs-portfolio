@@ -1,0 +1,8 @@
+// Die einzige globale Stylesheet-Datei. Alles andere liegt in SCSS-Modulen und
+// ist damit auf sein Bauteil begrenzt.
+//
+// Reihenfolge ist bedeutsam: Erst die Token (sie definieren die Variablen, auf
+// die alles Weitere zugreift), dann der Reset, dann die Elementgrundlagen.
+@use 'styles/tokens';
+@use 'styles/reset';
+@use 'styles/base';

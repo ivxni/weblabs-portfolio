@@ -1,0 +1,32 @@
+.link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-12);
+  text-decoration: none;
+  color: var(--c-text);
+  // Die Marke wird nie gestaucht und bricht nie um. Ein umgebrochener Name im
+  // Kopf sieht nach Fehler aus, nicht nach Gestaltung.
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.mark {
+  // Feste Maße: Ein Zeichen ohne Dimensionen verschiebt beim Laden den Kopf.
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  color: var(--c-text);
+  // Die Grundlinie einer Grafik liegt an ihrer Unterkante; ohne diese
+  // Korrektur sitzt das Zeichen optisch zu tief neben dem Namen.
+  transform: translateY(0.19rem);
+}
+
+.name {
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-small);
+  letter-spacing: -0.005em;
+}
+
+.suffix {
+  color: var(--c-text-subtle);
+  font-weight: var(--fw-regular);
+}

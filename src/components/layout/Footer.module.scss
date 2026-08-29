@@ -1,0 +1,108 @@
+.footer {
+  border-top: 1px solid var(--c-line);
+  padding-block: var(--space-64) var(--space-32);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-48);
+
+  // Asymmetrisch: Die Aussage links bekommt mehr Raum als die Linklisten
+  // rechts. Vier gleich breite Spalten wären die Standardlösung und sähen
+  // auch danach aus.
+  @include mq('md') {
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: var(--space-64);
+  }
+
+  @include mq('lg') {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+}
+
+.statement {
+  max-width: 34ch;
+}
+
+.statementText {
+  margin-block-start: var(--space-16);
+  color: var(--c-text-subtle);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+}
+
+.columnTitle {
+  @include micro-label;
+  color: var(--c-text-subtle);
+  margin-block-end: var(--space-16);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: var(--fs-small);
+}
+
+.link {
+  color: var(--c-text-muted);
+  text-decoration: none;
+  // Der Unterstrich wächst beim Hover von links heraus, statt einfach zu
+  // erscheinen. Das ist die kleinste mögliche Bestätigung „getroffen".
+  background-image: linear-gradient(var(--c-emphasis), var(--c-emphasis));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 1px;
+  transition:
+    background-size var(--dur-base) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--c-text);
+    background-size: 100% 1px;
+  }
+
+  @include reduced-motion {
+    transition: color 60ms linear;
+
+    &:hover {
+      background-size: 100% 1px;
+    }
+  }
+}
+
+.iconLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.icon {
+  inline-size: 0.875rem;
+  color: var(--c-text-subtle);
+}
+
+.baseline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-16);
+  margin-block-start: var(--space-64);
+  padding-block-start: var(--space-24);
+  border-top: 1px solid var(--c-line);
+  @include micro-label;
+  color: var(--c-text-subtle);
+}
+
+.colophon {
+  color: var(--c-text-subtle);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--c-emphasis);
+  }
+}

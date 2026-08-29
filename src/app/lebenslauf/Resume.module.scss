@@ -1,0 +1,127 @@
+// Der Web-Lebenslauf ist als Dokument gesetzt, nicht als Marketingseite:
+// Beschriftung links im Rand, Inhalt rechts, durchgehende Haarlinien. Wer ihn
+// überfliegt, soll dieselbe Struktur finden wie in einem PDF.
+
+.document { counter-reset: resume-section; }
+
+.block {
+  counter-increment: resume-section;
+  display: grid;
+  gap: var(--space-16);
+  padding-block: var(--space-32);
+  border-top: 1px solid var(--c-line);
+
+  @include mq('md') {
+    grid-template-columns: minmax(9rem, 1fr) 4fr;
+    gap: var(--space-48);
+    align-items: start;
+    padding-block: var(--space-48);
+  }
+}
+
+.blockLabel {
+  @include micro-label;
+  color: var(--c-text-subtle);
+  padding-block-start: 0.3em;
+
+  &::before {
+    content: '0' counter(resume-section) ' / ';
+    color: var(--c-emphasis);
+  }
+}
+
+.profile {
+  max-width: var(--measure-prose);
+}
+
+.entry + .entry {
+  margin-block-start: var(--space-32);
+  padding-block-start: var(--space-32);
+  border-top: 1px solid var(--c-line);
+}
+
+.entryHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-12);
+}
+
+.entryTitle {
+  font-size: var(--fs-h3);
+}
+
+.entryMeta {
+  @include micro-label;
+  color: var(--c-text-subtle);
+  white-space: nowrap;
+}
+
+.entrySub {
+  margin-block-start: var(--space-8);
+  color: var(--c-text-muted);
+}
+
+.entryBody {
+  margin-block-start: var(--space-16);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--c-text-muted);
+  max-width: var(--measure-prose);
+}
+
+.bullets {
+  margin-block-start: var(--space-16);
+  padding-inline-start: var(--space-16);
+  font-size: var(--fs-small);
+  line-height: 1.7;
+  color: var(--c-text-muted);
+  max-width: var(--measure-prose);
+
+  li::marker {
+    color: var(--c-text-subtle);
+  }
+}
+
+.stackGroup + .stackGroup {
+  margin-block-start: var(--space-24);
+}
+
+.stackTitle {
+  @include micro-label;
+  color: var(--c-emphasis);
+}
+
+.stackItems {
+  margin-block-start: var(--space-8);
+  font-size: var(--fs-small);
+  line-height: 1.7;
+  color: var(--c-text-muted);
+  max-width: var(--measure-prose);
+}
+
+.contactList {
+  display: grid;
+  gap: var(--space-12);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: var(--fs-small);
+}
+
+.contactLink {
+  color: var(--c-text);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--c-emphasis);
+  }
+}
+
+.downloadNote {
+  margin-block-start: var(--space-16);
+  font-size: var(--fs-small);
+  color: var(--c-text-subtle);
+  max-width: 56ch;
+}

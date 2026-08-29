@@ -1,0 +1,25 @@
+// Breakpoints als reine SCSS-Variablen: Sie werden zur Bauzeit in Media-Queries
+// eingesetzt und sind zur Laufzeit nie themebar. Deshalb gehören sie NICHT in
+// die CSS-Custom-Property-Ebene — dort stünden sie nur herum und suggerierten
+// eine Umschaltbarkeit, die es nicht gibt.
+//
+// Die Werte kommen aus dem Inhalt, nicht aus Geräteklassen:
+//   sm  480 — ab hier passen zwei Spalten in ein Faktenband
+//   md  768 — ab hier trägt eine geteilte Sektion
+//   lg 1024 — ab hier gibt es echten Weißraum neben einer schmalen Textspalte
+//   xl 1280 — ab hier greift die maximale Satzbreite und der Rand wächst
+@use 'sass:map';
+
+$breakpoints: (
+  'sm': 30rem,
+  'md': 48rem,
+  'lg': 64rem,
+  'xl': 80rem,
+);
+
+@function bp($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error 'Unbekannter Breakpoint "#{$name}". Erlaubt: #{map.keys($breakpoints)}.';
+  }
+  @return map.get($breakpoints, $name);
+}

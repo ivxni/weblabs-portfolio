@@ -1,0 +1,45 @@
+// Rechtsseiten: eine einzige schmale Spalte, keine Gestaltung, die vom Text
+// ablenkt. Diese Seiten werden gelesen, nicht betrachtet.
+
+.block + .block {
+  margin-block-start: var(--space-48);
+}
+
+.heading {
+  font-size: var(--fs-h3);
+}
+
+.body {
+  margin-block-start: var(--space-16);
+  max-width: var(--measure-prose);
+  color: var(--c-text-muted);
+
+  p + p {
+    margin-block-start: var(--space-16);
+  }
+}
+
+.list {
+  margin-block-start: var(--space-16);
+  padding-inline-start: var(--space-24);
+  max-width: var(--measure-prose);
+  color: var(--c-text-muted);
+  line-height: 1.7;
+
+  li::marker {
+    color: var(--c-text-subtle);
+  }
+}
+
+.link {
+  color: var(--c-text);
+  text-decoration-color: var(--c-emphasis);
+}
+
+.updated {
+  margin-block-start: var(--space-64);
+  padding-block-start: var(--space-24);
+  border-top: 1px solid var(--c-line);
+  @include micro-label;
+  color: var(--c-text-subtle);
+}

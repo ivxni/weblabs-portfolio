@@ -1,0 +1,23 @@
+.section {
+  // Der Abstand ZWISCHEN Sektionen. Immer mindestens doppelt so groß wie der
+  // größte Abstand innerhalb einer Sektion — sonst liest sich die Seite als
+  // ein gleichmäßiges Raster statt als Folge von Blöcken.
+  padding-block: var(--space-section);
+}
+
+// Die Sektion beginnt mit einer Haarlinie über die volle Breite. Sie ersetzt
+// eine Karte: Zwei Blöcke trennen sich hier durch eine Linie und viel Luft,
+// nicht durch zwei Kästen.
+.ruled {
+  border-top: 1px solid var(--c-line);
+}
+
+// Getönte Fläche. Sparsam — sie ist die einzige Möglichkeit, eine Sektion
+// hervorzuheben, ohne einen Rahmen zu ziehen.
+.tinted {
+  background-color: var(--c-surface);
+}
+
+.compact {
+  padding-block: clamp(var(--space-48), 5vw, var(--space-96));
+}

@@ -1,0 +1,39 @@
+.reveal {
+  // Grundzustand ist SICHTBAR. Ohne JavaScript, ohne IntersectionObserver und
+  // vor der Hydration steht der Inhalt einfach da. Das Verstecken passiert nur,
+  // wenn JavaScript nachweislich läuft — sonst wäre eine ausgefallene
+  // Skriptdatei gleichbedeutend mit einer leeren Seite.
+  opacity: 1;
+  transform: none;
+}
+
+:global(html.js) .reveal:not(.visible) {
+  opacity: 0;
+  // 10px, nicht 40. Eine Einblendung, die man als Bewegung wahrnimmt, während
+  // man liest, ist zu stark.
+  transform: translateY(10px);
+}
+
+:global(html.js) .reveal {
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+:global(html.js) .visible {
+  will-change: auto;
+}
+
+@include reduced-motion {
+  // Der ruhige Zustand: Der Inhalt ist da, sofort, ohne Versatz. Das ist keine
+  // Notlösung — bei einer reinen Einblendung IST „einfach vorhanden" die
+  // vollwertige Alternative.
+  :global(html.js) .reveal,
+  :global(html.js) .reveal:not(.visible) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
