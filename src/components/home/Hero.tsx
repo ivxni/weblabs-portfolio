@@ -14,20 +14,20 @@ export function Hero() {
 
       <div className={styles.main}>
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>Web development / AI engineering / Security research</p>
+          <p className={styles.eyebrow}>Softwareentwicklung / AI engineering / Security research</p>
           <h1 id="hero-heading">
-            <span>Systems</span>
+            <span>Software</span>
             <span>built</span>
             <span>end to end.</span>
           </h1>
           <div className={styles.introRow}>
             <p>
-              Ich entwickle vollständige Software: Produktoberflächen, APIs, Modelle,
-              Datenflüsse und technische Systeme bis an die Hardwaregrenze.
+              Individuelle Webanwendungen und AI-Systeme für Unternehmen — von der
+              Produktoberfläche über APIs und Daten bis zu Tests und Deployment.
             </p>
             <div className={styles.actions}>
-              <Link href="#focus">Fachbereiche <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" /></Link>
-              <Link href="/projekte">Projekte ansehen</Link>
+              <Link href="/leistungen">Leistungen <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" /></Link>
+              <Link href="/projekte">Case Studies</Link>
             </div>
           </div>
         </div>

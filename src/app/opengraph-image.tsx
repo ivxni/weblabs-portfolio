@@ -8,10 +8,9 @@ export const contentType = 'image/png';
 /**
  * Vorschaubild für Link-Vorschauen.
  *
- * Bewusst rein typografisch: Es wird in Slack, LinkedIn und WhatsApp oft auf
- * unter 400 px Breite skaliert. Alles außer Name, Rolle und Adresse wäre dort
- * nicht mehr lesbar — ein Screenshot der Seite ergäbe in dieser Größe nur
- * graue Streifen.
+ * Bewusst typografisch und mit der offiziellen monochromen Marke: Es wird in
+ * Slack, LinkedIn und WhatsApp oft auf unter 400 px Breite skaliert. Ein
+ * Screenshot der Seite ergäbe in dieser Größe nur graue Streifen.
  *
  * Die Farben stehen hier als Hex-Literale und nicht als Token: Diese Datei
  * wird von Satori gerendert, nicht vom Browser. Es gibt kein CSS, das eine
@@ -33,8 +32,18 @@ export default function OpengraphImage() {
           fontFamily: 'sans-serif',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <div style={{ width: 14, height: 14, borderRadius: 7, backgroundColor: '#f67621' }} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+            <svg width="72" height="44" viewBox="0 0 309 189" aria-hidden="true">
+              <path
+                fill="#f8f5ee"
+                d="M34,47L89,0h196l-55,47H34ZM76,67L0,128h116l73-61h-113ZM256,111l53-44h-80l-53,44h80ZM185,189l43-51h-117l-55,51h129ZM266,189l38-51h-44l-38,51h44Z"
+              />
+            </svg>
+            <div style={{ fontSize: 24, color: '#f4f3f1', letterSpacing: 2 }}>
+              {site.brand.toUpperCase()}
+            </div>
+          </div>
           <div style={{ fontSize: 24, color: '#96918c', letterSpacing: 2 }}>
             {availability.location.toUpperCase()}
           </div>
@@ -45,10 +54,10 @@ export default function OpengraphImage() {
             {site.name}
           </div>
           <div style={{ fontSize: 40, color: '#bdbab6', marginTop: 20, lineHeight: 1.25 }}>
-            Fullstack Software Engineer
+            Softwareentwicklung
           </div>
           <div style={{ fontSize: 40, color: '#f67621', lineHeight: 1.25 }}>
-            &amp; Applied AI Engineer
+            Web · AI · Fullstack
           </div>
         </div>
 

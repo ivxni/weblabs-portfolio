@@ -1,0 +1,105 @@
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-24);
+  padding-block-end: var(--space-64);
+}
+
+.introLabel {
+  @include micro-label;
+  color: var(--c-text-subtle);
+}
+
+.introText {
+  max-width: 38ch;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading);
+}
+
+.serviceList {
+  border-top: 1px solid var(--c-line);
+}
+
+.serviceList li { border-bottom: 1px solid var(--c-line); }
+
+.serviceLink {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-24);
+  align-items: start;
+  padding-block: var(--space-32);
+  color: var(--c-text);
+  text-decoration: none;
+  transition: padding-inline var(--dur-base) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+
+.serviceLink:hover,
+.serviceLink:focus-visible {
+  padding-inline: var(--space-16);
+  background: var(--c-surface);
+}
+
+.index,
+.arrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--c-text-subtle);
+}
+
+.serviceCopy { display: grid; gap: var(--space-12); }
+
+.serviceCopy strong {
+  font-size: var(--fs-h3);
+  line-height: 1.05;
+  letter-spacing: var(--ls-heading);
+}
+
+.serviceCopy > span {
+  max-width: 54ch;
+  color: var(--c-text-muted);
+  line-height: var(--lh-body);
+}
+
+.arrow { font-size: var(--fs-body); transition: transform var(--dur-fast) var(--ease-out); }
+.serviceLink:hover .arrow { transform: translate(0.2rem, -0.2rem); }
+
+.delivery {
+  display: grid;
+  gap: var(--space-24);
+  max-width: 58rem;
+}
+
+.delivery h2 {
+  max-width: 18ch;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading);
+}
+
+.delivery > p:not(.introLabel) {
+  max-width: var(--measure-prose);
+  color: var(--c-text-muted);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+}
+
+.textLink {
+  width: fit-content;
+  padding-block-end: var(--space-4);
+  border-bottom: 1px solid var(--c-text);
+  @include micro-label;
+  color: var(--c-text);
+  text-decoration: none;
+}
+
+@include mq('md') {
+  .intro { grid-template-columns: minmax(10rem, 0.45fr) minmax(0, 1fr); }
+  .introText { justify-self: end; }
+  .serviceLink { gap: var(--space-48); padding-block: var(--space-48); }
+}
+
+@include reduced-motion {
+  .serviceLink,
+  .arrow { transition: none; }
+}

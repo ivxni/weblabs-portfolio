@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { positions, qualifications } from '@/content/experience';
@@ -10,13 +9,13 @@ import { Section } from '@/components/ui/Section';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { LinkButton } from '@/components/ui/Button';
 import styles from './Resume.module.scss';
+import { createPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Lebenslauf',
-  description:
-    'Web-Lebenslauf von Can Cadirci: Kurzprofil, diconium-Erfahrung, ausgewählte Projekte, IHK-Abschlüsse, Tech-Stack und Kontaktdaten.',
-  alternates: { canonical: '/lebenslauf' },
-};
+export const metadata = createPageMetadata({
+  title: 'Lebenslauf — Fullstack & KI-Entwicklung',
+  description: 'Web-Lebenslauf von Can Cadirci mit Fullstack-Erfahrung bei diconium, IHK-Abschlüssen, Software- und KI-Projekten sowie technischem Stack.',
+  path: '/lebenslauf',
+});
 
 export default function ResumePage() {
   const position = positions[0];

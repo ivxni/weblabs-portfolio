@@ -1,16 +1,27 @@
-import type { Metadata } from 'next';
 import { availability, contact } from '@/content/site';
 import { skillGroups } from '@/content/skills';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { PageHeader } from '@/components/ui/PageHeader';
 import styles from './About.module.scss';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { createPageMetadata, personEntity } from '@/lib/seo';
+import { site } from '@/content/site';
 
-export const metadata: Metadata = {
-  title: 'Über mich',
-  description:
-    'Can Cadirci, ausgebildeter Fachinformatiker für Anwendungsentwicklung aus Ludwigsburg. Arbeitsweise, technischer Fokus und der Umgang mit AI-Werkzeugen im Entwicklungsalltag.',
-  alternates: { canonical: '/ueber-mich' },
+export const metadata = createPageMetadata({
+  title: 'Über Can Cadirci — Softwareentwickler',
+  description: 'Can Cadirci ist Software- und KI-Entwickler aus Ludwigsburg: IHK-Fachinformatiker mit Fullstack-Praxis, technischen Case Studies und direkter Arbeitsweise.',
+  path: '/ueber-mich',
+  type: 'profile',
+});
+
+const profileJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  name: `Über ${site.name}`,
+  url: `${site.url}/ueber-mich`,
+  dateModified: site.lastUpdated,
+  mainEntity: personEntity(),
 };
 
 export default function AboutPage() {
@@ -54,9 +65,10 @@ export default function AboutPage() {
                 Arbeitsweise.
               </p>
               <p>
-                Aktuell suche ich eine Fullstack- oder Applied-AI-Rolle, in der ich früh
-                Verantwortung übernehmen, direkt am Produkt arbeiten und mich gemeinsam mit einem
-                guten Team weiterentwickeln kann.
+                Heute entwickle ich eigene Produkte und individuelle Lösungen für Unternehmen.
+                Gleichzeitig bin ich offen für eine passende Fullstack- oder Applied-AI-Rolle,
+                wenn technische Verantwortung, direkte Produktarbeit und ein gutes Team
+                zusammenkommen.
               </p>
             </div>
           </div>
@@ -107,6 +119,7 @@ export default function AboutPage() {
           </div>
         </Container>
       </Section>
+      <JsonLd data={profileJsonLd} />
     </>
   );
 }

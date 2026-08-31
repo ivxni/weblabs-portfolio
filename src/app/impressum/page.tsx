@@ -1,18 +1,16 @@
-import type { Metadata } from 'next';
 import { contact, legal, site } from '@/content/site';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { PageHeader } from '@/components/ui/PageHeader';
 import styles from './Legal.module.scss';
+import { createPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Impressum',
   description: `Impressum und Anbieterkennzeichnung für ${site.url}.`,
-  alternates: { canonical: '/impressum' },
-  // Rechtsseiten gehören nicht in den Index: Sie tragen nichts zur Auffindbarkeit
-  // bei und sammeln nur personenbezogene Treffer.
-  robots: { index: false, follow: true },
-};
+  path: '/impressum',
+  noIndex: true,
+});
 
 export default function ImprintPage() {
   return (
@@ -25,7 +23,11 @@ export default function ImprintPage() {
             <h2 className={styles.heading}>Angaben gemäß § 5 DDG</h2>
             <div className={styles.body}>
               <p>
-                {site.name}
+                {site.brand}
+                <br />
+                Inhaber: {site.name}
+                <br />
+                {contact.streetAddress}
                 <br />
                 {contact.postalCode} {contact.city}
                 <br />
@@ -64,9 +66,9 @@ export default function ImprintPage() {
             <h2 className={styles.heading}>Verantwortlich für den Inhalt</h2>
             <div className={styles.body}>
               <p>
-                {site.name}, Anschrift wie oben. Diese Website ist ein persönliches Portfolio.
-                Sie bewirbt keine Waren oder Dienstleistungen und enthält keine
-                Bestellmöglichkeit.
+                {site.name}, Anschrift wie oben. Diese Website ist ein persönliches Portfolio
+                und beschreibt angebotene Entwicklungsleistungen. Verträge oder Zahlungen
+                werden nicht unmittelbar über die Website abgeschlossen.
               </p>
             </div>
           </div>
@@ -104,7 +106,7 @@ export default function ImprintPage() {
             </div>
           </div>
 
-          <p className={styles.updated}>Stand: August 2026</p>
+          <p className={styles.updated}>Stand: 31. August 2026</p>
         </Container>
       </Section>
     </>

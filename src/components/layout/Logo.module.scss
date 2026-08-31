@@ -1,6 +1,6 @@
 .link {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--space-12);
   text-decoration: none;
   color: var(--c-text);
@@ -11,13 +11,11 @@
 }
 
 .mark {
-  // Feste Maße: Ein Zeichen ohne Dimensionen verschiebt beim Laden den Kopf.
-  inline-size: 1.25rem;
-  block-size: 1.25rem;
-  color: var(--c-text);
-  // Die Grundlinie einer Grafik liegt an ihrer Unterkante; ohne diese
-  // Korrektur sitzt das Zeichen optisch zu tief neben dem Namen.
-  transform: translateY(0.19rem);
+  // Das Original hat ein Seitenverhältnis von 309:189. Nur die Breite wird
+  // gestaltet; `height: auto` verhindert jede Verzerrung der Marke.
+  inline-size: 1.95rem;
+  block-size: auto;
+  flex-shrink: 0;
 }
 
 .name {

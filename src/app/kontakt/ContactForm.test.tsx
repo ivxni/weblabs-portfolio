@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ContactForm } from './ContactForm';
 
@@ -14,7 +14,7 @@ import { ContactForm } from './ContactForm';
 async function fillValidForm() {
   await userEvent.type(screen.getByLabelText('Name'), 'Anna Beispiel');
   await userEvent.type(screen.getByLabelText('E-Mail'), 'anna@example.com');
-  await userEvent.type(screen.getByLabelText(/Rolle oder Thema/), 'Fullstack Engineer');
+  await userEvent.type(screen.getByLabelText(/Projekt oder Thema/), 'Individuelle Webanwendung');
   await userEvent.type(
     screen.getByLabelText('Nachricht'),
     'Wir suchen Verstärkung im Produktteam und würden uns gern austauschen.',
@@ -37,7 +37,7 @@ describe('Kontaktformular', () => {
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
     expect(screen.getByLabelText('E-Mail')).toBeInTheDocument();
     expect(screen.getByLabelText(/Unternehmen/)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Rolle oder Thema/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Projekt oder Thema/)).toBeInTheDocument();
     expect(screen.getByLabelText('Nachricht')).toBeInTheDocument();
   });
 
@@ -168,7 +168,11 @@ describe('Kontaktformular', () => {
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Wird gesendet/ })).toBeDisabled();
     });
-    release(null);
+    await act(async () => {
+      release(null);
+      await pending;
+    });
+    expect(await screen.findByText(/Ihre Nachricht ist angekommen/)).toBeInTheDocument();
   });
 
   it('hält den Honigtopf vor Screenreadern und der Tastatur verborgen', async () => {

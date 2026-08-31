@@ -1,16 +1,15 @@
-import type { Metadata } from 'next';
 import { positions, qualifications, referenceSummary } from '@/content/experience';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { PageHeader } from '@/components/ui/PageHeader';
 import styles from './Experience.module.scss';
+import { createPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Erfahrung',
-  description:
-    'Drei Jahre professionelle Fullstack-Praxis bei diconium in Scrum-Teams, IHK-Abschluss als Fachinformatiker für Anwendungsentwicklung und die IHK-Zusatzqualifikation KI und maschinelles Lernen.',
-  alternates: { canonical: '/erfahrung' },
-};
+export const metadata = createPageMetadata({
+  title: 'Erfahrung als Fullstack-Softwareentwickler',
+  description: 'Drei Jahre Fullstack-Praxis bei diconium, IHK-Abschluss als Fachinformatiker und IHK-Zusatzqualifikation KI und maschinelles Lernen.',
+  path: '/erfahrung',
+});
 
 export default function ExperiencePage() {
   return (

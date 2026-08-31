@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from 'next';
 import { Archivo, JetBrains_Mono } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { contact, site } from '@/content/site';
+import { site } from '@/content/site';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { businessEntity, personEntity } from '@/lib/seo';
 import '@/lib/fontawesome';
 import './globals.scss';
 
@@ -54,25 +56,52 @@ const BOOT_SCRIPT =
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} – Fullstack Software Engineer & AI Engineer`,
-    template: `%s – ${site.name}`,
+    default: `Softwareentwicklung & KI aus Ludwigsburg | ${site.name}`,
+    template: `%s | ${site.name}`,
   },
   description:
-    'Portfolio von Can Cadirci aus Ludwigsburg: Fullstack-Entwicklung mit Next.js, TypeScript, Python/FastAPI und PostgreSQL sowie Applied AI, Agenten-Workflows, Computer Vision, Tests und Docker.',
+    'Individuelle Softwareentwicklung, Webentwicklung und KI-Systeme von Can Cadirci aus Ludwigsburg für Unternehmen in Stuttgart und deutschlandweit.',
   alternates: { canonical: '/' },
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
+  publisher: site.brand,
+  applicationName: site.brand,
+  category: 'technology',
+  referrer: 'origin-when-cross-origin',
+  formatDetection: { email: false, address: false, telephone: false },
+  icons: {
+    icon: [{ url: '/brand/weblabs-icon.svg', type: 'image/svg+xml' }],
+    shortcut: '/brand/weblabs-icon.svg',
+    apple: [{ url: '/apple-touch-icon.png', sizes: '1024x1024', type: 'image/png' }],
+  },
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
   openGraph: {
     type: 'website',
     locale: 'de_DE',
     url: site.url,
-    siteName: site.name,
-    title: `${site.name} – Fullstack Software Engineer & AI Engineer`,
+    siteName: site.brand,
+    title: `Softwareentwicklung & KI aus Ludwigsburg | ${site.name}`,
     description:
-      'Fullstack-Entwicklung mit Next.js, TypeScript, Python/FastAPI und PostgreSQL sowie Applied AI, Tests und Docker.',
+      'Individuelle Webanwendungen, Software und kontrolliert integrierte KI-Systeme für Unternehmen.',
   },
-  twitter: { card: 'summary_large_image' },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: 'summary_large_image',
+    title: `Softwareentwicklung & KI aus Ludwigsburg | ${site.name}`,
+    description: 'Individuelle Webanwendungen, Software und kontrolliert integrierte KI-Systeme.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {
@@ -82,29 +111,9 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 };
 
-/**
- * `Person`-JSON-LD. diconium erscheint bewusst NICHT als `worksFor`: Es ist
- * eine abgeschlossene Ausbildungsstation, und eine aktuelle Anstellung
- * auszuzeichnen wäre eine falsche Aussage gegenüber Suchmaschinen.
- */
-const personJsonLd = {
+const identityJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: site.name,
-  jobTitle: 'Software Engineer / AI Developer / Security Researcher',
-  url: site.url,
-  email: `mailto:${contact.email}`,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: contact.city,
-    postalCode: contact.postalCode,
-    addressCountry: contact.country,
-  },
-  sameAs: [contact.linkedin, ...(contact.github ? [contact.github] : [])],
-  knowsAbout: [
-    'React', 'Next.js', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL',
-    'Java', 'Spring Boot', 'Applied AI', 'AI Agents', 'Computer Vision',
-  ],
+  '@graph': [personEntity(), businessEntity()],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -138,10 +147,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="inhalt">{children}</main>
         <Footer />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-        />
+        <JsonLd data={identityJsonLd} />
       </body>
     </html>
   );

@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
@@ -8,13 +7,13 @@ import { Section } from '@/components/ui/Section';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ContactForm } from './ContactForm';
 import styles from './Contact.module.scss';
+import { createPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Kontakt',
-  description:
-    'Kontakt zu Can Cadirci — Software Engineer, AI Developer und Security Researcher aus Ludwigsburg.',
-  alternates: { canonical: '/kontakt' },
-};
+export const metadata = createPageMetadata({
+  title: 'Projekt anfragen — Kontakt',
+  description: 'Kontakt zu Can Cadirci für individuelle Softwareentwicklung, Webentwicklung und KI-Projekte in Ludwigsburg, Stuttgart und deutschlandweit.',
+  path: '/kontakt',
+});
 
 export default function ContactPage() {
   return (
@@ -22,8 +21,8 @@ export default function ContactPage() {
       <PageHeader
         label="Kontakt"
         index="05 / Direkt"
-        title="Lassen Sie uns über das System dahinter sprechen."
-        lead="Am besten erreichen Sie mich per E-Mail oder LinkedIn. Wenn Sie bereits eine Rolle oder ein technisches Problem im Kopf haben, schicken Sie mir gern ein paar konkrete Stichpunkte — ich antworte direkt und ohne Standardtext."
+        title="Lassen Sie uns über Ihr System sprechen."
+        lead="Beschreiben Sie kurz den heutigen Ablauf, das gewünschte Ergebnis und vorhandene Systeme. Ich antworte direkt mit konkreten Rückfragen — ohne Vertriebsübergabe und ohne Standardtext."
       />
 
       <Section compact>

@@ -13,8 +13,9 @@ export const site = {
   url: 'https://web-labs.io',
   name: 'Can Cadirci',
   brand: 'WebLabs',
-  role: 'Software Engineer · AI Developer · Security Researcher',
+  role: 'Softwareentwickler · KI-Entwickler · Security Researcher',
   locale: 'de-DE',
+  lastUpdated: '2026-08-31',
 } as const;
 
 export const contact = {
@@ -23,6 +24,7 @@ export const contact = {
   phone: '+4915566655128',
   phoneDisplay: '+49 155 66655 128',
   city: 'Ludwigsburg',
+  streetAddress: 'Kastanienallee 17',
   postalCode: '71638',
   country: 'DE',
   linkedin: 'https://www.linkedin.com/in/berkcan-cadirci-5945a9341/',
@@ -67,6 +69,7 @@ export interface NavItem {
 
 /** Hauptnavigation. Reihenfolge = Lesereihenfolge = Tab-Reihenfolge. */
 export const navigation: readonly NavItem[] = [
+  { href: '/leistungen', label: 'Leistungen' },
   { href: '/projekte', label: 'Projekte' },
   { href: '/erfahrung', label: 'Erfahrung' },
   { href: '/ueber-mich', label: 'Über mich' },
@@ -83,17 +86,16 @@ export const legalNavigation: readonly NavItem[] = [
 /**
  * Rechtliche Angaben.
  *
- * VOR DEM LIVEGANG AUSFÜLLEN. Die Felder stehen bewusst leer statt mit einem
- * Beispielwert: Ein übernommener Platzhalter in einem Impressum ist ein
- * rechtliches Risiko, ein leeres Feld dagegen fällt beim Durchsehen auf.
- * Abschnitte, deren Angaben fehlen, werden auf den Rechtsseiten nicht
- * gerendert — es steht also nie etwas Falsches da, nur weniger.
+ * Die bestätigte USt-IdNr. steht hier zentral. Noch offene Anbieterangaben
+ * bleiben bewusst leer statt mit einem Beispielwert: Ein übernommener
+ * Platzhalter in einer Datenschutzerklärung wäre ein rechtliches Risiko.
+ * Abschnitte, deren Angaben fehlen, werden nicht gerendert.
  *
  * `site.test.ts` protokolliert, welche Felder noch offen sind.
  */
 export const legal = {
   /** Umsatzsteuer-Identifikationsnummer nach § 27a UStG, falls vorhanden. */
-  vatId: '',
+  vatId: 'DE421046779',
   /**
    * Der Hoster, auf dem die Seite tatsächlich läuft (Name und Sitz).
    * Beispielform: 'Hetzner Online GmbH, Gunzenhausen, Deutschland'.

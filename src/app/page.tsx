@@ -4,9 +4,38 @@ import { ProjectSection } from '@/components/home/ProjectSection';
 import { ClosingCta } from '@/components/home/ClosingCta';
 import { WorkingPrinciples } from '@/components/home/ProfileSections';
 import { FocusTabs } from '@/components/home/FocusTabs';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { site } from '@/content/site';
+import { BUSINESS_ID, PERSON_ID, WEBSITE_ID } from '@/lib/seo';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
+};
+
+const homeJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': WEBSITE_ID,
+      name: site.brand,
+      alternateName: [site.name, `${site.brand} by ${site.name}`],
+      url: site.url,
+      inLanguage: 'de-DE',
+      publisher: { '@id': BUSINESS_ID },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${site.url}/#webpage`,
+      url: site.url,
+      name: `Softwareentwicklung & KI aus Ludwigsburg | ${site.name}`,
+      description: 'Individuelle Softwareentwicklung, Webentwicklung und KI-Systeme für Unternehmen.',
+      isPartOf: { '@id': WEBSITE_ID },
+      about: { '@id': PERSON_ID },
+      inLanguage: 'de-DE',
+      dateModified: site.lastUpdated,
+    },
+  ],
 };
 
 /**
@@ -31,6 +60,8 @@ export default function HomePage() {
       <WorkingPrinciples />
 
       <ClosingCta />
+
+      <JsonLd data={homeJsonLd} />
     </>
   );
 }

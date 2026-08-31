@@ -1,16 +1,16 @@
-import type { Metadata } from 'next';
 import { contact, legal, site } from '@/content/site';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { PageHeader } from '@/components/ui/PageHeader';
 import styles from '../impressum/Legal.module.scss';
+import { createPageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Datenschutz',
   description: `Datenschutzerklärung für ${site.url}.`,
-  alternates: { canonical: '/datenschutz' },
-  robots: { index: false, follow: true },
-};
+  path: '/datenschutz',
+  noIndex: true,
+});
 
 /**
  * Diese Erklärung beschreibt, was der Code TATSÄCHLICH tut — nicht, was eine
@@ -34,7 +34,9 @@ export default function PrivacyPage() {
             <h2 className={styles.heading}>Verantwortliche Stelle</h2>
             <div className={styles.body}>
               <p>
-                {site.name}, {contact.postalCode} {contact.city}, Deutschland.
+                {site.brand}, Inhaber {site.name}
+                <br />
+                {contact.streetAddress}, {contact.postalCode} {contact.city}, Deutschland.
                 <br />
                 E-Mail:{' '}
                 <a href={`mailto:${contact.email}`} className={styles.link}>
@@ -104,12 +106,6 @@ export default function PrivacyPage() {
                 Diese Website setzt keine Cookies zur Wiedererkennung und verwendet keine
                 Analyse- oder Trackingwerkzeuge. Es gibt daher auch kein Einwilligungsbanner.
               </p>
-              <p>
-                Die von Ihnen gewählte Farbschema-Einstellung (hell, dunkel oder
-                Systemeinstellung) wird ausschließlich lokal in Ihrem Browser gespeichert
-                (localStorage). Diese Angabe verlässt Ihr Gerät nicht und wird nicht an den
-                Server übertragen.
-              </p>
             </div>
           </div>
 
@@ -163,7 +159,7 @@ export default function PrivacyPage() {
             </div>
           </div>
 
-          <p className={styles.updated}>Stand: August 2026</p>
+          <p className={styles.updated}>Stand: 31. August 2026</p>
         </Container>
       </Section>
     </>

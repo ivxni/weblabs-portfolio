@@ -309,7 +309,7 @@ export const projects: readonly Project[] = [
     problem:
       'Ein Portfolio soll nicht nur Projekte auflisten. Es braucht schnelle, zugängliche Seiten, strukturierte Inhalte, einen verlässlichen Kontaktweg und eine Grundlage, die sich später erweitern lässt — ohne dass man dafür heute schon eine Datenbank betreiben muss.',
     approach:
-      'Next.js App Router mit statisch erzeugten Seiten. Die Farb-, Abstands- und Bewegungsebene besteht vollständig aus CSS-Custom-Properties; kein Bauteil enthält einen rohen Wert. Beide Themes sind getrennt entworfen statt invertiert, weil eine invertierte Palette immer eine Stelle hat, die kippt — hier wäre es der Akzent gewesen.',
+      'Next.js App Router mit statisch erzeugten Seiten. Die Farb-, Abstands- und Bewegungsebene besteht vollständig aus CSS-Custom-Properties; kein Bauteil enthält einen rohen Wert. Das feste dunkle Farbsystem ist auf Kontrast, ruhige Flächen und eine konsistente technische Bildsprache ausgelegt.',
     decisions: [
       {
         title: 'Kontraste werden gerechnet, nicht geschätzt.',
@@ -333,7 +333,7 @@ export const projects: readonly Project[] = [
       },
     ],
     limitation:
-      'Diese Seite hat bewusst kein Backend und keine Datenbank. Buchungen, Zahlungen und ein Adminbereich sind für einen späteren Ausbau vorgesehen, aber heute nicht vorhanden — sie hier zu behaupten wäre falsch.',
+      'Diese Seite hat bewusst kein CMS und keine Datenbank. Serverseitig existieren nur Healthcheck und Kontaktversand; Buchungen, Zahlungen und ein Adminbereich sind nicht vorhanden.',
     featured: true,
   },
 

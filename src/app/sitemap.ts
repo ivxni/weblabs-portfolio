@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { projects } from '@/content/projects';
+import { services } from '@/content/services';
 import { site } from '@/content/site';
 
 /**
@@ -12,29 +13,44 @@ import { site } from '@/content/site';
  * verweist, sendet widersprüchliche Signale.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const lastModified = new Date(site.lastUpdated);
 
-  const staticRoutes: { path: string; priority: number }[] = [
-    { path: '', priority: 1 },
-    { path: '/projekte', priority: 0.9 },
-    { path: '/erfahrung', priority: 0.8 },
-    { path: '/ueber-mich', priority: 0.8 },
-    { path: '/lebenslauf', priority: 0.7 },
-    { path: '/kontakt', priority: 0.7 },
+  const staticRoutes = [
+    '',
+    '/leistungen',
+    '/projekte',
+    '/erfahrung',
+    '/ueber-mich',
+    '/lebenslauf',
+    '/kontakt',
   ];
 
   return [
-    ...staticRoutes.map((route) => ({
-      url: `${site.url}${route.path}`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: route.priority,
+    ...staticRoutes.map((path) => ({
+      url: `${site.url}${path}`,
+      lastModified,
+      ...(path === ''
+        ? {
+            images: [
+              `${site.url}/images/work/unitfly.jpg`,
+              `${site.url}/images/work/plp-it-services.jpg`,
+              `${site.url}/images/work/paydos-lounge.jpg`,
+              `${site.url}/images/work/ipekten-dienstleistung.jpg`,
+            ],
+          }
+        : {}),
+    })),
+    ...services.map((service) => ({
+      url: `${site.url}/leistungen/${service.slug}`,
+      lastModified,
     })),
     ...projects.map((project) => ({
       url: `${site.url}/projekte/${project.slug}`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
+      lastModified,
+      images: [
+        ...(project.cover ? [`${site.url}${project.cover.src}`] : []),
+        ...(project.media?.map((item) => `${site.url}${item.src}`) ?? []),
+      ],
     })),
   ];
 }

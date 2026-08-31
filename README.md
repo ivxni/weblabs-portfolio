@@ -1,8 +1,8 @@
 # web-labs.io — Portfolio Can Cadirci
 
-Persönliches Portfolio als Fullstack Software Engineer und Applied AI Engineer.
-Next.js (App Router), TypeScript, SCSS Modules, Font Awesome. Kein Backend,
-keine Datenbank.
+Portfolio und Leistungswebsite für individuelle Softwareentwicklung,
+Webentwicklung und KI-Entwicklung. Next.js (App Router), TypeScript, SCSS
+Modules und Font Awesome. Kein CMS und keine Datenbank.
 
 ---
 
@@ -25,7 +25,7 @@ npm run dev
 
 ---
 
-## Warum kein Backend und keine Datenbank
+## Warum kein CMS und keine Datenbank
 
 Die Inhalte dieser Seite ändern sich nicht zur Laufzeit. Sie liegen als
 typisierte Daten unter `src/content/` im Repository. Das ist keine Sparlösung,
@@ -38,6 +38,9 @@ zurückgekehrt ist.
 Ein CMS mit Datenbank würde dafür Migrationen, Backups und einen zweiten
 laufenden Dienst kosten — und diese Prüfungen unmöglich machen.
 
+Die einzigen serverseitigen Routen sind der Healthcheck und das Kontaktformular.
+Sie speichern keine Inhalte in einer Datenbank.
+
 ---
 
 ## Aufbau
@@ -47,7 +50,9 @@ src/
 ├─ app/                     Routen (App Router)
 │  ├─ api/health/           Healthcheck für Docker und Coolify
 │  ├─ api/kontakt/          Kontaktformular: Validierung, Rate Limit, SMTP
+│  ├─ leistungen/[slug]/    SEO-Landingpages, zur Bauzeit erzeugt
 │  ├─ projekte/[slug]/      Case-Studies, zur Bauzeit erzeugt
+│  ├─ manifest.ts           Web-App- und Markenmetadaten
 │  ├─ opengraph-image.tsx   Vorschaubild, aus Code gerendert
 │  ├─ sitemap.ts robots.ts  aus denselben Daten wie die Navigation
 │  └─ globals.scss          einzige globale Stylesheet-Datei
@@ -70,19 +75,16 @@ Modul injiziert; sie darf deshalb niemals CSS ausgeben.
 
 ## Vor dem Livegang
 
-Diese Punkte sind **offen** und in `src/content/site.ts` an genau einer Stelle
-gebündelt. Sie stehen bewusst leer bzw. auf `false`: Ein übernommener
-Platzhalter im Impressum ist ein rechtliches Risiko, ein leeres Feld dagegen
-fällt beim Durchsehen auf. Abschnitte ohne Angaben werden nicht gerendert — es
-steht also nie etwas Falsches da, nur weniger.
+Diese Punkte sind in `src/content/site.ts` an genau einer Stelle gebündelt.
+Geschäftsanschrift, USt-IdNr. und die finalen WebLabs-Logos sind bereits
+hinterlegt. Noch offene Anbieterfelder bleiben bewusst leer: Ein übernommener
+Platzhalter in einer Datenschutzerklärung wäre ein rechtliches Risiko.
 
 ### Muss
 
 - [ ] `legal.hostingProvider` — Name und Sitz des Hosters (für die Datenschutzerklärung)
 - [ ] `legal.mailProvider` — Betreiber des Postfachs, an das Anfragen gehen
-- [ ] `legal.vatId` — nur falls vorhanden
 - [ ] Impressum und Datenschutz gegen den tatsächlichen Betrieb prüfen lassen
-- [ ] `public/logo.svg` durch die Originaldatei ersetzen (der aktuelle Stand ist eine Platzhaltermarke)
 
 ### Optional, aber empfohlen
 
@@ -159,8 +161,9 @@ Instanzen zählt jede für sich; die Seite läuft als eine Instanz.
 
 1. **Neue Resource → Docker Compose**, Repository verbinden.
 2. Compose-Datei: `docker-compose.coolify.yml`.
-3. Unter **Domains** beim Dienst `web` eintragen: `https://web-labs.io`.
+3. Unter **Domains** beim Dienst `web` eintragen: `https://web-labs.io:3000`.
 4. Unter **Environment Variables** die SMTP-Werte setzen (optional, siehe oben).
+5. Optional `GOOGLE_SITE_VERIFICATION` als **Build Variable** setzen.
 
 **Keine Traefik-Labels von Hand eintragen.** Coolify schreibt sie selbst,
 sobald eine Domain gesetzt ist. Handgeschriebene Labels kollidieren damit — man
@@ -181,17 +184,26 @@ Prüfen nach dem ersten Start:
 curl -s https://web-labs.io/api/health
 ```
 
+### SEO nach dem Deployment aktivieren
+
+1. Property `https://web-labs.io` in der Google Search Console anlegen.
+2. Verifizierungstoken als `GOOGLE_SITE_VERIFICATION` in Coolify eintragen,
+   **Build Variable** aktivieren und neu deployen.
+3. `https://web-labs.io/sitemap.xml` in der Search Console einreichen.
+4. Startseite und die drei `/leistungen/...`-Seiten per URL-Prüfung anstoßen.
+5. Die ausführliche Akquise- und Messstrategie in `SEO-STRATEGIE.md` verwenden.
+
 ---
 
 ## Tests
 
-124 Tests. Zwei davon sind ungewöhnlich und der eigentliche Grund für den
+132 Tests. Zwei davon sind ungewöhnlich und der eigentliche Grund für den
 Aufbau:
 
 **`src/styles/tokens.test.ts`** liest die echte Datei `_tokens.scss`,
 konvertiert jede oklch-Farbe nach sRGB und rechnet die Kontraste — Fließtext
-gegen 4.5:1, Ränder von Bedienelementen gegen 3:1, in **beiden** Farbschemata
-und jeweils gegen Grund *und* getönte Fläche. Beim ersten Lauf hat er drei
+gegen 4.5:1, Ränder von Bedienelementen gegen 3:1 und jeweils gegen Grund
+*und* getönte Fläche. Beim ersten Lauf hat er drei
 echte Fehler gefunden, die auf getönten Sektionen unter dem Grenzwert lagen.
 
 **`src/app/kontakt/ContactForm.test.tsx`** prüft vor allem, wann *kein* Erfolg

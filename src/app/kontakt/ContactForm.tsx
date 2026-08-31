@@ -131,7 +131,7 @@ export function ContactForm() {
 
         <div className={styles.field}>
           <label className={styles.label} htmlFor={`${id}-topic`}>
-            Rolle oder Thema
+            Projekt oder Thema
           </label>
           <input {...fieldProps('topic')} type="text" required />
           {errors.topic && (

@@ -25,6 +25,9 @@ RUN npm ci
 FROM node:22-alpine AS builder
 WORKDIR /app
 
+ARG GOOGLE_SITE_VERIFICATION=""
+ENV GOOGLE_SITE_VERIFICATION=$GOOGLE_SITE_VERIFICATION
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 

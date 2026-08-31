@@ -28,7 +28,7 @@ export const contactSchema = z.object({
   topic: z
     .string()
     .trim()
-    .min(2, 'Bitte nennen Sie kurz Rolle oder Thema.')
+    .min(2, 'Bitte nennen Sie kurz Projekt oder Thema.')
     .max(160, 'Der Eintrag ist zu lang.'),
 
   message: z

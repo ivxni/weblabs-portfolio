@@ -24,6 +24,17 @@
   max-width: 34ch;
 }
 
+.footerBrand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.footerMark {
+  inline-size: 2rem;
+  block-size: auto;
+}
+
 .statementText {
   margin-block-start: var(--space-16);
   color: var(--c-text-subtle);
@@ -35,6 +46,11 @@
   @include micro-label;
   color: var(--c-text-subtle);
   margin-block-end: var(--space-16);
+}
+
+.footerBrand .columnTitle {
+  margin-block-end: 0;
+  color: var(--c-text);
 }
 
 .list {

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
@@ -21,7 +22,16 @@ export function Footer() {
       <Container>
         <div className={styles.grid}>
           <div className={styles.statement}>
-            <p className={styles.columnTitle}>{site.brand}</p>
+            <div className={styles.footerBrand}>
+              <Image
+                src="/brand/weblabs-mark-light.svg"
+                alt=""
+                width={309}
+                height={189}
+                className={styles.footerMark}
+              />
+              <p className={styles.columnTitle}>{site.brand}</p>
+            </div>
             <p className={styles.statementText}>
               {site.name} — {site.role}. {availability.location}. {availability.model}.
             </p>
@@ -104,7 +114,7 @@ export function Footer() {
 
         <div className={styles.baseline}>
           <span data-numeric>
-            © {year} {site.name}
+            © {year} {site.brand} · {site.name}
           </span>
           {/*
             Der Fuß verlinkt auf die eigene Case-Study. Das ist kein

@@ -3,7 +3,8 @@ import { featuredProjects, projects, statusLabel } from './projects';
 import { positions, qualifications } from './experience';
 import { skillGroups } from './skills';
 import { credentials, systemLayers, demoBoundaryAfter } from './home';
-import { contact, legalNavigation, navigation, release, site } from './site';
+import { contact, legal, legalNavigation, navigation, release, site } from './site';
+import { services } from './services';
 
 /**
  * Inhalts-Integrität.
@@ -103,6 +104,8 @@ describe('Projekte', () => {
 describe('Navigation', () => {
   const routes = new Set([
     '/',
+    '/leistungen',
+    ...services.map((service) => `/leistungen/${service.slug}`),
     '/projekte',
     '/erfahrung',
     '/ueber-mich',
@@ -142,9 +145,47 @@ describe('Kontaktdaten', () => {
     expect(site.url).not.toMatch(/\/$/);
   });
 
+  it('enthält eine vollständige Geschäftsanschrift', () => {
+    expect(contact.streetAddress.trim().length).toBeGreaterThan(3);
+    expect(contact.postalCode).toMatch(/^\d{5}$/);
+    expect(contact.city.trim().length).toBeGreaterThan(1);
+    expect(contact.country).toBe('DE');
+  });
+
+  it('speichert die USt-IdNr. im deutschen Format', () => {
+    expect(legal.vatId).toMatch(/^DE\d{9}$/);
+  });
+
   it('verlinkt GitHub nur, wenn eine Adresse hinterlegt ist', () => {
     if (contact.github === '') return;
     expect(contact.github).toMatch(/^https:\/\/(www\.)?(github|gitlab)\.com\/.+/);
+  });
+});
+
+describe('SEO-Leistungsseiten', () => {
+  it('haben eindeutige Slugs und Suchintentionen', () => {
+    expect(new Set(services.map((service) => service.slug)).size).toBe(services.length);
+    for (const service of services) {
+      expect(service.description.length).toBeGreaterThan(100);
+      expect(service.lead.length).toBeGreaterThan(120);
+      expect(service.fit.length).toBeGreaterThanOrEqual(4);
+      expect(service.deliverables.length).toBeGreaterThanOrEqual(4);
+      expect(service.process.length).toBeGreaterThanOrEqual(4);
+      expect(service.proofs.length).toBeGreaterThanOrEqual(3);
+      expect(service.faq.length).toBeGreaterThanOrEqual(3);
+    }
+  });
+
+  it('verlinkt nur vorhandene Case Studies', () => {
+    const projectSlugs = new Set(projects.map((project) => project.slug));
+    for (const proof of services.flatMap((service) => service.proofs)) {
+      expect(projectSlugs.has(proof.slug), `Case Study ${proof.slug} fehlt`).toBe(true);
+    }
+  });
+
+  it('vermeidet doppelte Meta-Titel und Beschreibungen', () => {
+    expect(new Set(services.map((service) => service.metaTitle)).size).toBe(services.length);
+    expect(new Set(services.map((service) => service.description)).size).toBe(services.length);
   });
 });
 

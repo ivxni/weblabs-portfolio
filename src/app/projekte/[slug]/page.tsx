@@ -8,6 +8,9 @@ import { getProject, projects, statusLabel } from '@/content/projects';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { site } from '@/content/site';
+import { absoluteUrl, breadcrumbEntity, createPageMetadata, PERSON_ID } from '@/lib/seo';
 import styles from './CaseStudy.module.scss';
 
 interface PageProps {
@@ -28,16 +31,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const project = getProject(slug);
   if (!project) return {};
 
-  return {
-    title: project.name,
+  return createPageMetadata({
+    title: `${project.name} — technische Case Study`,
     description: project.summary,
-    alternates: { canonical: `/projekte/${project.slug}` },
-    openGraph: {
-      title: `${project.name} — Case-Study`,
-      description: project.summary,
-      type: 'article',
-    },
-  };
+    path: `/projekte/${project.slug}`,
+    type: 'article',
+    image: project.cover?.src,
+  });
 }
 
 export default async function CaseStudyPage({ params }: PageProps) {
@@ -49,6 +49,32 @@ export default async function CaseStudyPage({ params }: PageProps) {
   // Modulo statt Grenzprüfung: Am Ende der Liste geht es wieder zum ersten
   // Projekt, statt in eine Sackgasse zu führen.
   const next = projects[(currentIndex + 1) % projects.length];
+  const projectUrl = absoluteUrl(`/projekte/${project.slug}`);
+  const projectJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CreativeWork',
+        '@id': `${projectUrl}#case-study`,
+        name: project.title,
+        headline: project.title,
+        description: project.summary,
+        url: projectUrl,
+        inLanguage: 'de-DE',
+        creator: { '@id': PERSON_ID },
+        author: { '@id': PERSON_ID },
+        dateModified: site.lastUpdated,
+        keywords: project.stack,
+        ...(project.cover ? { image: absoluteUrl(project.cover.src) } : {}),
+        about: project.stack.map((name) => ({ '@type': 'Thing', name })),
+      },
+      breadcrumbEntity([
+        { name: site.brand, path: '/' },
+        { name: 'Projekte', path: '/projekte' },
+        { name: project.name, path: `/projekte/${project.slug}` },
+      ]),
+    ],
+  };
 
   return (
     <>
@@ -270,6 +296,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
           </Container>
         </Section>
       )}
+      <JsonLd data={projectJsonLd} />
     </>
   );
 }
