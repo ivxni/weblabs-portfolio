@@ -131,8 +131,8 @@ export function FocusTabs() {
               <div className={styles.caseCopy}>
                 <p>Computer Vision / Private Case</p>
                 <h4>Realtime Vision Runtime</h4>
-                <p>YOLO-Inferenz mit TensorRT, ONNX Runtime und OpenVINO, automatischer Provider-Auswahl, OpenCV-Pipeline und Arduino-Hardware-Layer.</p>
-                <ul role="list"><li>TensorRT</li><li>ONNX</li><li>Arduino</li></ul>
+                <p>Capture und OpenCV-Pipeline mit YOLO-Inferenz über TensorRT, ONNX Runtime oder OpenVINO; Ergebnisse verlassen die Runtime über eine getrennte serielle Hardware-Schnittstelle.</p>
+                <ul role="list"><li>TensorRT</li><li>ONNX Runtime</li><li>Serial I/O</li></ul>
                 <Link href="/projekte/realtime-vision-runtime">Technische Case Study →</Link>
               </div>
             </article>
@@ -141,8 +141,8 @@ export function FocusTabs() {
               <div className={styles.caseCopy}>
                 <p>ML Systems / Time Series</p>
                 <h4>ML Market Runtime</h4>
-                <p>XGBoost-Pipeline mit Feature Engineering, Walk-forward-Validierung, Backtesting und einer getrennten deterministischen Risikoebene.</p>
-                <ul role="list"><li>XGBoost</li><li>FastAPI</li><li>Risk gates</li></ul>
+                <p>XGBoost-Pipeline für acht Forex-Paare mit technischen, makroökonomischen und nachrichtenbasierten Features, Walk-forward-Validierung und deterministischen Risiko-Gates.</p>
+                <ul role="list"><li>XGBoost</li><li>Multi-source data</li><li>Risk gates</li></ul>
                 <Link href="/projekte/ml-market-runtime">Technische Case Study →</Link>
               </div>
             </article>

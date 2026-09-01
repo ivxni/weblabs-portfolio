@@ -5,44 +5,27 @@ Was hier steht, ist die Begründung. Die Werte selbst stehen in
 
 ---
 
-## 1. Der Akzent
+## 1. Marke und Betonung
 
-`#FF5C00` bleibt die Marke. Als Oberflächenfarbe ist es mit 0.212 Buntheit
-fast am Rand des sRGB-Raums und damit zu laut — genau der Punkt, an dem
-gesättigtes Orange billig wirkt. Deshalb zwei Token:
+`#FF5C00` bleibt die Markenfarbe, ist aber keine allgemeine UI-Akzentfarbe.
+Auf der Oberfläche entsteht Betonung durch den Kontrast aus warmem Creme und
+kühlem Dunkelgrau. Orange erscheint nur dort, wo es WebLabs identifiziert:
+im App-Icon, Favicon und Social Preview. Das verhindert den typischen
+Orange-auf-Schwarz-Gaminglook, ohne die Marke aufzugeben.
 
-| Token | Wert | Rolle |
-|---|---|---|
-| `--c-brand` | `oklch(0.665 0.212 44)` = `#FF5C00` | nur das Logo |
-| `--c-accent` (dunkel) | `oklch(0.705 0.180 48)` = `#f67621` | Oberfläche |
-| `--c-accent` (hell) | `oklch(0.535 0.190 42)` = `#c13400` | Oberfläche |
-
-**Warum überhaupt Orange:** Der Default-Akzent ist Blau oder Violett. Orange
-ist sofort unterscheidbar und gehört bereits zur Marke. Das „Gaming"-Risiko
-kommt nicht von der Farbe, sondern von der Nachbarschaft — Orange plus
-Neon-Glühen plus reines Schwarz plus große Farbflächen. Hier ist es eine
-Haarlinie, ein Knopf und ein Wort in der Überschrift. Sonst nichts.
-
-**Warum der Hellmodus einen eigenen Wert hat:** Dasselbe Orange erreicht auf
-dunklem Grund 6.42:1 und auf hellem Papier 2.9:1 — unlesbar. Eine invertierte
-Palette hätte genau hier gekippt. Beide Modi sind eigens entworfen; ein Test
-erzwingt, dass die Helligkeitswerte sich unterscheiden.
+Das System ist bewusst Dark-only. Liniengrafiken, Tiefenstaffelung und die
+monochrome Bildsprache wurden für genau diesen Grund entworfen und müssen nicht
+auf eine zweite, visuell schwächere Variante zurückgerechnet werden.
 
 ---
 
 ## 2. Neutraltöne sind nicht Grau
 
-Alle Neutraltöne liegen auf Farbwinkel 70° (warmes Gelb-Orange) mit einer
-Buntheit zwischen 0.005 und 0.012 — an der Wahrnehmungsschwelle. Man sieht sie
-nicht als Farbe, man merkt nur, dass die Fläche nicht kalt ist.
-
-Reines Grau neben einem gesättigten Orange sieht immer so aus, als wäre die
-Farbe nachträglich daraufgeklebt worden. `tokens.test.ts` erzwingt deshalb
-`0 < Chroma < 0.02` für jeden Neutralton.
-
-Der dunkle Grund ist `#191715`, nicht Schwarz: Reines Schwarz erzeugt gegen
-helle Schrift ein Nachbild-Flimmern und lässt jede Erhebung darüber grau statt
-hell wirken. Der helle Grund ist `#fbfaf7`, nicht Weiß.
+Der Grund liegt minimal kühl bei Farbwinkel 260, die Schrift minimal warm bei
+85. Beide bleiben mit sehr geringer Buntheit an der Wahrnehmungsschwelle. Man
+sieht keine Farbe, aber die Fläche wirkt weniger steril als reines Schwarz mit
+reinem Weiß. `tokens.test.ts` prüft die tatsächlichen Kontrastpaare direkt aus
+der Token-Datei.
 
 ---
 
@@ -53,7 +36,7 @@ hell wirken. Der helle Grund ist `#fbfaf7`, nicht Weiß.
 
 - Fließtext ≥ 4.5:1 (WCAG 1.4.3)
 - Ränder von Bedienelementen ≥ 3:1 (WCAG 1.4.11)
-- gegen **Grund und getönte Fläche**, in **beiden** Modi
+- gegen **Grund und getönte Fläche**
 
 Der bindende Fall ist fast immer die getönte Fläche, nicht der Grund. Drei
 Token lagen beim ersten Lauf darunter und wurden korrigiert.
@@ -66,32 +49,33 @@ Token lagen beim ersten Lauf darunter und wurden korrigiert.
 40 gar nicht erst unauffällig schreibbar ist:
 
 ```
-4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192
+4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192 · 256
 ```
 
-Der Abstand *zwischen* Sektionen (`--space-section`) ist immer mindestens
-doppelt so groß wie der größte *innerhalb*. Gleichmäßige Abstände überall lesen
-sich wie ein Raster, nicht wie eine Komposition.
+Der Abstand *zwischen* Sektionen (`--space-section`) skaliert von 96 bis 192 px.
+Damit bleibt der redaktionelle Rhythmus deutlich, ohne dass jeder Abschnitt wie
+eine eigene Vollbildseite wirkt.
 
 **Schrift**, acht Stufen mit je einer Rolle. Die großen skalieren per `clamp()`
 mit der Breite, die kleinen nicht: Ein 13px-Label bleibt auf jedem Gerät 13px,
 sonst wird es auf dem Handy unleserlich oder auf dem Desktop zum zweiten
 Fließtext.
 
-**Radien**, drei Werte: 3px, 6px, 12px. Der große ist ausschließlich für
-Medienrahmen. Großer Radius auf allem wirkt verspielt, nicht wertig.
+**Radien**, drei feste Rollen: 3 px für kleine Kontrollen, 6 px für technische
+Fenster, 12 px für normale Medien. Große Medienflächen skalieren höchstens bis
+20 px. Großer Radius auf allem wirkt verspielt, nicht wertig.
 
 **Erhebung**, zwei Werte — und einer davon ist „keiner".
 
-**Bewegung**, drei Dauern (120 / 220 / 340 ms) und eine Easing-Familie.
+**Bewegung**, drei Dauern (140 / 260 / 520 ms) und eine Easing-Familie.
 
 ---
 
 ## 5. Typografie
 
-**Schibsted Grotesk** für alles, was gelesen wird. Nicht Inter: Inter ist gut
-und genau deshalb der Default-Look — man erkennt eine Inter-Seite sofort als
-eine, bei der die Schrift nicht entschieden wurde.
+**Archivo** für alles, was gelesen wird. Die leicht industrielle Grotesk trägt
+große Versalien ebenso wie sachlichen Fließtext und passt damit zur Aussage
+„vollständige Systeme statt nur Oberflächen".
 
 **JetBrains Mono** ausschließlich für Maschinenfakten: Technologien, Daten,
 Zählungen, Zustände. Die Mono trägt hier eine Bedeutung — „das ist ein
@@ -101,8 +85,8 @@ Beide über `next/font` zur Bauzeit heruntergeladen und selbst ausgeliefert.
 Der Browser des Besuchers spricht nie mit Google; das ist hier nicht nur
 Performance, sondern die datenschutzrechtliche Anforderung.
 
-Zeilenlänge 62 Zeichen im Fließtext. Zeilenhöhe 1.02 bei Displaygraden, 1.62 im
-Fließtext. Laufweite −0.032 em bei Displaygraden, 0 im Text, +0.09 em bei
+Zeilenlänge 62 Zeichen im Fließtext. Zeilenhöhe 0.90 bei Displaygraden, 1.68 im
+Fließtext. Laufweite −0.042 em bei Displaygraden, 0 im Text, +0.13 em bei
 Versalien-Mikrolabels.
 
 ---
@@ -113,13 +97,11 @@ Keine zwei benachbarten Sektionen haben dieselbe Form. Die Startseite:
 
 | # | Sektion | Form |
 |---|---|---|
-| 1 | Hero | geteilt 1:1, Text links, Grafik rechts |
-| 2 | Belege | waagerechtes Band, vier Spalten, getönte Fläche |
-| 3 | Was ich liefere | versetzte schmale Spalte, Definitionsliste |
-| 4 | Projekte | randloser Index, große Zeilen |
-| 5 | Erfahrung | klebender Text links, laufende Liste rechts |
-| 6 | Arbeitsweise | einzelne schmale Spalte, nach rechts versetzt |
-| 7 | Abschluss | ein Element, sehr viel Luft |
+| 1 | Hero | asymmetrische Typografie und WebGL-Systemkugel |
+| 2 | Fachbereiche | drei umschaltbare technische Systempfade |
+| 3 | Projekte | helle redaktionelle Case-Study-Fläche |
+| 4 | Arbeitsweise | drei kurze, überprüfbare Prinzipien |
+| 5 | Abschluss | fokussierter Projektkontakt |
 
 **Kein Rahmen ohne Grund.** Eine Karte behauptet „das hier gehört zusammen und
 ist vom Rest getrennt". Wo das nicht stimmt, trennen Abstand und Haarlinien —
@@ -133,35 +115,20 @@ gelesen zu werden.
 
 ---
 
-## 7. Das eine besondere Element
+## 7. Das besondere Element
 
-Der **Systemschnitt** im Hero. Fünf Schichten eines Systems — Oberfläche, API,
-Daten, Tests, Betrieb — mit einer gestrichelten Linie nach der ersten:
-„Viele Demos enden hier."
-
-Er ist die Überschrift der Seite als Grafik, nicht Dekoration. Ein rotierendes
-Objekt hätte über den Inhalt nichts gesagt.
-
-**Kosten pro Bild: keine.** Es gibt keinen Scroll-Handler. Ein
-IntersectionObserver mit einem schmalen Band in der Bildschirmmitte meldet den
-Wechsel — fünf Ereignisse pro Seitenbesuch. Auf der CPU ändert sich eine Zahl
-(`--cut`), das Zeichnen übernimmt `transform: scaleY()`.
-
-**Er funktioniert in drei Zuständen:**
-
-1. *Normal* — der Schnitt wächst beim Scrollen nach unten.
-2. *Reduzierte Bewegung* — der Schnitt ist vollständig gezogen, alle
-   Querstriche stehen. Dieselbe Aussage, nur auf einmal.
-3. *Ohne JavaScript* — alle Schichten sind lesbar, es fehlt nur die Betonung.
+Die **SystemSphere** im Hero ist eine monochrome WebGL-Linienstruktur. Sie
+visualisiert ein lebendes System, bleibt aber hinter der Typografie und fällt
+bei fehlendem WebGL kontrolliert auf eine statische Canvas-Darstellung zurück.
+Bei reduzierter Bewegung bleibt sie lesbar, ohne permanent zu animieren.
 
 ---
 
 ## 8. Bewegung
 
-Nur `transform` und `opacity`. Zwei bewusste Ausnahmen, beide dokumentiert:
-der Themewechsel auf `body` (ein Moment pro Besuch) und der Farbwechsel der
-aktiven Schicht im Systemschnitt (höchstens fünfmal pro Besuch). Beides sind
-Zustandswechsel, keine Animationen pro Bild.
+Interface-Bewegung nutzt überwiegend `transform` und `opacity`. Laufende Demos
+haben eigene, lokal begrenzte Animationspfade und respektieren
+`prefers-reduced-motion`.
 
 Hover ist ein Versatz von 2–4 px oder ein Farbwechsel. Kein `scale(1.05)`, kein
 aufpoppender Schatten.

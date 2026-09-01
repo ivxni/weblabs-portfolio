@@ -2,7 +2,7 @@
 // am meisten Luft und am wenigsten Inhalt — sie hat genau eine Aufgabe, und
 // alles daneben würde davon abziehen.
 .section {
-  padding-block: clamp(var(--space-128), 16vw, var(--space-256));
+  padding-block: var(--space-section);
   border-top: 1px solid var(--c-line);
 }
 

@@ -8,65 +8,6 @@ export const hero = {
 } as const;
 
 /**
- * Der Systemschnitt — das eine Element, an das man sich erinnern soll.
- *
- * Er ist keine Dekoration, sondern die Überschrift als Grafik: Ein Schnitt
- * durch ein System, Schicht für Schicht. Nach der ersten Schicht steht die
- * Linie, hinter der die meisten Demos aufhören. Alles darunter ist die
- * eigentliche Aussage der Seite.
- *
- * Warum das und nicht eine Partikelkugel: Ein rotierendes Objekt sagt nichts
- * über den Inhalt. Diese Grafik ist der Inhalt.
- */
-export interface SystemLayer {
-  key: string;
-  name: string;
-  stack: readonly string[];
-  note: string;
-}
-
-export const systemLayers: readonly SystemLayer[] = [
-  {
-    key: '01',
-    name: 'Oberfläche',
-    stack: ['Next.js', 'React', 'TypeScript'],
-    note: 'Zustände für Laden, Leere und Fehler — nicht nur den Erfolgsfall.',
-  },
-  {
-    key: '02',
-    name: 'API',
-    stack: ['FastAPI', 'Node/Express', 'Spring Boot'],
-    note: 'Typisierte Verträge, serverseitige Validierung, echte Statuscodes.',
-  },
-  {
-    key: '03',
-    name: 'Daten',
-    stack: ['PostgreSQL', 'SQLAlchemy', 'Alembic'],
-    note: 'Ein Modell, das eine Migration überlebt, statt Spalten nach Bedarf.',
-  },
-  {
-    key: '04',
-    name: 'Tests',
-    stack: ['pytest', 'Vitest', 'JUnit'],
-    note: 'Normalfall, Fehlerfall und Fallback. Der Fehlerfall zuerst.',
-  },
-  {
-    key: '05',
-    name: 'Betrieb',
-    stack: ['Docker', 'Coolify', 'GitHub Actions'],
-    note: 'Läuft nicht nur auf meinem Rechner. Das ist der ganze Punkt.',
-  },
-];
-
-/**
- * Der Index der Schicht, NACH der die Demo-Linie sitzt.
- * 0 = direkt nach der Oberfläche.
- */
-export const demoBoundaryAfter = 0;
-
-export const demoBoundaryLabel = 'Viele Demos enden hier';
-
-/**
  * Vier überprüfbare Belege. Bewusst KEINE Vanity-Metriken (10k+ Nutzer,
  * 99,9 % Uptime) — jeder Punkt ist eine Urkunde, ein Zeitraum oder ein
  * Testlauf mit Datum, den man nachfragen kann.

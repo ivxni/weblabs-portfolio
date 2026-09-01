@@ -15,7 +15,7 @@ export const site = {
   brand: 'WebLabs',
   role: 'Softwareentwickler · KI-Entwickler · Security Researcher',
   locale: 'de-DE',
-  lastUpdated: '2026-08-31',
+  lastUpdated: '2026-09-01',
 } as const;
 
 export const contact = {

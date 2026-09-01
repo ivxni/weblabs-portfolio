@@ -1,11 +1,11 @@
 .section { padding-block: var(--space-section); background: var(--c-text); color: var(--c-bg); }
 .header, .grid, .allProjects { margin-inline: var(--gutter); }
-.header { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: var(--space-48); align-items: end; margin-block-end: var(--space-128); }
+.header { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: var(--space-48); align-items: end; margin-block-end: var(--space-96); }
 .kicker { @include micro-label; color: oklch(0.42 0.006 85); }
 .heading { color: var(--c-bg); font-size: var(--fs-h1); font-weight: var(--fw-bold); line-height: .9; letter-spacing: var(--ls-display); }
 .summary { max-width: 30ch; color: oklch(0.35 0.006 260); font-size: var(--fs-small); line-height: 1.6; }
-.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-128) var(--space-48); }
-.work:nth-child(even) { margin-block-start: var(--space-128); }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-96) var(--space-48); }
+.work:nth-child(even) { margin-block-start: var(--space-96); }
 .visual { position: relative; display: block; overflow: hidden; aspect-ratio: 1.15; border-radius: var(--radius-canvas); background: var(--c-bg); text-decoration: none; }
 .image { object-fit: cover; object-position: top center; transition: transform 900ms var(--ease-out); }
 .visual:hover .image { transform: scale(1.025); }
@@ -17,7 +17,7 @@
 .caption h3 { color: var(--c-bg); font-size: var(--fs-h3); font-weight: var(--fw-semibold); letter-spacing: var(--ls-heading); }
 .caption p { margin-block-start: var(--space-4); font-size: var(--fs-small); color: oklch(0.38 0.006 260); }
 .stack { @include micro-label; text-align: right; max-width: 28ch; }
-.allProjects { display: flex; justify-content: space-between; margin-block-start: var(--space-128); padding-block: var(--space-24); border-block: 1px solid oklch(0.7 0.006 85); color: var(--c-bg); font-size: var(--fs-h3); text-decoration: none; }
+.allProjects { display: flex; justify-content: space-between; margin-block-start: var(--space-96); padding-block: var(--space-24); border-block: 1px solid oklch(0.7 0.006 85); color: var(--c-bg); font-size: var(--fs-h3); text-decoration: none; }
 .allProjects span { transition: transform var(--dur-fast) var(--ease-out); }
 .allProjects:hover { color: var(--c-bg); }
 .allProjects:hover span { transform: translateX(var(--space-8)); }

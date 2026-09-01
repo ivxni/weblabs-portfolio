@@ -13,8 +13,7 @@ export default defineConfig({
     environmentOptions: {
       // jsdom stellt `localStorage` nur bereit, wenn das Dokument einen echten
       // Ursprung hat. Ohne diese URL ist der Ursprung „opaque" und der
-      // Speicher fehlt — Tests am Theme-Umschalter scheitern dann an der
-      // Umgebung statt am Code.
+      // Speicher fehlt.
       jsdom: { url: 'https://web-labs.io/' },
     },
     setupFiles: ['./vitest.setup.ts'],

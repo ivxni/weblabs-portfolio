@@ -119,8 +119,8 @@ const identityJsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // `suppressHydrationWarning`: Das Inline-Skript unten setzt vor der
-    // Hydration `class` und `data-theme` auf genau diesem Element. React würde
-    // die Abweichung sonst als Fehler melden — hier ist sie beabsichtigt.
+    // Hydration die `js`-Klasse auf genau diesem Element. React würde die
+    // Abweichung sonst als Fehler melden — hier ist sie beabsichtigt.
     <html lang="de" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         {/*

@@ -4,8 +4,8 @@ import { cleanup } from '@testing-library/react';
 
 afterEach(cleanup);
 
-// jsdom kennt matchMedia nicht. Das Theme-System und alle
-// `prefers-reduced-motion`-Abfragen rufen es aber beim Mounten auf.
+// jsdom kennt matchMedia nicht. Die `prefers-reduced-motion`-Abfragen rufen es
+// beim Mounten auf.
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
@@ -18,7 +18,7 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-// IntersectionObserver treibt die Scroll-Einblendungen und den Systemschnitt.
+// IntersectionObserver treibt die Scroll-Einblendungen.
 class IntersectionObserverStub implements IntersectionObserver {
   readonly root = null;
   readonly rootMargin = '';
@@ -30,7 +30,7 @@ class IntersectionObserverStub implements IntersectionObserver {
 }
 vi.stubGlobal('IntersectionObserver', IntersectionObserverStub);
 
-// Der Systemschnitt misst mit ResizeObserver nach, wo die aktive Schicht endet.
+// Interaktive Visualisierungen können ihre verfügbare Größe beobachten.
 class ResizeObserverStub implements ResizeObserver {
   observe = vi.fn();
   unobserve = vi.fn();
@@ -41,8 +41,8 @@ vi.stubGlobal('ResizeObserver', ResizeObserverStub);
 /**
  * Node 25 stellt ein eigenes globales `localStorage` bereit, das ohne
  * Ablagedatei keine funktionierende Storage-Schnittstelle hat und jsdoms
- * Variante überschattet. Ohne diesen Ersatz scheitern die Tests am
- * Theme-Umschalter an der Umgebung statt am Code.
+ * Variante überschattet. Der Ersatz hält Tests deterministisch, sobald Code
+ * Browser-Speicher verwendet.
  *
  * Die Implementierung ist absichtlich vollständig (inkl. `key` und `length`):
  * Ein Teil-Stub verschiebt den Fehler nur auf den ersten Test, der das

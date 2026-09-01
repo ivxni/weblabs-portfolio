@@ -12,12 +12,6 @@ body {
   font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  // Ein Farbwechsel beim Theme-Umschalten ohne Übergang wirkt wie ein Fehler.
-  // 220ms auf `background-color`/`color` ist die einzige Stelle, an der hier
-  // bewusst etwas anderes als transform/opacity animiert wird: Es betrifft
-  // genau einen Moment (Klick auf den Umschalter), nicht jedes Bild.
-  transition: background-color var(--dur-base) var(--ease-in-out),
-              color var(--dur-base) var(--ease-in-out);
 }
 
 h1,

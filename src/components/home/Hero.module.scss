@@ -22,7 +22,7 @@
 .main {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-64);
+  gap: var(--space-48);
   align-items: center;
   min-width: 0;
   padding-block: var(--space-48);
@@ -39,7 +39,7 @@
   display: flex;
   flex-direction: column;
   margin-block-start: var(--space-32);
-  font-size: clamp(2.85rem, 13.2vw, 4.4rem);
+  font-size: clamp(2.7rem, 12.4vw, 4.1rem);
   font-weight: var(--fw-bold);
   line-height: 0.8;
   letter-spacing: -0.065em;
@@ -91,7 +91,7 @@
 .visual {
   position: relative;
   justify-self: center;
-  inline-size: min(88vw, 23rem);
+  inline-size: min(80vw, 21rem);
   aspect-ratio: 1;
   min-width: 0;
   display: grid;
@@ -134,7 +134,7 @@
   .meta p:last-child { display: block; }
 
   .copy h1 {
-    font-size: clamp(4.5rem, 10.5vw, 6.6rem);
+    font-size: clamp(4.25rem, 9.6vw, 6.1rem);
   }
 
   .introRow > p {
@@ -142,7 +142,7 @@
     line-height: 1.45;
   }
 
-  .visual { inline-size: min(68vw, 28rem); }
+  .visual { inline-size: min(62vw, 26rem); }
   .bottom p { display: block; }
 }
 
@@ -154,14 +154,14 @@
   }
 
   .copy h1 {
-    font-size: clamp(4.8rem, 7.8vw, 9rem);
+    font-size: clamp(4.6rem, 7.1vw, 8.2rem);
   }
 
   .copy h1 span:nth-child(2) { padding-inline-start: 15%; }
 
   .visual {
     justify-self: end;
-    inline-size: min(100%, 30rem);
+    inline-size: min(100%, 28rem);
   }
 }
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { featuredProjects, projects, statusLabel } from './projects';
 import { positions, qualifications } from './experience';
 import { skillGroups } from './skills';
-import { credentials, systemLayers, demoBoundaryAfter } from './home';
+import { credentials } from './home';
 import { contact, legal, legalNavigation, navigation, release, site } from './site';
 import { services } from './services';
 
@@ -98,6 +98,11 @@ describe('Projekte', () => {
     for (const pattern of forbidden) {
       expect(haystack, `Unzulässige Aussage gefunden: ${pattern}`).not.toMatch(pattern);
     }
+  });
+
+  it('beschreibt das aktuelle Dark-only-System ohne veralteten Modus', () => {
+    const portfolio = projects.find((project) => project.slug === 'weblabs');
+    expect(JSON.stringify(portfolio)).not.toMatch(/hellmodus|light\s?mode/i);
   });
 });
 
@@ -201,20 +206,6 @@ describe('Freigaben', () => {
 });
 
 describe('Startseiteninhalte', () => {
-  it('hat fünf Systemschichten mit fortlaufenden Schlüsseln', () => {
-    expect(systemLayers).toHaveLength(5);
-    systemLayers.forEach((layer, index) => {
-      expect(layer.key).toBe(String(index + 1).padStart(2, '0'));
-      expect(layer.stack.length).toBeGreaterThanOrEqual(2);
-      expect(layer.note.length).toBeGreaterThan(20);
-    });
-  });
-
-  it('setzt die Demo-Grenze innerhalb der Schichten', () => {
-    expect(demoBoundaryAfter).toBeGreaterThanOrEqual(0);
-    expect(demoBoundaryAfter).toBeLessThan(systemLayers.length - 1);
-  });
-
   it('versieht die Testzahl mit einer Fußnote', () => {
     // Eine nackte Zahl wie „282 Tests" ohne Einordnung wäre genau die Art von
     // Angabe, die das Kontextdokument verbietet.

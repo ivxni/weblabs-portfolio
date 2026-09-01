@@ -58,10 +58,10 @@ src/
 │  └─ globals.scss          einzige globale Stylesheet-Datei
 ├─ components/
 │  ├─ ui/                   Container, Section, Button, Reveal, PageHeader
-│  ├─ layout/               Header, Footer, Logo, ThemeToggle
+│  ├─ layout/               Header, Footer, Logo
 │  └─ home/                 Sektionen der Startseite
 ├─ content/                 ALLE Inhalte, typisiert
-├─ lib/                     color, theme, rate-limit, contact-schema
+├─ lib/                     SEO, color, rate-limit, contact-schema
 └─ styles/                  Token, Reset, Basis, Mixins, Breakpoints
 ```
 

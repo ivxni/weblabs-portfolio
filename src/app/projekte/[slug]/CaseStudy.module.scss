@@ -124,7 +124,7 @@
   border-bottom: 1px solid var(--c-line);
 
   @include mq('lg') {
-    min-height: 22rem;
+    min-height: 19rem;
     padding: var(--space-48);
 
     &:nth-child(odd) {

@@ -73,9 +73,9 @@ export const projects: readonly Project[] = [
     name: 'ML Market Runtime',
     title: 'ML Market Runtime — Zeitreihen, Modellvalidierung und kontrollierte Ausführung',
     summary:
-      'Research-Plattform für Marktzeitreihen mit Feature Engineering, instrumentenspezifischen XGBoost-Modellen, Walk-forward-Validierung und einer getrennten Risikoebene.',
+      'Research-Plattform für acht Forex-Zeitreihen mit Mehrquellen-Features, instrumentenspezifischen XGBoost-Modellen, Walk-forward-Validierung und getrennter Risikoebene.',
     description:
-      'Die technische Case-Study betrachtet Datenaufnahme, Merkmalsberechnung, Training, Backtesting, Modellbereitstellung und Monitoring als zusammenhängendes ML-System. Sie enthält keine Renditeversprechen und keine Handelsempfehlung.',
+      'Die technische Case-Study betrachtet historische Kurs-, Makro- und Nachrichtendaten, Merkmalsberechnung, Training, Backtesting, Modellbereitstellung und Monitoring als zusammenhängendes ML-System. Sie enthält keine Renditeversprechen und keine Handelsempfehlung.',
     role: 'ML-Pipeline, Backend, Desktop-Anwendung, Web-Dashboard, Risikologik und Systemintegration — eigenständig',
     year: '2024 – 2025',
     status: 'lokal',
@@ -83,13 +83,14 @@ export const projects: readonly Project[] = [
     stack: [
       'Python', 'XGBoost', 'scikit-learn', 'pandas', 'NumPy',
       'FastAPI', 'Electron', 'React', 'MongoDB', 'MetaTrader 5',
+      'yFinance', 'FRED API', 'News API',
     ],
     headlineDecision:
       'Modellprognose und Ausführung sind getrennt: Ein Signal muss zusätzlich deterministische Risiko- und Verlustgrenzen passieren.',
     problem:
       'Modelle auf Finanzzeitreihen überfitten leicht, wenn zukünftige Informationen unbemerkt ins Training gelangen oder eine zufällige Aufteilung zeitliche Abhängigkeiten ignoriert. Selbst ein brauchbares Modell darf außerdem niemals direkt und unbegrenzt Aktionen auslösen.',
     approach:
-      'Eine Python-Pipeline verbindet OHLCV- und Makrodaten, berechnet technische und kontextbezogene Features und trainiert getrennte XGBoost-Klassifikatoren. Rollierende Trainings- und Testfenster bilden die zeitliche Reihenfolge ab. FastAPI, Electron und React stellen Steuerung, Verlauf und Risikometriken bereit.',
+      'Eine Python-Pipeline verbindet historische OHLCV-Daten von acht Währungspaaren mit Makro- und Nachrichtenmerkmalen. Sie berechnet Momentum-, Trend-, Volatilitäts-, Korrelations-, Session- und retracementbasierte Features und trainiert getrennte XGBoost-Klassifikatoren. Rollierende Trainings- und Testfenster bilden die zeitliche Reihenfolge ab. FastAPI, Electron und React stellen Steuerung, Verlauf und Risikometriken bereit.',
     decisions: [
       {
         title: 'Walk-forward-Validierung statt zufälligem Train-Test-Split.',
@@ -99,7 +100,7 @@ export const projects: readonly Project[] = [
       {
         title: 'Instrumentenspezifische Modelle und versionierte Feature-Konfiguration.',
         rationale:
-          'Unterschiedliche Zeitreihen besitzen eigene Dynamiken. Modell, Feature-Reihenfolge und Trainingsparameter werden deshalb gemeinsam versioniert und beim Laden geprüft.',
+          'Die acht Währungspaare besitzen unterschiedliche Dynamiken. Modell, Feature-Reihenfolge, Datenquellen und Trainingsparameter werden deshalb gemeinsam versioniert und beim Laden geprüft.',
       },
       {
         title: 'Deterministische Risikoebene nach der Modellprognose.',
@@ -118,7 +119,7 @@ export const projects: readonly Project[] = [
       {
         heading: 'Technischer Fokus',
         body:
-          'Feature Engineering für Zeitreihen, XGBoost, Walk-forward-Validierung, Backtesting ohne Look-ahead Bias, Modellversionierung, FastAPI-Orchestrierung, Electron-Desktop-App und deterministische Risiko-Gates.',
+          'Feature Engineering aus OHLCV-, Makro-, Nachrichten- und Cross-Pair-Daten, technische Indikatoren, retracementbasierte Merkmale, XGBoost, Walk-forward-Validierung, Backtesting ohne Look-ahead Bias, Modellversionierung und deterministische Risiko-Gates.',
       },
     ],
     featured: false,
@@ -144,7 +145,7 @@ export const projects: readonly Project[] = [
     problem:
       'Eine Echtzeit-Vision-Pipeline muss auf sehr unterschiedlicher Hardware niedrige und stabile Latenzen liefern. Capture, Preprocessing, Inferenz und Postprocessing dürfen sich dabei nicht gegenseitig blockieren, und ein fehlendes GPU-Backend darf die Anwendung nicht unbrauchbar machen.',
     approach:
-      'Ein standardisierter Frame-Flow verbindet Capture, normalisiertes Preprocessing, YOLO-Inferenz, Confidence-Filter und Non-Maximum Suppression. Die Runtime wird anhand der vorhandenen Hardware gewählt. Strukturierte Ergebnisse werden anschließend über ein versioniertes serielles Protokoll an einen Arduino-basierten Hardware-Layer übergeben.',
+      'Ein standardisierter Frame-Flow verbindet Capture, normalisiertes Preprocessing, YOLO-Inferenz, Confidence-Filter und Non-Maximum Suppression. TensorRT, ONNX Runtime oder OpenVINO führen das Modell auf dem Hostsystem aus und werden passend zur vorhandenen Hardware gewählt. Erst die strukturierten Ergebnisse gehen über ein versioniertes serielles Protokoll an den Arduino-basierten Ausgabe-Layer.',
     decisions: [
       {
         title: 'Mehrere Inferenz-Runtimes hinter einem Adapter.',
@@ -162,9 +163,9 @@ export const projects: readonly Project[] = [
           'Resize, Normalisierung, Tensor-Layout, Confidence-Filter und NMS sind unabhängig vom Modellaufruf. Das erleichtert Profiling, Austausch und reproduzierbare Tests.',
       },
       {
-        title: 'Hardware-Kommunikation über ein kleines serielles Protokoll.',
+        title: 'Inferenz und Hardware-Ausgabe bleiben getrennte Systeme.',
         rationale:
-          'Die Desktop-Anwendung sendet strukturierte Befehle, während Firmware und Transport getrennt bleiben. Dadurch lassen sich Software- und Hardware-Layer unabhängig entwickeln und diagnostizieren.',
+          'Die Modelle laufen im Host-Runtime-Layer, nicht auf dem Mikrocontroller. Die Desktop-Anwendung sendet nur strukturierte Ergebnisse; Firmware und Transport lassen sich dadurch unabhängig entwickeln und diagnostizieren.',
       },
     ],
     limitation:
@@ -173,7 +174,7 @@ export const projects: readonly Project[] = [
       {
         heading: 'Technischer Fokus',
         body:
-          'Der belegbare Schwerpunkt liegt auf Echtzeit-Computer-Vision, YOLO-Inferenz, ONNX-Modellformaten, TensorRT-Optimierung, OpenVINO, OpenCV, Provider-Fallbacks, Desktop-UI und Arduino-Kommunikation.',
+          'Der belegbare Schwerpunkt liegt auf Echtzeit-Computer-Vision, YOLO-Inferenz, ONNX-Modellformaten, TensorRT-Optimierung, OpenVINO, OpenCV, Provider-Fallbacks, Desktop-UI sowie einer getrennten seriellen Hardware-Ausgabe. Produktfunktion und Zielkontext bleiben privat.',
       },
     ],
     featured: false,
@@ -250,7 +251,7 @@ export const projects: readonly Project[] = [
     name: 'VOiD',
     title: 'VOiD — Privacy-orientierte Mobile Camera App',
     summary:
-      'React-Native-App mit FastAPI-Backend und Computer-Vision-Pipeline, die Gesichter in Bildern adversariell verändert — und die Grenzen dieser Methode offen benennt.',
+      'React-Native-App mit FastAPI-Backend und Computer-Vision-Pipeline, die erkannte Gesichtsbereiche adversariell verändert und die Grenzen dieser Methode offen benennt.',
     description:
       'Kamera- und Galerieabläufe, Stärkeauswahl, Kontoverwaltung und Export im Client; authentifizierte API, Quoten, Rate Limits und die OpenCV-Pipeline serverseitig. Bilddaten werden verarbeitet, aber nicht dauerhaft gespeichert.',
     role: 'Mobile Client, API, Datenmodell, Subscription-Logik, Verarbeitungspipeline — eigenständig',
@@ -261,9 +262,9 @@ export const projects: readonly Project[] = [
     headlineDecision:
       'Bilddaten werden verarbeitet, aber nicht dauerhaft serverseitig gespeichert.',
     problem:
-      'Gesichtserkennung wird immer leichter zugänglich. VOiD untersucht, wie adversarielle Bildveränderungen die automatisierte Erkennung erschweren können — ohne dem Nutzer eine Garantie auf Anonymität zu versprechen, die niemand einhalten kann.',
+      'Biometrische Gesichtserkennung und automatisierte Profilbildung werden immer leichter zugänglich. VOiD untersucht, wie gezielte, visuell möglichst unauffällige Bildveränderungen die Wiedererkennung erschweren können — ohne Anonymität oder allgemeinen Schutz vor generativen Deepfakes zu versprechen.',
     approach:
-      'Mobile Client, authentifizierte API, Daten- und Subscription-Logik sowie die OpenCV-basierte Verarbeitungspipeline sind als ein zusammenhängendes Produkt umgesetzt. Dazu gehören Kamera- und Galerieabläufe, Stärkeauswahl, Fortschritts- und Ergebniszustände, Kontoverwaltung, Export, Quoten, Rate Limits und Eingabevalidierung.',
+      'Mobile Client, authentifizierte API, Daten- und Subscription-Logik sowie die OpenCV-basierte Verarbeitungspipeline sind als ein zusammenhängendes Produkt umgesetzt. Nach der Gesichtslokalisierung werden SPSA-basierte adversarielle Perturbationen gegen Referenz-Embeddings optimiert. Kamera- und Galerieabläufe, Stärkeauswahl, Export, Quoten, Rate Limits und Eingabevalidierung bilden den Produktpfad darum.',
     decisions: [
       {
         title: 'Keine dauerhafte serverseitige Bildspeicherung.',
@@ -287,7 +288,7 @@ export const projects: readonly Project[] = [
       },
     ],
     limitation:
-      'VOiD ist ein technisches Privacy-Projekt und befindet sich noch in Arbeit. Die Methode garantiert keine Anonymität, und ihre Wirksamkeit kann zwischen Erkennungsmodellen variieren.',
+      'VOiD ist ein technisches Privacy-Projekt und befindet sich noch in Arbeit. Die Methode garantiert weder Anonymität noch allgemeinen Deepfake-Schutz; ihre Wirksamkeit kann zwischen Erkennungs- und Generationsmodellen variieren.',
     featured: true,
   },
 
@@ -296,20 +297,20 @@ export const projects: readonly Project[] = [
     name: 'WebLabs',
     title: 'WebLabs — die Seite, auf der Sie gerade sind',
     summary:
-      'Dieses Portfolio: Next.js mit App Router, ein Designsystem aus Token, serverseitig validiertes Kontaktformular und containerisiertes Deployment über Coolify.',
+      'Dieses Portfolio: Next.js App Router, Dark-only-Designsystem, technische Case-Studies, strukturierte SEO-Daten, validierter Kontaktweg und Coolify-Deployment.',
     description:
-      'Kein Content-Management-System und keine Datenbank, weil beides für diesen Umfang nur Betriebsaufwand wäre. Inhalte liegen als typisierte Daten im Repository — dadurch prüfen Tests, dass jede Case-Study vollständig ist und kein Link ins Leere zeigt.',
+      'Kein Content-Management-System und keine Datenbank, weil beides für diesen Umfang nur Betriebsaufwand wäre. Typisierte Inhalte erzeugen Case-Studies, Leistungsseiten, Metadaten und Sitemap aus konsistenten Quellen; Tests prüfen Vollständigkeit, Kontraste und Links.',
     role: 'Konzept, Designsystem, Umsetzung, Tests, Deployment — eigenständig',
     year: '2026',
     status: 'diese-seite',
     discipline: 'product-platforms',
-    stack: ['Next.js', 'React', 'TypeScript', 'SCSS Modules', 'Vitest', 'Docker', 'Coolify'],
+    stack: ['Next.js', 'React', 'TypeScript', 'SCSS Modules', 'Vitest', 'JSON-LD', 'Docker', 'Coolify'],
     headlineDecision:
       'Keine Datenbank. Inhalte sind typisierte Daten im Repository und damit testbar.',
     problem:
       'Ein Portfolio soll nicht nur Projekte auflisten. Es braucht schnelle, zugängliche Seiten, strukturierte Inhalte, einen verlässlichen Kontaktweg und eine Grundlage, die sich später erweitern lässt — ohne dass man dafür heute schon eine Datenbank betreiben muss.',
     approach:
-      'Next.js App Router mit statisch erzeugten Seiten. Die Farb-, Abstands- und Bewegungsebene besteht vollständig aus CSS-Custom-Properties; kein Bauteil enthält einen rohen Wert. Das feste dunkle Farbsystem ist auf Kontrast, ruhige Flächen und eine konsistente technische Bildsprache ausgelegt.',
+      'Next.js App Router erzeugt Portfolio, Leistungsseiten und Case-Studies statisch. Farb-, Typografie-, Abstands- und Bewegungsebene werden zentral über CSS-Custom-Properties gesteuert. Das feste dunkle Farbsystem, die monochrome Bildsprache und bewusst reduzierte Radien bilden eine konsistente Oberfläche; Docker und Coolify liefern denselben Build reproduzierbar aus.',
     decisions: [
       {
         title: 'Kontraste werden gerechnet, nicht geschätzt.',
@@ -317,9 +318,9 @@ export const projects: readonly Project[] = [
           'Ein Test liest die Token-Datei, konvertiert jede oklch-Farbe nach sRGB und prüft jedes Textpaar gegen 4.5:1 und jeden Bedienelementrand gegen 3:1. Ein zu blasser Grauton fällt damit im Testlauf auf, nicht beim Nutzer.',
       },
       {
-        title: 'Der Hellmodus hat einen eigenen Akzentwert.',
+        title: 'Ein festes Farbsystem statt paralleler Designvarianten.',
         rationale:
-          'Dasselbe Orange erreicht auf dunklem Grund 6.4:1 und auf hellem Papier 2.9:1. Invertieren hätte die Seite im Hellmodus unlesbar gemacht. Der Hellmodus bekommt deshalb ein dunkleres Orange derselben Familie.',
+          'Die gesamte visuelle Sprache ist für einen kontrollierten dunklen Grund entworfen. Dadurch bleiben Liniengrafiken, Tiefenstaffelung und die warme monochrome Typografie konsistent, während das Markenorange nur die Identität kennzeichnet.',
       },
       {
         title: 'Das Kontaktformular behauptet keinen Erfolg.',

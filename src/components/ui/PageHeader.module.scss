@@ -7,7 +7,7 @@
 
 .header {
   position: relative;
-  padding-block: clamp(6rem, 10vw, 9rem) clamp(var(--space-64), 7vw, var(--space-128));
+  padding-block: clamp(5.5rem, 8vw, 7.5rem) clamp(var(--space-48), 5.5vw, var(--space-96));
   border-bottom: 1px solid var(--c-line);
   overflow: clip;
 }
