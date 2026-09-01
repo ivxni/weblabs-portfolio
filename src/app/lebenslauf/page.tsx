@@ -1,13 +1,11 @@
 import Link from 'next/link';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { positions, qualifications } from '@/content/experience';
 import { featuredProjects } from '@/content/projects';
 import { skillGroups } from '@/content/skills';
-import { availability, contact, release, resumePdfPath, site } from '@/content/site';
+import { availability, contact, release, site } from '@/content/site';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { LinkButton } from '@/components/ui/Button';
 import styles from './Resume.module.scss';
 import { createPageMetadata } from '@/lib/seo';
 
@@ -27,29 +25,7 @@ export default function ResumePage() {
         index="04 / Dokument"
         title={site.name}
         lead={`${site.role}. ${availability.location}. ${availability.model}.`}
-      >
-        {/*
-          Der Download erscheint nur, wenn die Datei freigegeben ist. Ein Knopf,
-          der auf ein fehlendes PDF zeigt, ist schlimmer als kein Knopf: Er
-          kostet einen Recruiter einen Klick und hinterlässt eine 404.
-        */}
-        {release.resumePdf ? (
-          <p className={styles.downloadNote}>
-            <LinkButton href={resumePdfPath} variant="primary" icon={faDownload} iconPosition="start">
-              Lebenslauf als PDF
-            </LinkButton>
-          </p>
-        ) : (
-          <p className={styles.downloadNote}>
-            Die PDF-Fassung ist noch nicht freigegeben. Der vollständige Lebenslauf steht
-            unten in der Webansicht; auf Anfrage schicke ich das PDF direkt per{' '}
-            <a href={`mailto:${contact.email}`} className={styles.contactLink}>
-              E-Mail
-            </a>
-            .
-          </p>
-        )}
-      </PageHeader>
+      />
 
       <Section compact>
         <Container className={styles.document}>

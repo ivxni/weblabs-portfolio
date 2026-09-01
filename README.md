@@ -93,8 +93,6 @@ Platzhalter in einer Datenschutzerklärung wäre ein rechtliches Risiko.
       sich für Recruiter wie ein leeres Profil. Entweder ein bis zwei
       Repositories öffentlich stellen oder den Link weglassen. Solange das Feld
       leer ist, erscheint gar kein Link — nicht ein toter.
-- [ ] `release.resumePdf` auf `true`, sobald
-      `public/downloads/Can_Cadirci_Lebenslauf.pdf` liegt und freigegeben ist
 - [ ] Echte Screenshots ergänzen (siehe unten)
 
 ### Bleibt geschlossen

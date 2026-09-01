@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { featuredProjects, projects, statusLabel } from './projects';
 import { positions, qualifications } from './experience';
 import { skillGroups } from './skills';
-import { credentials } from './home';
+import { aiPractice, credentials } from './home';
 import { contact, legal, legalNavigation, navigation, release, site } from './site';
 import { services } from './services';
 
@@ -141,6 +141,15 @@ describe('Navigation', () => {
   });
 });
 
+describe('AI-gestützte Arbeitsweise', () => {
+  it('beschreibt einen vollständigen, überprüfbaren Delivery-Workflow', () => {
+    expect(aiPractice.gates).toHaveLength(5);
+    expect(aiPractice.tools).toContain('Docker');
+    expect(aiPractice.principles.some((principle) => /Design/i.test(principle.text))).toBe(true);
+    expect(JSON.stringify(aiPractice)).toMatch(/Tests|CI\/CD/);
+  });
+});
+
 describe('Kontaktdaten', () => {
   it('hat eine gültige E-Mail-Adresse', () => {
     expect(contact.email).toMatch(/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i);
@@ -205,11 +214,6 @@ describe('SEO-Leistungsseiten', () => {
 });
 
 describe('Freigaben', () => {
-  it('verlinkt das Lebenslauf-PDF nur nach Freigabe', () => {
-    // Der Schalter ist die einzige Stelle, an der das entschieden wird.
-    expect(typeof release.resumePdf).toBe('boolean');
-  });
-
   it('hält den UnitFly-Repository-Link geschlossen, solange der Sicherheitsblocker offen ist', () => {
     expect(release.unitflyRepo).toBe(false);
   });

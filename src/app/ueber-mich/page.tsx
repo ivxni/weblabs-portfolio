@@ -59,10 +59,12 @@ export default function AboutPage() {
               </p>
               <p>
                 AI nutze ich intensiv als Werkzeug für Recherche, Planung, Implementierung und
-                Debugging. Ich behandle Modellantworten dabei nicht als Wahrheit. Ich prüfe den
-                Code, teste kritische Pfade und halte Systemgrenzen bewusst deterministisch. Diese
-                Verbindung aus Geschwindigkeit und technischer Verantwortung ist der Kern meiner
-                Arbeitsweise.
+                Debugging. Prompt Engineering heißt für mich, Kontext, Systemgrenzen und
+                Akzeptanzkriterien so präzise zu formulieren, dass Ergebnisse überprüfbar bleiben.
+                Ich behandle Modellantworten nicht als Wahrheit: Ich prüfe Architektur, Code und
+                Design selbst, teste kritische Pfade und halte Systemgrenzen bewusst
+                deterministisch. Diese Verbindung aus Geschwindigkeit und technischer
+                Verantwortung ist der Kern meiner Arbeitsweise.
               </p>
               <p>
                 Heute entwickle ich eigene Produkte und individuelle Lösungen für Unternehmen.

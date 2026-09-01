@@ -3,8 +3,8 @@
  *
  * Alles, was einer Freigabe unterliegt, steht hier als ein einziger Schalter.
  * Das ist Absicht: Das Kontextdokument führt eine Liste von Dingen, die erst
- * nach Prüfung öffentlich werden dürfen (Lebenslauf-PDF, Repositories,
- * Telefonnummer). Wenn diese Entscheidungen über die Bauteile verstreut wären,
+ * nach Prüfung öffentlich werden dürfen (Repositories und Telefonnummer).
+ * Wenn diese Entscheidungen über die Bauteile verstreut wären,
  * müsste man sie vor jedem Livegang suchen. Hier sind es Booleans an einer
  * Stelle, und `site.test.ts` prüft, dass kein Link ins Leere zeigt.
  */
@@ -48,8 +48,6 @@ export const availability = {
  * vertretbar ist. Hochdrehen erst, wenn die jeweilige Bedingung erfüllt ist.
  */
 export const release = {
-  /** Erst auf `true`, wenn `/downloads/Can_Cadirci_Lebenslauf.pdf` existiert und freigegeben ist. */
-  resumePdf: false,
   /** Telefonnummer öffentlich zeigen. Bestätigt. */
   phonePublic: true,
   /**
@@ -59,8 +57,6 @@ export const release = {
    */
   unitflyRepo: false,
 } as const;
-
-export const resumePdfPath = '/downloads/Can_Cadirci_Lebenslauf.pdf';
 
 export interface NavItem {
   href: string;

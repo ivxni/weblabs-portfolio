@@ -14,12 +14,42 @@
   overflow-wrap: normal;
   white-space: nowrap;
 }
-.principleList { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-64); margin-block-start: var(--space-96); }
-.principleList article { border-top: 1px solid var(--c-line-strong); padding-block-start: var(--space-24); }.principleList span { @include micro-label; color: var(--c-text-subtle); }.principleList h3 { margin-block-start: var(--space-48); font-size: var(--fs-h3); font-weight: var(--fw-medium); }.principleList p { margin-block-start: var(--space-16); max-width: 32ch; color: var(--c-text-muted); }
+.practiceLayout {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.72fr) minmax(32rem, 1.28fr);
+  gap: var(--space-96);
+  align-items: start;
+  margin-block-start: var(--space-96);
+}
+
+.practiceLead {
+  max-width: 38ch;
+  color: var(--c-text-muted);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+}
+
+.principleList {
+  margin-block-start: var(--space-48);
+  border-top: 1px solid var(--c-line-strong);
+}
+
+.principleList article {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: var(--space-16);
+  padding-block: var(--space-24);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.principleList span { @include micro-label; color: var(--c-text-subtle); }
+.principleList h3 { font-size: var(--fs-body); font-weight: var(--fw-medium); }
+.principleList p { margin-block-start: var(--space-8); max-width: 38ch; color: var(--c-text-subtle); font-size: var(--fs-small); line-height: 1.6; }
 
 @include mq-below('lg') {
   .statement { grid-template-columns: 1fr; gap: var(--space-32); }.statement h2, .principles > h2 { font-size: clamp(2.75rem, 10vw, 5rem); }
   .principles > h2 { max-width: 16ch; white-space: normal; }
   .disciplines { margin-block-start: var(--space-64); }.disciplines li { grid-template-columns: 2rem 1fr; gap: var(--space-16); }.disciplines small { grid-column: 2; }
-  .principleList { grid-template-columns: 1fr; gap: var(--space-48); margin-block-start: var(--space-64); }.principleList h3 { margin-block-start: var(--space-24); }
+  .practiceLayout { grid-template-columns: 1fr; gap: var(--space-64); margin-block-start: var(--space-64); }
+  .practiceLead { max-width: 48ch; }
 }

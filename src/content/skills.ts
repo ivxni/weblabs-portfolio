@@ -23,7 +23,8 @@ export const skillGroups: readonly SkillGroup[] = [
     note: 'Das, was der Nutzer bedient — inklusive Tastaturbedienung und Verhalten unter 320 px.',
     items: [
       'React', 'Next.js', 'TypeScript', 'JavaScript', 'React Native / Expo',
-      'HTML', 'CSS / SCSS', 'Responsive Layouts', 'Barrierefreie Oberflächen',
+      'HTML', 'CSS / SCSS', 'Responsive Layouts', 'Designsysteme & Visual QA',
+      'Barrierefreie Oberflächen',
     ],
   },
   {
@@ -47,7 +48,7 @@ export const skillGroups: readonly SkillGroup[] = [
     note: 'Modellaktionen begrenzen, Ausfälle abfangen, Entscheidungen nachvollziehbar halten.',
     items: [
       'LLM-APIs', 'Semantische Suche & Embeddings', 'RAG-artige Systeme',
-      'Agenten- und Tool-Workflows', 'Prompt Engineering',
+      'Agenten- und Tool-Workflows', 'Prompt Engineering', 'AI-assisted Engineering',
       'Guardrails, Fallbacks & Audit', 'OpenCV', 'YOLO / OpenCV DNN / SFace',
     ],
   },

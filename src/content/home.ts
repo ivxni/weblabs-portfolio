@@ -66,14 +66,29 @@ export const delivery = {
 export const aiPractice = {
   heading: 'AI beschleunigt meine Arbeit. Die Verantwortung bleibt bei mir.',
   body:
-    'Ich arbeite seit Jahren intensiv mit AI-Werkzeugen bei Recherche, Planung, Architektur, Implementierung, Debugging und Dokumentation. Entscheidend ist für mich nicht, wie viel Code ein Modell erzeugt, sondern ob ich jede relevante Entscheidung erklären, testen und bei Bedarf selbst korrigieren kann. Deshalb gehören Code-Review, Tests, reproduzierbare Fehleranalysen und klare Grenzen für Modellaktionen fest zu meinem Workflow.',
+    'Ich arbeite seit der frühen Verbreitung generativer KI-Systeme kontinuierlich mit AI-Werkzeugen. Gutes Prompt Engineering bedeutet für mich: Kontext und Grenzen präzisieren, Arbeit in prüfbare Schritte zerlegen und jedes Ergebnis fachlich, visuell und technisch abnehmen.',
   principles: [
-    'Problem und Akzeptanzkriterien zuerst klären',
-    'AI-Ausgaben wie fremden Code prüfen',
-    'Kritische Logik deterministisch absichern',
-    'Tests für normale Abläufe, Fehlerfälle und Fallbacks schreiben',
-    'Keine Fähigkeiten behaupten, die sich nicht zeigen lassen',
+    {
+      title: 'Kontext vor Ausgabe',
+      text: 'Ziel, Nutzer, Scope, Constraints, Referenzen und Akzeptanzkriterien stehen vor dem ersten Diff.',
+    },
+    {
+      title: 'Urteil bleibt menschlich',
+      text: 'Architektur, Code und Design prüfe ich selbst. Generierter Output ist ein Entwurf, keine Abnahme.',
+    },
+    {
+      title: 'Fertig heißt verifiziert',
+      text: 'Unit Tests, Fehlerfälle, responsive QA, CI/CD und ein reproduzierbarer Docker-Build schließen die Arbeit ab.',
+    },
   ],
+  gates: [
+    { label: 'Briefing locked', detail: 'Ziel · Kontext · Done-Kriterien' },
+    { label: 'Architecture mapped', detail: 'Stack · Grenzen · Datenfluss' },
+    { label: 'Implementation reviewed', detail: 'Kleine Diffs · Clean Code' },
+    { label: 'Quality verified', detail: 'Tests · Edge Cases · Design QA' },
+    { label: 'Delivery reproducible', detail: 'Docker · CI/CD · Final Review' },
+  ],
+  tools: ['OpenAI', 'ChatGPT', 'Claude', 'Codex', 'Git', 'Docker'],
 } as const;
 
 export const experienceTeaser = {
