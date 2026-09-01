@@ -129,10 +129,10 @@ export const projects: readonly Project[] = [
     name: 'Realtime Vision Runtime',
     title: 'Realtime Vision Runtime — hardwarebeschleunigte Computer-Vision-Pipeline',
     summary:
-      'Private Computer-Vision-Plattform für latenzarme Objekterkennung mit austauschbaren Inferenz-Runtimes und einer seriellen Mikrocontroller-Schnittstelle.',
+      'Private Computer-Vision-Plattform für latenzarme Objekterkennung mit austauschbaren Inferenz-Runtimes und einem getrennten Arduino-basierten Hardware-Layer.',
     description:
       'Die Case-Study konzentriert sich ausschließlich auf die technische Umsetzung: Capture, Preprocessing, neuronale Inferenz, Postprocessing, Runtime-Auswahl und Hardware-Kommunikation. Produktname, Einsatzzweck, Modelle und betrieblicher Kontext bleiben bewusst privat.',
-    role: 'Architektur, Computer Vision, Inferenz-Pipeline, Desktop-Client, Runtime-Abstraktion und Mikrocontroller-Integration — eigenständig',
+    role: 'Architektur, Computer Vision, Inferenz-Pipeline, Desktop-Client, Runtime-Abstraktion, serielles Protokoll und Arduino-Firmware — eigenständig',
     year: '2023 – 2026',
     status: 'lokal',
     discipline: 'ai-systems',
@@ -145,7 +145,7 @@ export const projects: readonly Project[] = [
     problem:
       'Eine Echtzeit-Vision-Pipeline muss auf sehr unterschiedlicher Hardware niedrige und stabile Latenzen liefern. Capture, Preprocessing, Inferenz und Postprocessing dürfen sich dabei nicht gegenseitig blockieren, und ein fehlendes GPU-Backend darf die Anwendung nicht unbrauchbar machen.',
     approach:
-      'Ein standardisierter Frame-Flow verbindet Capture, normalisiertes Preprocessing, YOLO-Inferenz, Confidence-Filter und Non-Maximum Suppression. TensorRT, ONNX Runtime oder OpenVINO führen das Modell auf dem Hostsystem aus und werden passend zur vorhandenen Hardware gewählt. Erst die strukturierten Ergebnisse gehen über ein versioniertes serielles Protokoll an den Arduino-basierten Ausgabe-Layer.',
+      'Ein standardisierter Frame-Flow verbindet Capture, normalisiertes Preprocessing, YOLO-Inferenz, Confidence-Filter und Non-Maximum Suppression. TensorRT, ONNX Runtime oder OpenVINO führen das Modell auf dem Hostsystem aus und werden passend zur vorhandenen Hardware gewählt. Erst die strukturierten Ergebnisse gehen über ein versioniertes serielles Protokoll an eine eigenständige Arduino-Firmware, die Timing, Gerätekommunikation und Hardware-Ausgabe übernimmt.',
     decisions: [
       {
         title: 'Mehrere Inferenz-Runtimes hinter einem Adapter.',
@@ -163,9 +163,9 @@ export const projects: readonly Project[] = [
           'Resize, Normalisierung, Tensor-Layout, Confidence-Filter und NMS sind unabhängig vom Modellaufruf. Das erleichtert Profiling, Austausch und reproduzierbare Tests.',
       },
       {
-        title: 'Inferenz und Hardware-Ausgabe bleiben getrennte Systeme.',
+        title: 'Host-Inferenz und Arduino-Firmware bleiben getrennte Systeme.',
         rationale:
-          'Die Modelle laufen im Host-Runtime-Layer, nicht auf dem Mikrocontroller. Die Desktop-Anwendung sendet nur strukturierte Ergebnisse; Firmware und Transport lassen sich dadurch unabhängig entwickeln und diagnostizieren.',
+          'In dieser Architektur laufen die Modelle im Host-Runtime-Layer. Die Desktop-Anwendung sendet nur strukturierte Ergebnisse an den Arduino; Protokoll, Firmware, Geräteverhalten und Transport lassen sich dadurch unabhängig entwickeln und diagnostizieren.',
       },
     ],
     limitation:
@@ -174,7 +174,7 @@ export const projects: readonly Project[] = [
       {
         heading: 'Technischer Fokus',
         body:
-          'Der belegbare Schwerpunkt liegt auf Echtzeit-Computer-Vision, YOLO-Inferenz, ONNX-Modellformaten, TensorRT-Optimierung, OpenVINO, OpenCV, Provider-Fallbacks, Desktop-UI sowie einer getrennten seriellen Hardware-Ausgabe. Produktfunktion und Zielkontext bleiben privat.',
+          'Der belegbare Schwerpunkt liegt auf Echtzeit-Computer-Vision, YOLO-Inferenz, ONNX-Modellformaten, TensorRT-Optimierung, OpenVINO, OpenCV, Provider-Fallbacks, Desktop-UI sowie Arduino-Firmware und einer getrennten seriellen Hardware-Ausgabe. Produktfunktion und Zielkontext bleiben privat.',
       },
     ],
     featured: false,

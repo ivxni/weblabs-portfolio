@@ -104,6 +104,16 @@ describe('Projekte', () => {
     const portfolio = projects.find((project) => project.slug === 'weblabs');
     expect(JSON.stringify(portfolio)).not.toMatch(/hellmodus|light\s?mode/i);
   });
+
+  it('trennt beim privaten Vision-Case Host-Inferenz und Arduino-Layer', () => {
+    const vision = projects.find((project) => project.slug === 'realtime-vision-runtime');
+    const copy = JSON.stringify(vision);
+
+    expect(vision?.stack).toContain('Arduino');
+    expect(copy).toMatch(/Hostsystem|Host-Runtime-Layer/);
+    expect(copy).toMatch(/Arduino-Firmware/);
+    expect(copy).not.toMatch(/Moonlight|Aimbot|Triggerbot/i);
+  });
 });
 
 describe('Navigation', () => {

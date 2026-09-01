@@ -82,9 +82,12 @@ export function MarketSignalDemo() {
       value: latest + slope * (index / 4) + Math.sin(index * 1.2) * 0.00012,
     }));
     const forecastPath = forecast.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${y(point.value)}`).join(' ');
+    const forecastAreaPath = `${forecastPath} L ${forecast.at(-1)?.x ?? 0} 350 L ${forecast[0]?.x ?? 0} 350 Z`;
     const direction = slope >= 0 ? 1 : -1;
     const confidence = Math.min(84, Math.round(58 + Math.abs(slope) * 24000));
-    return { y, x, emaPath, forecastPath, latest, direction, confidence, low, high };
+    const previous = candles.at(-2)?.close ?? latest;
+    const changePips = (latest - previous) * 10000;
+    return { y, x, emaPath, forecastPath, forecastAreaPath, latest, direction, confidence, changePips };
   }, [candles]);
 
   const up = chart.direction > 0 ? chart.confidence : Math.round((100 - chart.confidence) * 0.55);
@@ -93,15 +96,39 @@ export function MarketSignalDemo() {
 
   return (
     <div className={styles.terminal} aria-label="Simulierte Forex- und ML-Prognose-Demo">
+      <div className={styles.ambient} aria-hidden="true" />
       <header className={styles.header}>
-        <div><span>EUR / USD</span><strong>{chart.latest.toFixed(5)}</strong></div>
-        <div className={styles.feed}><i aria-hidden="true" /> SIMULATED FEED</div>
-        <div className={styles.interval}>M5 · ML RUNTIME</div>
+        <div className={styles.quote}>
+          <span>EUR / USD</span>
+          <strong>{chart.latest.toFixed(5)}</strong>
+          <em className={chart.changePips >= 0 ? styles.positive : styles.negative}>
+            {chart.changePips >= 0 ? '+' : ''}{chart.changePips.toFixed(1)} pip
+          </em>
+        </div>
+        <div className={styles.headerMeta}>
+          <span>MODEL 08</span>
+          <span>M5</span>
+          <span className={styles.feed}><i aria-hidden="true" /> SIMULATED</span>
+        </div>
       </header>
 
       <div className={styles.workspace}>
         <div className={styles.chartWrap}>
+          <div className={styles.chartHeader}>
+            <span>MARKET / MODEL OVERLAY</span>
+            <div><i className={styles.priceKey} /> Price <i className={styles.emaKey} /> EMA 7 <i className={styles.forecastKey} /> Forecast</div>
+          </div>
           <svg viewBox="0 0 800 390" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="forecast-wash" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="currentColor" stopOpacity="0.16" />
+                <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+              </linearGradient>
+              <filter id="forecast-glow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+            </defs>
             {[70, 137, 204, 271, 338].map((position) => <line key={`h-${position}`} x1="24" x2="780" y1={position} y2={position} className={styles.gridLine} />)}
             {[36, 150, 264, 378, 492, 606, 720].map((position) => <line key={`v-${position}`} y1="42" y2="350" x1={position} x2={position} className={styles.gridLine} />)}
             {candles.map((candle, index) => {
@@ -117,19 +144,25 @@ export function MarketSignalDemo() {
               );
             })}
             <path d={chart.emaPath} className={styles.ema} />
+            <path d={chart.forecastAreaPath} className={styles.forecastArea} />
             <path d={chart.forecastPath} className={styles.forecast} />
             <line x1="697" x2="697" y1="44" y2="350" className={styles.forecastBoundary} />
-            <text x="706" y="60" className={styles.svgLabel}>AI FORECAST</text>
-            <text x="30" y="374" className={styles.svgLabel}>EMA 7</text>
-            <text x="680" y="374" className={styles.svgLabel}>NEXT 5 CANDLES</text>
+            <circle cx={chart.x(COUNT - 1)} cy={chart.y(chart.latest)} r="4" className={styles.livePoint} />
+            <text x="706" y="60" className={styles.svgLabel}>MODEL WINDOW</text>
+            <text x="30" y="374" className={styles.svgLabel}>HISTORICAL WINDOW</text>
+            <text x="681" y="374" className={styles.svgLabel}>T+5</text>
           </svg>
         </div>
 
         <aside className={styles.modelPanel}>
-          <p className={styles.panelLabel}>MODEL OUTLOOK</p>
+          <div className={styles.panelHead}>
+            <p className={styles.panelLabel}>MODEL OUTLOOK</p>
+            <span><i aria-hidden="true" /> ACTIVE</span>
+          </div>
           <div className={styles.direction}>
-            <span>{chart.direction > 0 ? 'UPWARD BIAS' : 'DOWNWARD BIAS'}</span>
-            <strong>{chart.direction > 0 ? '↗' : '↘'} {chart.confidence}%</strong>
+            <span>DIRECTIONAL BIAS</span>
+            <strong>{chart.direction > 0 ? 'UPWARD' : 'DOWNWARD'} <i>{chart.direction > 0 ? '↗' : '↘'}</i></strong>
+            <p><b>{chart.confidence}%</b> confidence</p>
           </div>
           <div className={styles.probabilities}>
             <p><span>UP</span><i><b style={{ inlineSize: `${up}%` }} /></i><em>{up}%</em></p>
@@ -146,8 +179,8 @@ export function MarketSignalDemo() {
       </div>
 
       <footer className={styles.footer}>
-        <span>Walk-forward model · XGBoost ensemble · 60+ features</span>
-        <span>Simulation only · no market data · no trading signal</span>
+        <span>Walk-forward · XGBoost · 60+ features · risk gate</span>
+        <span>Simulation only / no market data / no trading signal</span>
       </footer>
     </div>
   );

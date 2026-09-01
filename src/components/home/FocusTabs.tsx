@@ -131,8 +131,8 @@ export function FocusTabs() {
               <div className={styles.caseCopy}>
                 <p>Computer Vision / Private Case</p>
                 <h4>Realtime Vision Runtime</h4>
-                <p>Capture und OpenCV-Pipeline mit YOLO-Inferenz über TensorRT, ONNX Runtime oder OpenVINO; Ergebnisse verlassen die Runtime über eine getrennte serielle Hardware-Schnittstelle.</p>
-                <ul role="list"><li>TensorRT</li><li>ONNX Runtime</li><li>Serial I/O</li></ul>
+                <p>Capture und OpenCV-Pipeline mit YOLO-Inferenz über TensorRT, ONNX Runtime oder OpenVINO; ein getrennt entwickelter Arduino-Layer übernimmt Protokoll, Firmware und Hardware-Ausgabe.</p>
+                <ul role="list"><li>TensorRT</li><li>ONNX Runtime</li><li>Arduino</li></ul>
                 <Link href="/projekte/realtime-vision-runtime">Technische Case Study →</Link>
               </div>
             </article>
