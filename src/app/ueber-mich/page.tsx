@@ -9,7 +9,7 @@ import { createPageMetadata, personEntity } from '@/lib/seo';
 import { site } from '@/content/site';
 
 export const metadata = createPageMetadata({
-  title: 'Über Can Cadirci — Softwareentwickler',
+  title: 'Über Can Cadirci, Softwareentwickler',
   description: 'Can Cadirci ist Software- und KI-Entwickler aus Ludwigsburg: IHK-Fachinformatiker mit Fullstack-Praxis, technischen Case Studies und direkter Arbeitsweise.',
   path: '/ueber-mich',
   type: 'profile',

@@ -14,7 +14,7 @@ export interface Position {
 export const positions: readonly Position[] = [
   {
     company: 'diconium Germany GmbH',
-    role: 'Full Stack Developer — Ausbildung zum Fachinformatiker für Anwendungsentwicklung',
+    role: 'Full Stack Developer, Ausbildung zum Fachinformatiker für Anwendungsentwicklung',
     from: 'September 2022',
     to: 'Juli 2025',
     fromISO: '2022-09',
@@ -50,14 +50,14 @@ export const qualifications: readonly Qualification[] = [
     institution: 'diconium Germany GmbH / IHK Region Stuttgart',
     date: 'Juli 2025',
     dateISO: '2025-07',
-    result: 'Gesamtergebnis gut — 81 Punkte',
+    result: 'Gesamtergebnis gut, 81 Punkte',
   },
   {
     title: 'IHK-Zusatzqualifikation Künstliche Intelligenz und maschinelles Lernen',
     institution: 'IHK Region Stuttgart',
     date: 'Mai 2025',
     dateISO: '2025-05',
-    result: 'Bestanden — 73 Punkte',
+    result: 'Bestanden, 73 Punkte',
   },
   {
     title: 'Berufsschulabschluss',

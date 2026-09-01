@@ -38,7 +38,7 @@ export default function ServicesPage() {
       <PageHeader
         label="Leistungen"
         index="01 / Angebot"
-        title="Software, Web und AI — als ein zusammenhängendes System."
+        title="Software, Web und AI als ein zusammenhängendes System."
         lead="Ich unterstütze Unternehmen in Ludwigsburg, Stuttgart und deutschlandweit bei individuellen Webanwendungen, hochwertigen Websites und kontrolliert integrierten AI-Funktionen. Direkt, technisch und ohne Übergabe zwischen Vertrieb und Entwicklung."
       />
 

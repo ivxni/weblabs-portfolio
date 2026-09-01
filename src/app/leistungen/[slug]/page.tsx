@@ -179,7 +179,7 @@ export default async function ServicePage({ params }: PageProps) {
           <div className={styles.cta}>
             <p className={styles.label}>Nächster Schritt</p>
             <h2>Beschreiben Sie mir den Ablauf, der heute Zeit oder Möglichkeiten kostet.</h2>
-            <p>Ich antworte mit konkreten Rückfragen — nicht mit einem vorgefertigten Angebot.</p>
+            <p>Ich antworte mit konkreten Rückfragen, nicht mit einem vorgefertigten Angebot.</p>
             <Link href="/kontakt">Projekt unverbindlich besprechen →</Link>
           </div>
         </Container>

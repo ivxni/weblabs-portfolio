@@ -49,7 +49,7 @@ export function FocusTabs() {
         <p>Was ich entwickle</p>
         <div>
           <h2 id="focus-heading">Drei Felder.<br />Ein roter Faden.</h2>
-          <p>Ich baue Systeme, in denen Oberfläche, Modell und technische Grenze zusammenpassen. Die Fachbereiche unterscheiden sich – die Arbeitsweise bleibt dieselbe.</p>
+          <p>Ich baue Systeme, in denen Oberfläche, Modell und technische Grenze zusammenpassen. Die Fachbereiche unterscheiden sich. Die Arbeitsweise bleibt dieselbe.</p>
         </div>
       </header>
 
@@ -110,7 +110,7 @@ export function FocusTabs() {
             <PanelHeader
               number="02"
               title="Modelle als kontrollierte Systemkomponenten."
-              text="Computer Vision, Agenten und Zeitreihenmodelle – mit messbarer Pipeline, Fallbacks und deterministischen Grenzen außerhalb des Modells."
+              text="Computer Vision, Agenten und Zeitreihenmodelle mit messbarer Pipeline, Fallbacks und deterministischen Grenzen außerhalb des Modells."
             />
             <article className={`${styles.caseRow} ${styles.visionCase}`}>
               <div className={styles.videoFrame}>
@@ -146,7 +146,7 @@ export function FocusTabs() {
                 <Link href="/projekte/ml-market-runtime">Technische Case Study →</Link>
               </div>
             </article>
-            <Link href="/projekte/unitfly" className={styles.crossLink}><span>Agent systems</span><strong>UnitFly — Guardrails, Audit und kontrollierte Aktionen</strong><i>Case Study →</i></Link>
+            <Link href="/projekte/unitfly" className={styles.crossLink}><span>Agent systems</span><strong>UnitFly: Guardrails, Audit und kontrollierte Aktionen</strong><i>Case Study →</i></Link>
           </>
         )}
 
@@ -155,7 +155,7 @@ export function FocusTabs() {
             <PanelHeader
               number="03"
               title="Security Research an realen Systemgrenzen."
-              text="FPGA, PCIe, Windows Kernel und Geräteidentität – analysiert in isolierten Testumgebungen und öffentlich bewusst ohne operative Umgehungsanleitungen."
+              text="FPGA, PCIe, Windows Kernel und Geräteidentität, analysiert in isolierten Testumgebungen und öffentlich bewusst ohne operative Umgehungsanleitungen."
             />
             <div className={styles.securityLayout}>
               <SecurityLabDemo />
@@ -165,7 +165,7 @@ export function FocusTabs() {
                 <article><span>03</span><div><h4>Platform Integrity</h4><p>Windows-Geräteidentitäten und die Vertrauensgrenzen von Registry, SMBIOS und Netzwerkmerkmalen.</p><small>C++ · C# · Windows internals</small></div></article>
               </div>
             </div>
-            <Link href="/projekte/void" className={styles.crossLink}><span>Privacy engineering</span><strong>VOiD — Adversarial Computer Vision und verschlüsselte Verarbeitung</strong><i>Case Study →</i></Link>
+            <Link href="/projekte/void" className={styles.crossLink}><span>Privacy engineering</span><strong>VOiD: Adversarial Computer Vision und verschlüsselte Verarbeitung</strong><i>Case Study →</i></Link>
           </>
         )}
       </div>

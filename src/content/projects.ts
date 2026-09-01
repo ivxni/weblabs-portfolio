@@ -71,13 +71,13 @@ export const projects: readonly Project[] = [
   {
     slug: 'ml-market-runtime',
     name: 'ML Market Runtime',
-    title: 'ML Market Runtime — Zeitreihen, Modellvalidierung und kontrollierte Ausführung',
+    title: 'ML Market Runtime: Zeitreihen, Modellvalidierung und kontrollierte Ausführung',
     summary:
       'Research-Plattform für acht Forex-Zeitreihen mit Mehrquellen-Features, instrumentenspezifischen XGBoost-Modellen, Walk-forward-Validierung und getrennter Risikoebene.',
     description:
       'Die technische Case-Study betrachtet historische Kurs-, Makro- und Nachrichtendaten, Merkmalsberechnung, Training, Backtesting, Modellbereitstellung und Monitoring als zusammenhängendes ML-System. Sie enthält keine Renditeversprechen und keine Handelsempfehlung.',
-    role: 'ML-Pipeline, Backend, Desktop-Anwendung, Web-Dashboard, Risikologik und Systemintegration — eigenständig',
-    year: '2024 – 2025',
+    role: 'ML-Pipeline, Backend, Desktop-Anwendung, Web-Dashboard, Risikologik und Systemintegration, eigenständig',
+    year: '2024 bis 2025',
     status: 'lokal',
     discipline: 'ai-systems',
     stack: [
@@ -127,13 +127,13 @@ export const projects: readonly Project[] = [
   {
     slug: 'realtime-vision-runtime',
     name: 'Realtime Vision Runtime',
-    title: 'Realtime Vision Runtime — hardwarebeschleunigte Computer-Vision-Pipeline',
+    title: 'Realtime Vision Runtime: hardwarebeschleunigte Computer-Vision-Pipeline',
     summary:
       'Private Computer-Vision-Plattform für latenzarme Objekterkennung mit austauschbaren Inferenz-Runtimes und einem getrennten Arduino-basierten Hardware-Layer.',
     description:
       'Die Case-Study konzentriert sich ausschließlich auf die technische Umsetzung: Capture, Preprocessing, neuronale Inferenz, Postprocessing, Runtime-Auswahl und Hardware-Kommunikation. Produktname, Einsatzzweck, Modelle und betrieblicher Kontext bleiben bewusst privat.',
-    role: 'Architektur, Computer Vision, Inferenz-Pipeline, Desktop-Client, Runtime-Abstraktion, serielles Protokoll und Arduino-Firmware — eigenständig',
-    year: '2023 – 2026',
+    role: 'Architektur, Computer Vision, Inferenz-Pipeline, Desktop-Client, Runtime-Abstraktion, serielles Protokoll und Arduino-Firmware, eigenständig',
+    year: '2023 bis 2026',
     status: 'lokal',
     discipline: 'ai-systems',
     stack: [
@@ -182,13 +182,13 @@ export const projects: readonly Project[] = [
   {
     slug: 'unitfly',
     name: 'UnitFly',
-    title: 'UnitFly — Commerce Operations mit kontrollierten AI-Agenten',
+    title: 'UnitFly: Commerce Operations mit kontrollierten AI-Agenten',
     summary:
       'Multi-Tenant-Plattform, die Produkt-, Preis-, Bestands- und Marketingabläufe analysiert und AI-gestützte Aktionen nachvollziehbar und begrenzbar macht.',
     description:
       'Sechs getrennte Agentendomänen bearbeiten Preis, Bestand, Content, Bilder, Marketing und Analyse. Deterministische Analyzer wählen die zulässigen Kandidaten aus; das Sprachmodell berät nur innerhalb hart begrenzter Werte.',
-    role: 'Produktidee, Architektur, Frontend, Backend, Datenmodell, AI-Integration, Tests, Containerisierung — eigenständig',
-    year: '2025 – 2026',
+    role: 'Produktidee, Architektur, Frontend, Backend, Datenmodell, AI-Integration, Tests, Containerisierung, eigenständig',
+    year: '2025 bis 2026',
     status: 'live',
     discipline: 'product-platforms',
     liveUrl: 'https://unitfly.de',
@@ -211,7 +211,7 @@ export const projects: readonly Project[] = [
       {
         title: 'Deterministische Analyzer wählen die Kandidaten, nicht das Modell.',
         rationale:
-          'Welche Produkte überhaupt zur Diskussion stehen, entscheidet Code mit nachvollziehbaren Regeln. Das Modell sieht nur eine bereits gefilterte Menge. Damit ist die riskanteste Frage — „was fasst das System an?" — dem Modell entzogen.',
+          'Welche Produkte überhaupt zur Diskussion stehen, entscheidet Code mit nachvollziehbaren Regeln. Das Modell sieht nur eine bereits gefilterte Menge. Damit entscheidet nicht das Modell über die riskanteste Frage: „Was fasst das System an?"',
       },
       {
         title: 'Semantische Suche mit transparentem Keyword-Fallback.',
@@ -226,7 +226,7 @@ export const projects: readonly Project[] = [
       {
         title: 'Rollen-, Tenant- und Rate-Limit-Prüfung gilt auch im Autopilot.',
         rationale:
-          'Automatisierte Abläufe umgehen sonst gern die Prüfungen, die für Nutzeranfragen gelten. Hier laufen sie durch dieselben Wächter — ein Agent hat keine Sonderrechte.',
+          'Automatisierte Abläufe umgehen sonst gern die Prüfungen, die für Nutzeranfragen gelten. Hier laufen sie durch dieselben Wächter. Ein Agent hat keine Sonderrechte.',
       },
       {
         title: 'Aktionen und feldbezogene Ergebnisse werden auditiert.',
@@ -249,12 +249,12 @@ export const projects: readonly Project[] = [
   {
     slug: 'void',
     name: 'VOiD',
-    title: 'VOiD — Privacy-orientierte Mobile Camera App',
+    title: 'VOiD: Privacy-orientierte Mobile Camera App',
     summary:
       'React-Native-App mit FastAPI-Backend und Computer-Vision-Pipeline, die erkannte Gesichtsbereiche adversariell verändert und die Grenzen dieser Methode offen benennt.',
     description:
       'Kamera- und Galerieabläufe, Stärkeauswahl, Kontoverwaltung und Export im Client; authentifizierte API, Quoten, Rate Limits und die OpenCV-Pipeline serverseitig. Bilddaten werden verarbeitet, aber nicht dauerhaft gespeichert.',
-    role: 'Mobile Client, API, Datenmodell, Subscription-Logik, Verarbeitungspipeline — eigenständig',
+    role: 'Mobile Client, API, Datenmodell, Subscription-Logik, Verarbeitungspipeline, eigenständig',
     year: '2026',
     status: 'in-arbeit',
     discipline: 'privacy-engineering',
@@ -262,7 +262,7 @@ export const projects: readonly Project[] = [
     headlineDecision:
       'Bilddaten werden verarbeitet, aber nicht dauerhaft serverseitig gespeichert.',
     problem:
-      'Biometrische Gesichtserkennung und automatisierte Profilbildung werden immer leichter zugänglich. VOiD untersucht, wie gezielte, visuell möglichst unauffällige Bildveränderungen die Wiedererkennung erschweren können — ohne Anonymität oder allgemeinen Schutz vor generativen Deepfakes zu versprechen.',
+      'Biometrische Gesichtserkennung und automatisierte Profilbildung werden immer leichter zugänglich. VOiD untersucht, wie gezielte, visuell möglichst unauffällige Bildveränderungen die Wiedererkennung erschweren können. Das ist kein Versprechen von Anonymität oder allgemeinem Schutz vor generativen Deepfakes.',
     approach:
       'Mobile Client, authentifizierte API, Daten- und Subscription-Logik sowie die OpenCV-basierte Verarbeitungspipeline sind als ein zusammenhängendes Produkt umgesetzt. Nach der Gesichtslokalisierung werden SPSA-basierte adversarielle Perturbationen gegen Referenz-Embeddings optimiert. Kamera- und Galerieabläufe, Stärkeauswahl, Export, Quoten, Rate Limits und Eingabevalidierung bilden den Produktpfad darum.',
     decisions: [
@@ -295,12 +295,12 @@ export const projects: readonly Project[] = [
   {
     slug: 'weblabs',
     name: 'WebLabs',
-    title: 'WebLabs — die Seite, auf der Sie gerade sind',
+    title: 'WebLabs: die Seite, auf der Sie gerade sind',
     summary:
       'Dieses Portfolio: Next.js App Router, Dark-only-Designsystem, technische Case-Studies, strukturierte SEO-Daten, validierter Kontaktweg und Coolify-Deployment.',
     description:
       'Kein Content-Management-System und keine Datenbank, weil beides für diesen Umfang nur Betriebsaufwand wäre. Typisierte Inhalte erzeugen Case-Studies, Leistungsseiten, Metadaten und Sitemap aus konsistenten Quellen; Tests prüfen Vollständigkeit, Kontraste und Links.',
-    role: 'Konzept, Designsystem, Umsetzung, Tests, Deployment — eigenständig',
+    role: 'Konzept, Designsystem, Umsetzung, Tests, Deployment, eigenständig',
     year: '2026',
     status: 'diese-seite',
     discipline: 'product-platforms',
@@ -308,7 +308,7 @@ export const projects: readonly Project[] = [
     headlineDecision:
       'Keine Datenbank. Inhalte sind typisierte Daten im Repository und damit testbar.',
     problem:
-      'Ein Portfolio soll nicht nur Projekte auflisten. Es braucht schnelle, zugängliche Seiten, strukturierte Inhalte, einen verlässlichen Kontaktweg und eine Grundlage, die sich später erweitern lässt — ohne dass man dafür heute schon eine Datenbank betreiben muss.',
+      'Ein Portfolio soll nicht nur Projekte auflisten. Es braucht schnelle, zugängliche Seiten, strukturierte Inhalte, einen verlässlichen Kontaktweg und eine Grundlage, die sich später erweitern lässt. Dafür muss heute noch keine Datenbank betrieben werden.',
     approach:
       'Next.js App Router erzeugt Portfolio, Leistungsseiten und Case-Studies statisch. Farb-, Typografie-, Abstands- und Bewegungsebene werden zentral über CSS-Custom-Properties gesteuert. Das feste dunkle Farbsystem, die monochrome Bildsprache und bewusst reduzierte Radien bilden eine konsistente Oberfläche; Docker und Coolify liefern denselben Build reproduzierbar aus.',
     decisions: [
@@ -330,7 +330,7 @@ export const projects: readonly Project[] = [
       {
         title: 'Inhalte als typisierte Daten, nicht als JSX pro Seite.',
         rationale:
-          'Damit ist eine fehlende Case-Study-Sektion ein Typfehler und ein toter Link ein fehlgeschlagener Test — statt etwas, das man beim Durchklicken hoffentlich bemerkt.',
+          'Damit ist eine fehlende Case-Study-Sektion ein Typfehler und ein toter Link ein fehlgeschlagener Test. Solche Fehler werden nicht erst zufällig beim Durchklicken entdeckt.',
       },
     ],
     limitation:
@@ -341,7 +341,7 @@ export const projects: readonly Project[] = [
   {
     slug: 'pa-it-services',
     name: 'PA-IT-Services',
-    title: 'PA-IT-Services — Website mit geschütztem Admin-Dashboard',
+    title: 'PA-IT-Services: Website mit geschütztem Admin-Dashboard',
     summary:
       'Next.js-Plattform für Kontakt- und Terminabläufe mit PostgreSQL, Authentifizierung, E-Mail-Flows, Rate Limiting und automatisierten Tests.',
     description:
@@ -387,12 +387,12 @@ export const projects: readonly Project[] = [
   {
     slug: 'paydos-lounge',
     name: 'Paydos Lounge',
-    title: 'Paydos Lounge — digitale Marken- und Standortpräsenz',
+    title: 'Paydos Lounge: digitale Marken- und Standortpräsenz',
     summary:
       'Responsive Next.js-Website mit bildgeführtem Storytelling, digitaler Karte, Reservierungswegen, Standortinformationen und containerisiertem Deployment.',
     description:
       'Die Website übersetzt die dunkle, hochwertige Atmosphäre der Lounge in eine eigenständige digitale Präsenz. Inhalte, Bilder, Karte, Öffnungszeiten, Reservierung und Anfahrt bilden einen durchgängigen mobilen und desktopfähigen Informationsweg.',
-    role: 'Konzeption, Art Direction, Designsystem, Frontend und Deployment — eigenständig',
+    role: 'Konzeption, Art Direction, Designsystem, Frontend und Deployment, eigenständig',
     year: '2025',
     status: 'live',
     discipline: 'product-platforms',
@@ -404,7 +404,7 @@ export const projects: readonly Project[] = [
     },
     stack: ['Next.js', 'React', 'TypeScript', 'SCSS Modules', 'Docker', 'Coolify'],
     headlineDecision:
-      'Die Markenwirkung entsteht aus Typografie, Bildrhythmus und Raum — nicht aus dekorativen Interface-Komponenten.',
+      'Die Markenwirkung entsteht aus Typografie, Bildrhythmus und Raum, nicht aus dekorativen Interface-Komponenten.',
     problem:
       'Eine lokale Lounge muss Atmosphäre vermitteln und gleichzeitig praktische Fragen zu Karte, Öffnungszeiten, Reservierung und Anfahrt schnell beantworten. Zu viel Effekt würde die Bedienung schwächen; eine rein funktionale Seite würde den Charakter des Ortes verlieren.',
     approach:
@@ -438,12 +438,12 @@ export const projects: readonly Project[] = [
   {
     slug: 'ipekten-dienstleistung',
     name: 'Ipekten Dienstleistung',
-    title: 'Ipekten Dienstleistung — serviceorientierte Unternehmenswebsite',
+    title: 'Ipekten Dienstleistung: serviceorientierte Unternehmenswebsite',
     summary:
       'Responsive Next.js-Website für einen regionalen Dienstleister mit klarer Leistungsarchitektur, Notdienst-Pfad, Kontaktstrecke, lokaler SEO-Basis und Docker-Deployment.',
     description:
       'Die Website bündelt Rohrreinigung, Gebäudereinigung und weitere Gebäudedienstleistungen in einer schnell erfassbaren Seitenstruktur. Region, Erreichbarkeit, Leistungsumfang und Kontaktmöglichkeiten werden ohne Umwege sichtbar gemacht.',
-    role: 'Konzeption, Informationsarchitektur, Frontend, Kontaktstrecke und Deployment — eigenständig',
+    role: 'Konzeption, Informationsarchitektur, Frontend, Kontaktstrecke und Deployment, eigenständig',
     year: '2025',
     status: 'live',
     discipline: 'product-platforms',

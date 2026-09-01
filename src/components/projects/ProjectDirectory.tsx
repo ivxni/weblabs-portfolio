@@ -42,7 +42,7 @@ export function ProjectDirectory({ projects }: { projects: readonly Project[] })
     <div className={styles.directory}>
       <div className={styles.directoryHeader}>
         <span>Selected work</span>
-        <span>{String(projects.length).padStart(2, '0')} Case Studies / 2023—2026</span>
+        <span>{String(projects.length).padStart(2, '0')} Case Studies / 2023 bis 2026</span>
       </div>
 
       {disciplineOrder.map((discipline) => {

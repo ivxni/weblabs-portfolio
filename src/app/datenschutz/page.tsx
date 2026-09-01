@@ -68,9 +68,9 @@ export default function PrivacyPage() {
             <h2 className={styles.heading}>Kontaktformular und E-Mail</h2>
             <div className={styles.body}>
               <p>
-                Wenn Sie das Kontaktformular nutzen, verarbeite ich die dort eingegebenen Daten
-                — Name, E-Mail-Adresse, optional das Unternehmen, das genannte Thema sowie den
-                Nachrichtentext — ausschließlich zur Bearbeitung Ihrer Anfrage. Dasselbe gilt
+                Wenn Sie das Kontaktformular nutzen, verarbeite ich die dort eingegebenen Daten:
+                Name, E-Mail-Adresse, optional das Unternehmen, das genannte Thema sowie den
+                Nachrichtentext ausschließlich zur Bearbeitung Ihrer Anfrage. Dasselbe gilt
                 für eine Nachricht, die Sie mir direkt per E-Mail schicken.
               </p>
               <p>

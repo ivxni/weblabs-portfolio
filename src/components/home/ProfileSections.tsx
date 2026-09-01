@@ -14,7 +14,7 @@ export function EngineeringSection() {
       <p className={styles.index}>01 / Engineering</p>
       <div className={styles.statement}>
         <h2 id="engineering-heading">Frontend bis Betrieb.<br /><em>Ein System.</em></h2>
-        <p>Ich verbinde Oberfläche, API, Daten und Deployment — ohne an den Übergängen Verantwortung abzugeben.</p>
+        <p>Ich verbinde Oberfläche, API, Daten und Deployment, ohne an den Übergängen Verantwortung abzugeben.</p>
       </div>
       <ol className={styles.disciplines} role="list">
         {engineering.map(([number, title, stack]) => <li key={number}><span>{number}</span><strong>{title}</strong><small>{stack}</small></li>)}

@@ -16,7 +16,7 @@ import styles from './Logo.module.scss';
  */
 export function Logo() {
   return (
-    <Link href="/" className={styles.link} aria-label={`${site.name} — zur Startseite`}>
+    <Link href="/" className={styles.link} aria-label={`${site.name}, zur Startseite`}>
       <Image
         src="/brand/weblabs-mark-light.svg"
         alt=""

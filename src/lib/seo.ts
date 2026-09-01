@@ -48,7 +48,7 @@ export function createPageMetadata({
       siteName: site.brand,
       locale: 'de_DE',
       type,
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: `${title} — ${site.brand}` }],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: `${title}. ${site.brand}` }],
     },
     twitter: {
       card: 'summary_large_image',

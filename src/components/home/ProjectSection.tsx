@@ -47,7 +47,7 @@ export function ProjectSection() {
   return (
     <section className={styles.section} id="projekte" aria-labelledby="projects-heading">
       <header className={styles.header}>
-        <p className={styles.kicker}>Selected work / 2025—2026</p>
+        <p className={styles.kicker}>Selected work / 2025 bis 2026</p>
         <h2 className={styles.heading} id="projects-heading">Built for the<br />real world.</h2>
         <p className={styles.summary}>Produkt, Plattform oder lokale Dienstleistung: Jede Oberfläche folgt einem echten System dahinter.</p>
       </header>

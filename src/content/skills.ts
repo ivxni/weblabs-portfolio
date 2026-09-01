@@ -20,7 +20,7 @@ export const skillGroups: readonly SkillGroup[] = [
   {
     key: '01',
     title: 'Frontend',
-    note: 'Das, was der Nutzer bedient — inklusive Tastaturbedienung und Verhalten unter 320 px.',
+    note: 'Das, was der Nutzer bedient, inklusive Tastaturbedienung und Verhalten unter 320 px.',
     items: [
       'React', 'Next.js', 'TypeScript', 'JavaScript', 'React Native / Expo',
       'HTML', 'CSS / SCSS', 'Responsive Layouts', 'Designsysteme & Visual QA',

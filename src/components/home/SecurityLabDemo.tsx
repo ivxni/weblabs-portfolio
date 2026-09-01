@@ -6,10 +6,10 @@ import styles from './SecurityLabDemo.module.scss';
 
 type Mode = 'fpga' | 'kernel' | 'integrity';
 
-const modes: readonly { id: Mode; label: string }[] = [
-  { id: 'fpga', label: 'PCIe / FPGA' },
-  { id: 'kernel', label: 'Kernel' },
-  { id: 'integrity', label: 'Integrity' },
+const modes: readonly { id: Mode; number: string; label: string }[] = [
+  { id: 'fpga', number: '01', label: 'PCIe / FPGA' },
+  { id: 'kernel', number: '02', label: 'Kernel' },
+  { id: 'integrity', number: '03', label: 'Integrity' },
 ];
 
 const diagnostics: Record<Mode, {
@@ -98,11 +98,10 @@ export function SecurityLabDemo() {
 
   return (
     <div className={styles.window} aria-label="Simulierte Security-Lab-Diagnostik">
-      <div className={styles.ambient} aria-hidden="true" />
       <div className={styles.titlebar}>
-        <div className={styles.labIdentity}><span aria-hidden="true"><i /><i /></span><p>SECURITY LAB</p></div>
-        <p>SIMULATED TELEMETRY</p>
-        <b><i aria-hidden="true" /> SAFE / READ ONLY</b>
+        <div className={styles.labIdentity}><span>03</span><p>SECURITY RESEARCH</p></div>
+        <p>ISOLATED SYSTEM TRACE</p>
+        <b>SIMULATION / READ ONLY</b>
       </div>
       <div className={styles.modes} role="tablist" aria-label="Security-Lab-Modus">
         {modes.map((item) => (
@@ -114,7 +113,7 @@ export function SecurityLabDemo() {
             className={mode === item.id ? styles.active : undefined}
             onClick={() => setMode(item.id)}
           >
-            {item.label}
+            <span>{item.number}</span>{item.label}
           </button>
         ))}
       </div>
@@ -122,7 +121,7 @@ export function SecurityLabDemo() {
         <div className={styles.diagnostic}>
           <div className={styles.metricHeader}>
             <div><span>{diagnostic.eyebrow}</span><strong>{diagnostic.metric}</strong><small>{diagnostic.unit}</small></div>
-            <p><i aria-hidden="true" /> {diagnostic.status}</p>
+            <p>[ {diagnostic.status} ]</p>
           </div>
           <div className={styles.visual} aria-hidden="true">
             {mode === 'fpga' && (
@@ -151,7 +150,7 @@ export function SecurityLabDemo() {
         </div>
 
         <div className={styles.output}>
-          <div className={styles.command}><span>$ inspect --scope {mode} --safe</span><b>TRACE</b></div>
+          <div className={styles.command}><span>SCOPE / {mode.toUpperCase()}</span><b>TRACE OUTPUT</b></div>
           {output[mode].map((line, index) => (
             <p key={line.key} className={index < visible ? styles.visible : undefined}>
               <span>{String(index + 1).padStart(2, '0')}</span>
@@ -159,10 +158,9 @@ export function SecurityLabDemo() {
               <em className={line.state === 'watch' ? styles.watch : styles.ok}>{line.value}</em>
             </p>
           ))}
-          <p className={styles.prompt} aria-hidden="true">_</p>
         </div>
       </div>
-      <div className={styles.footer}><span>ISOLATED LAB / NO LIVE TARGET</span><span>{mode.toUpperCase()}_TRACE.LOG</span></div>
+      <div className={styles.footer}><span>ISOLATED LAB / NO LIVE TARGET</span><span>TRACE::{mode.toUpperCase()}::06</span></div>
     </div>
   );
 }

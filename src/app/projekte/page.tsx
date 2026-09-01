@@ -8,7 +8,7 @@ import { ProjectDirectory } from '@/components/projects/ProjectDirectory';
 import { createPageMetadata, PERSON_ID } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: 'Software- & KI-Projekte — Case Studies',
+  title: 'Software- & KI-Projekte: Case Studies',
   description: 'Technische Case Studies von Can Cadirci zu individuellen Webanwendungen, AI-Agenten, Computer Vision, Next.js, FastAPI, PostgreSQL und Docker.',
   path: '/projekte',
 });

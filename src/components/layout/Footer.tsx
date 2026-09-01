@@ -33,7 +33,7 @@ export function Footer() {
               <p className={styles.columnTitle}>{site.brand}</p>
             </div>
             <p className={styles.statementText}>
-              {site.name} — {site.role}. {availability.location}. {availability.model}.
+              {site.name}, {site.role}. {availability.location}. {availability.model}.
             </p>
           </div>
 

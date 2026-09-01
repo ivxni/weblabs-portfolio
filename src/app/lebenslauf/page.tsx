@@ -10,7 +10,7 @@ import styles from './Resume.module.scss';
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: 'Lebenslauf — Fullstack & KI-Entwicklung',
+  title: 'Lebenslauf: Fullstack & KI-Entwicklung',
   description: 'Web-Lebenslauf von Can Cadirci mit Fullstack-Erfahrung bei diconium, IHK-Abschlüssen, Software- und KI-Projekten sowie technischem Stack.',
   path: '/lebenslauf',
 });
@@ -35,7 +35,7 @@ export default function ResumePage() {
               Fullstack Software Engineer mit React, Next.js, TypeScript, Python/FastAPI,
               PostgreSQL und Applied AI. Ausgebildeter Fachinformatiker mit drei Jahren
               professioneller Fullstack-Praxis im Rahmen der Ausbildung bei diconium. Schwerpunkt
-              auf vollständigen Systemen — von der Oberfläche über API und Datenmodell bis zu
+              auf vollständigen Systemen, von der Oberfläche über API und Datenmodell bis zu
               Tests und containerisiertem Deployment.
             </p>
           </div>
@@ -49,7 +49,7 @@ export default function ResumePage() {
                     <h3 className={styles.entryTitle}>{position.company}</h3>
                     <span className={styles.entryMeta}>
                       <time dateTime={position.fromISO}>{position.from}</time>
-                      {' – '}
+                      {' bis '}
                       <time dateTime={position.toISO}>{position.to}</time>
                     </span>
                   </div>

@@ -18,7 +18,7 @@ export default function ExperiencePage() {
         label="Erfahrung"
         index="02 / Praxis"
         title="Drei Jahre Produktentwicklung im professionellen Team."
-        lead="Meine Praxis kommt aus drei Jahren in professionellen Scrum-Teams — mit Code Reviews, Legacy-Code, CI/CD und Abstimmung, nicht nur aus eigenen Projekten."
+        lead="Meine Praxis kommt aus drei Jahren in professionellen Scrum-Teams mit Code Reviews, Legacy-Code, CI/CD und Abstimmung, nicht nur aus eigenen Projekten."
       />
 
       <Section compact>
@@ -42,7 +42,7 @@ export default function ExperiencePage() {
             <article className={styles.position} key={position.company}>
               <p className={styles.period}>
                 <time dateTime={position.fromISO}>{position.from}</time>
-                {' – '}
+                {' bis '}
                 <time dateTime={position.toISO}>{position.to}</time>
               </p>
 
@@ -51,7 +51,7 @@ export default function ExperiencePage() {
                 {/*
                   Der Firmenname steht typografisch, nicht als Logo. Fremde
                   Marken einzubinden setzt eine Nutzungserlaubnis voraus, die
-                  hier nicht geprüft ist — und ein Name in guter Schrift wirkt
+                  hier nicht geprüft ist. Ein Name in guter Schrift wirkt
                   ohnehin ruhiger als ein fremdes Logo im eigenen Layout.
                 */}
                 <p className={styles.role}>{position.role}</p>

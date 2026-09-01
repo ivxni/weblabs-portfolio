@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!project) return {};
 
   return createPageMetadata({
-    title: `${project.name} — technische Case Study`,
+    title: `${project.name}: technische Case Study`,
     description: project.summary,
     path: `/projekte/${project.slug}`,
     type: 'article',

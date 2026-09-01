@@ -37,7 +37,7 @@ export const services: readonly Service[] = [
     description:
       'Individuelle Softwareentwicklung in Stuttgart und Ludwigsburg: Webanwendungen, APIs, Datenbanken, Automatisierung, Tests und Docker aus einer Hand.',
     lead:
-      'Ich entwickle Webanwendungen, interne Plattformen und digitale Prozesse, wenn Standardsoftware nicht sauber zu Ihrem Ablauf passt. Direkt mit dem Entwickler — von Architektur und Oberfläche bis API, Datenmodell, Tests und Deployment.',
+      'Ich entwickle Webanwendungen, interne Plattformen und digitale Prozesse, wenn Standardsoftware nicht sauber zu Ihrem Ablauf passt. Direkt mit dem Entwickler, von Architektur und Oberfläche bis API, Datenmodell, Tests und Deployment.',
     searchIntent: 'Für Unternehmen, die eine belastbare Webanwendung statt eines weiteren isolierten Tools brauchen.',
     fitHeading: 'Wann Individualsoftware sinnvoll ist',
     fit: [
@@ -95,7 +95,7 @@ export const services: readonly Service[] = [
     slug: 'webentwicklung',
     index: '02',
     shortName: 'Webentwicklung',
-    title: 'Webentwicklung für Ludwigsburg und Stuttgart — schnell, klar, wartbar.',
+    title: 'Webentwicklung für Ludwigsburg und Stuttgart. Schnell, klar und wartbar.',
     metaTitle: 'Webentwicklung Ludwigsburg & Stuttgart',
     description:
       'Professionelle Webentwicklung in Ludwigsburg und Stuttgart: schnelle Unternehmenswebsites und Web-Apps mit Next.js, SEO, sauberem Code und persönlichem Kontakt.',
@@ -158,12 +158,12 @@ export const services: readonly Service[] = [
     slug: 'ki-entwicklung',
     index: '03',
     shortName: 'KI-Entwicklung',
-    title: 'KI-Entwicklung in Stuttgart — integriert statt nur demonstriert.',
+    title: 'KI-Entwicklung in Stuttgart. Integriert statt nur demonstriert.',
     metaTitle: 'KI-Entwicklung Stuttgart & AI-Automatisierung',
     description:
       'Individuelle KI-Entwicklung in Stuttgart: AI-Agenten, Computer Vision, RAG, Inferenz-Pipelines, Guardrails und Integration in produktive Software.',
     lead:
-      'Ich entwickle AI-Funktionen als kontrollierte Teile eines Softwaresystems: mit klaren Datenflüssen, messbaren Fallbacks, Berechtigungen und nachvollziehbaren Aktionen — nicht als isolierten Chatbot ohne Betriebsmodell.',
+      'Ich entwickle AI-Funktionen als kontrollierte Teile eines Softwaresystems: mit klaren Datenflüssen, messbaren Fallbacks, Berechtigungen und nachvollziehbaren Aktionen, nicht als isolierten Chatbot ohne Betriebsmodell.',
     searchIntent: 'Für Unternehmen, die einen konkreten Prozess mit AI unterstützen wollen und dabei Kontrolle über Daten, Kosten und Aktionen brauchen.',
     fitHeading: 'Wo AI einen belastbaren Hebel hat',
     fit: [
@@ -212,7 +212,7 @@ export const services: readonly Service[] = [
       },
       {
         question: 'Kann eine KI-Lösung vollständig lokal betrieben werden?',
-        answer: 'Je nach Modellgröße und Hardware ja. Ob On-Premise, europäisches Hosting oder eine externe API sinnvoller ist, wird anhand von Datenschutz, Qualität, Latenz, Wartung und Gesamtkosten entschieden — nicht anhand eines pauschalen Versprechens.',
+        answer: 'Je nach Modellgröße und Hardware ja. Ob On-Premise, europäisches Hosting oder eine externe API sinnvoller ist, wird anhand von Datenschutz, Qualität, Latenz, Wartung und Gesamtkosten entschieden, nicht anhand eines pauschalen Versprechens.',
       },
     ],
     keywords: ['KI-Entwicklung Stuttgart', 'AI-Agenten', 'Computer Vision', 'RAG Entwicklung', 'ONNX Runtime', 'TensorRT'],

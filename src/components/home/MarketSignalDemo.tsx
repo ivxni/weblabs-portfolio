@@ -12,6 +12,7 @@ interface Candle {
 }
 
 const COUNT = 30;
+const CANDLE_DURATION = 2200;
 
 function initialCandles(): Candle[] {
   const candles: Candle[] = [];
@@ -39,32 +40,62 @@ function movingAverage(candles: readonly Candle[], period: number): number[] {
   });
 }
 
+function nextCandle(open: number, step: number): Candle {
+  const movement = Math.sin(step * 1.08) * 0.0005 + Math.cos(step * 0.37) * 0.00022;
+  const close = open + movement;
+  const spread = 0.00024 + Math.abs(Math.cos(step * 0.81)) * 0.00026;
+
+  return {
+    open,
+    close,
+    high: Math.max(open, close) + spread,
+    low: Math.min(open, close) - spread * 0.78,
+  };
+}
+
 export function MarketSignalDemo() {
   const [candles, setCandles] = useState(initialCandles);
-  const phase = useRef(0);
+  const settledCandles = useRef(initialCandles());
+  const phase = useRef(1);
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (reducedMotion) return;
-    const timer = window.setInterval(() => {
-      phase.current += 1;
-      setCandles((current) => {
-        const previous = current.at(-1)?.close ?? 1.0842;
-        const movement = Math.sin(phase.current * 1.08) * 0.0005 + Math.cos(phase.current * 0.37) * 0.00022;
-        const close = previous + movement;
-        const spread = 0.00024 + Math.abs(Math.cos(phase.current * 0.81)) * 0.00026;
-        return [
-          ...current.slice(1),
-          {
-            open: previous,
-            close,
-            high: Math.max(previous, close) + spread,
-            low: Math.min(previous, close) - spread * 0.78,
-          },
-        ];
-      });
-    }, 920);
-    return () => window.clearInterval(timer);
+    let frame = 0;
+    let cycleStart = performance.now();
+    let lastPaint = 0;
+    let base = settledCandles.current;
+    let target = nextCandle(base.at(-1)?.close ?? 1.0842, phase.current);
+
+    const animate = (now: number) => {
+      const rawProgress = Math.min(1, (now - cycleStart) / CANDLE_DURATION);
+      const eased = 1 - Math.pow(1 - rawProgress, 3);
+
+      if (now - lastPaint >= 32 || rawProgress === 1) {
+        const close = target.open + (target.close - target.open) * eased;
+        const developing: Candle = {
+          open: target.open,
+          close,
+          high: Math.max(target.open, close) + (target.high - Math.max(target.open, target.close)) * eased,
+          low: Math.min(target.open, close) - (Math.min(target.open, target.close) - target.low) * eased,
+        };
+        setCandles([...base.slice(1), developing]);
+        lastPaint = now;
+      }
+
+      if (rawProgress === 1) {
+        base = [...base.slice(1), target];
+        settledCandles.current = base;
+        phase.current += 1;
+        target = nextCandle(base.at(-1)?.close ?? 1.0842, phase.current);
+        cycleStart = now;
+      }
+
+      frame = window.requestAnimationFrame(animate);
+    };
+
+    frame = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(frame);
   }, [reducedMotion]);
 
   const chart = useMemo(() => {
@@ -95,8 +126,7 @@ export function MarketSignalDemo() {
   const neutral = Math.max(4, 100 - up - down);
 
   return (
-    <div className={styles.terminal} aria-label="Simulierte Forex- und ML-Prognose-Demo">
-      <div className={styles.ambient} aria-hidden="true" />
+    <div className={styles.market} aria-label="Simulierte Forex- und ML-Prognose-Demo">
       <header className={styles.header}>
         <div className={styles.quote}>
           <span>EUR / USD</span>
@@ -106,9 +136,8 @@ export function MarketSignalDemo() {
           </em>
         </div>
         <div className={styles.headerMeta}>
-          <span>MODEL 08</span>
-          <span>M5</span>
-          <span className={styles.feed}><i aria-hidden="true" /> SIMULATED</span>
+          <span>EURUSD / M5</span>
+          <span>SIMULATION</span>
         </div>
       </header>
 
@@ -124,10 +153,6 @@ export function MarketSignalDemo() {
                 <stop offset="0" stopColor="currentColor" stopOpacity="0.16" />
                 <stop offset="1" stopColor="currentColor" stopOpacity="0" />
               </linearGradient>
-              <filter id="forecast-glow" x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur stdDeviation="4" result="blur" />
-                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
             </defs>
             {[70, 137, 204, 271, 338].map((position) => <line key={`h-${position}`} x1="24" x2="780" y1={position} y2={position} className={styles.gridLine} />)}
             {[36, 150, 264, 378, 492, 606, 720].map((position) => <line key={`v-${position}`} y1="42" y2="350" x1={position} x2={position} className={styles.gridLine} />)}
@@ -144,10 +169,10 @@ export function MarketSignalDemo() {
               );
             })}
             <path d={chart.emaPath} className={styles.ema} />
-            <path d={chart.forecastAreaPath} className={styles.forecastArea} />
-            <path d={chart.forecastPath} className={styles.forecast} />
+            <path d={chart.forecastAreaPath} className={`${styles.forecastArea} ${chart.direction > 0 ? styles.upForecast : styles.downForecast}`} />
+            <path d={chart.forecastPath} className={`${styles.forecast} ${chart.direction > 0 ? styles.upForecast : styles.downForecast}`} />
             <line x1="697" x2="697" y1="44" y2="350" className={styles.forecastBoundary} />
-            <circle cx={chart.x(COUNT - 1)} cy={chart.y(chart.latest)} r="4" className={styles.livePoint} />
+            <circle cx={chart.x(COUNT - 1)} cy={chart.y(chart.latest)} r="3.5" className={`${styles.livePoint} ${chart.direction > 0 ? styles.upForecast : styles.downForecast}`} />
             <text x="706" y="60" className={styles.svgLabel}>MODEL WINDOW</text>
             <text x="30" y="374" className={styles.svgLabel}>HISTORICAL WINDOW</text>
             <text x="681" y="374" className={styles.svgLabel}>T+5</text>
@@ -156,24 +181,24 @@ export function MarketSignalDemo() {
 
         <aside className={styles.modelPanel}>
           <div className={styles.panelHead}>
-            <p className={styles.panelLabel}>MODEL OUTLOOK</p>
-            <span><i aria-hidden="true" /> ACTIVE</span>
+            <p className={styles.panelLabel}>AI FORECAST / T+5</p>
+            <span>MODEL 08</span>
           </div>
-          <div className={styles.direction}>
+          <div className={`${styles.direction} ${chart.direction > 0 ? styles.upText : styles.downText}`}>
             <span>DIRECTIONAL BIAS</span>
             <strong>{chart.direction > 0 ? 'UPWARD' : 'DOWNWARD'} <i>{chart.direction > 0 ? '↗' : '↘'}</i></strong>
             <p><b>{chart.confidence}%</b> confidence</p>
           </div>
           <div className={styles.probabilities}>
-            <p><span>UP</span><i><b style={{ inlineSize: `${up}%` }} /></i><em>{up}%</em></p>
+            <p className={styles.upProbability}><span>UP</span><i><b style={{ inlineSize: `${up}%` }} /></i><em>{up}%</em></p>
             <p><span>NEUTRAL</span><i><b style={{ inlineSize: `${neutral}%` }} /></i><em>{neutral}%</em></p>
-            <p><span>DOWN</span><i><b style={{ inlineSize: `${down}%` }} /></i><em>{down}%</em></p>
+            <p className={styles.downProbability}><span>DOWN</span><i><b style={{ inlineSize: `${down}%` }} /></i><em>{down}%</em></p>
           </div>
           <dl>
             <div><dt>RSI 14</dt><dd>58.4</dd></div>
             <div><dt>ATR</dt><dd>0.00082</dd></div>
             <div><dt>REGIME</dt><dd>Trend</dd></div>
-            <div><dt>RISK GATE</dt><dd className={styles.active}>Active</dd></div>
+            <div><dt>RISK GATE</dt><dd>On</dd></div>
           </dl>
         </aside>
       </div>

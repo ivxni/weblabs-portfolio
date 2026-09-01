@@ -10,7 +10,7 @@ import styles from './Contact.module.scss';
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: 'Projekt anfragen — Kontakt',
+  title: 'Projekt anfragen: Kontakt',
   description: 'Kontakt zu Can Cadirci für individuelle Softwareentwicklung, Webentwicklung und KI-Projekte in Ludwigsburg, Stuttgart und deutschlandweit.',
   path: '/kontakt',
 });
@@ -22,7 +22,7 @@ export default function ContactPage() {
         label="Kontakt"
         index="05 / Direkt"
         title="Lassen Sie uns über Ihr System sprechen."
-        lead="Beschreiben Sie kurz den heutigen Ablauf, das gewünschte Ergebnis und vorhandene Systeme. Ich antworte direkt mit konkreten Rückfragen — ohne Vertriebsübergabe und ohne Standardtext."
+        lead="Beschreiben Sie kurz den heutigen Ablauf, das gewünschte Ergebnis und vorhandene Systeme. Ich antworte direkt mit konkreten Rückfragen, ohne Vertriebsübergabe und ohne Standardtext."
       />
 
       <Section compact>
@@ -49,7 +49,7 @@ export default function ContactPage() {
                       <a href={`tel:${contact.phone}`} className={styles.channelLink}>
                         {contact.phoneDisplay}
                       </a>
-                      <span className={styles.channelHint}>Mo–Fr</span>
+                      <span className={styles.channelHint}>Mo bis Fr</span>
                     </span>
                   </li>
                 )}

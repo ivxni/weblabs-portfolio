@@ -112,7 +112,7 @@ export function GuardrailDemo() {
             <p className={styles.intro}>
               Legen Sie die Schalter um und starten Sie einen Preis-Agentenlauf. Die Kette zeigt,
               an welcher Station er endet und aus welchem Grund. Die Reihenfolge ist die Aussage:
-              Das Modell kommt nach dem Analyzer und vor der Rollenprüfung — es sieht nie eine
+              Das Modell kommt nach dem Analyzer und vor der Rollenprüfung. Es sieht nie eine
               ungefilterte Menge und entscheidet nie, ob geschrieben wird.
             </p>
             <p className={styles.disclaimer}>
@@ -249,7 +249,7 @@ export function GuardrailDemo() {
                 </span>
                 {blocked
                   ? blocked.message
-                  : 'Alle Prüfungen bestanden, Änderungen geschrieben und protokolliert. Genau dieser Zustand ist im echten System die Ausnahme und nicht der Normalfall — der Schreibschutz ist dort standardmäßig aktiv.'}
+                  : 'Alle Prüfungen bestanden, Änderungen geschrieben und protokolliert. Genau dieser Zustand ist im echten System die Ausnahme und nicht der Normalfall. Der Schreibschutz ist dort standardmäßig aktiv.'}
               </p>
             )}
           </div>

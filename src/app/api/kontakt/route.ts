@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
       text: [
         `Name:       ${data.name}`,
         `E-Mail:     ${data.email}`,
-        `Unternehmen:${data.company ? ` ${data.company}` : ' —'}`,
+        `Unternehmen:${data.company ? ` ${data.company}` : ' nicht angegeben'}`,
         `Thema:      ${data.topic}`,
         '',
         data.message,

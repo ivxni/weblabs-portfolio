@@ -3,7 +3,7 @@ import { site } from '@/content/site';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `${site.brand} — ${site.name}`,
+    name: `${site.brand}: ${site.name}`,
     short_name: site.brand,
     description: 'Individuelle Softwareentwicklung, Webentwicklung und KI-Systeme aus Ludwigsburg.',
     start_url: '/',

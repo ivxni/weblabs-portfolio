@@ -22,7 +22,7 @@ export function Hero() {
           </h1>
           <div className={styles.introRow}>
             <p>
-              Individuelle Webanwendungen und AI-Systeme für Unternehmen — von der
+              Individuelle Webanwendungen und AI-Systeme für Unternehmen, von der
               Produktoberfläche über APIs und Daten bis zu Tests und Deployment.
             </p>
             <div className={styles.actions}>

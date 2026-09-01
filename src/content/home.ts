@@ -4,7 +4,7 @@ export const hero = {
   status: `${availability.location} · ${availability.model}`,
   headline: 'Individuelle Software, die nicht bei der Demo aufhört.',
   lead:
-    'Ich bin Can Cadirci, Software- und KI-Entwickler aus Ludwigsburg. Ich entwickle Produkte mit Next.js, TypeScript, Python/FastAPI und PostgreSQL — von der Oberfläche über APIs und Datenmodelle bis zu Tests, sicheren AI-Workflows und Deployment.',
+    'Ich bin Can Cadirci, Software- und KI-Entwickler aus Ludwigsburg. Ich entwickle Produkte mit Next.js, TypeScript, Python/FastAPI und PostgreSQL, von der Oberfläche über APIs und Datenmodelle bis zu Tests, sicheren AI-Workflows und Deployment.',
 } as const;
 
 /**
@@ -100,5 +100,5 @@ export const experienceTeaser = {
 export const closing = {
   heading: 'Sie haben einen Prozess, für den Standardsoftware nicht sauber passt?',
   body:
-    'Ich entwickle individuelle Software-, Web- und AI-Systeme für Unternehmen im Raum Stuttgart und deutschlandweit. Im ersten Gespräch klären wir Problem, vorhandene Systeme und den kleinsten belastbaren Start — direkt mit dem Entwickler.',
+    'Ich entwickle individuelle Software-, Web- und AI-Systeme für Unternehmen im Raum Stuttgart und deutschlandweit. Im ersten Gespräch klären wir Problem, vorhandene Systeme und den kleinsten belastbaren Start direkt mit dem Entwickler.',
 } as const;
