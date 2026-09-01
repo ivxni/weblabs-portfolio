@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { faArrowDown, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SystemSphere } from '@/components/visual/SystemSphere';
+import { SystemFlow } from './SystemFlow';
 import styles from './Hero.module.scss';
 
 export function Hero() {
@@ -32,8 +32,8 @@ export function Hero() {
           </div>
         </div>
 
-        <div className={styles.visual} aria-hidden="true">
-          <SystemSphere className={styles.sphere} />
+        <div className={styles.visual}>
+          <SystemFlow />
         </div>
       </div>
 

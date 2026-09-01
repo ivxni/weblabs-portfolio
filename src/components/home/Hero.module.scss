@@ -91,15 +91,8 @@
 .visual {
   position: relative;
   justify-self: center;
-  inline-size: min(80vw, 21rem);
-  aspect-ratio: 1;
+  inline-size: min(100%, 34rem);
   min-width: 0;
-  display: grid;
-  place-items: center;
-}
-
-.sphere {
-  inline-size: 100%;
 }
 
 .bottom {
@@ -142,7 +135,7 @@
     line-height: 1.45;
   }
 
-  .visual { inline-size: min(62vw, 26rem); }
+  .visual { inline-size: min(76vw, 34rem); }
   .bottom p { display: block; }
 }
 
@@ -161,7 +154,7 @@
 
   .visual {
     justify-self: end;
-    inline-size: min(100%, 28rem);
+    inline-size: min(100%, 31rem);
   }
 }
 

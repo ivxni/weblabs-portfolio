@@ -1,0 +1,142 @@
+.system {
+  position: relative;
+  isolation: isolate;
+  inline-size: 100%;
+  overflow: hidden;
+  border-block: 1px solid var(--c-line-strong);
+}
+
+.header,
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-16);
+  align-items: center;
+  min-block-size: 3rem;
+  @include micro-label;
+  color: var(--c-text-subtle);
+}
+
+.header {
+  border-bottom: 1px solid var(--c-line);
+}
+
+.header b {
+  color: var(--c-text);
+  font-weight: var(--fw-regular);
+}
+
+.layers {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.layer {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  gap: var(--space-16);
+  align-items: center;
+  min-block-size: clamp(4.3rem, 8vw, 5.8rem);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.layer > span,
+.layer small,
+.layer em {
+  @include mono-value;
+  color: var(--c-text-subtle);
+}
+
+.layer > span {
+  align-self: start;
+  padding-block-start: var(--space-20, 1.25rem);
+}
+
+.layer div {
+  display: grid;
+  gap: var(--space-8);
+  min-inline-size: 0;
+  padding-block: var(--space-16);
+}
+
+.layer strong {
+  color: var(--c-text);
+  font-size: clamp(1.15rem, 2.5vw, 1.65rem);
+  font-weight: var(--fw-regular);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.layer small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layer em {
+  color: var(--c-text-muted);
+  font-style: normal;
+  text-align: right;
+}
+
+.footer {
+  min-block-size: 3.5rem;
+}
+
+.footer p {
+  margin: 0;
+  color: var(--c-text);
+  text-align: right;
+}
+
+.signal {
+  position: absolute;
+  z-index: -1;
+  inset-inline: 0;
+  inset-block-start: 3rem;
+  block-size: 1px;
+  background: var(--c-text);
+  opacity: 0;
+  transform: translateY(0);
+  animation: signal-pass 7s var(--ease-in-out) infinite;
+  pointer-events: none;
+}
+
+@keyframes signal-pass {
+  0%, 10% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  16% { opacity: 0.26; }
+
+  84% { opacity: 0.14; }
+
+  90%, 100% {
+    opacity: 0;
+    transform: translateY(calc(100% + 23rem));
+  }
+}
+
+@media (max-width: 28rem) {
+  .layer {
+    grid-template-columns: 1.6rem minmax(0, 1fr);
+    gap: var(--space-12);
+  }
+
+  .layer em { display: none; }
+
+  .footer {
+    align-items: start;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: var(--space-12);
+  }
+
+  .footer p { text-align: left; }
+}
+
+@include reduced-motion {
+  .signal { display: none; }
+}
