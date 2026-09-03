@@ -90,6 +90,31 @@ export function conversationWindow(
   return firstUser <= 0 ? window : window.slice(firstUser);
 }
 
+/**
+ * Kopfzeilen der Anfrage.
+ *
+ * `anthropic-workspace-id` ist nur bei IDENTITÄTSGEBUNDENEN Schlüsseln nötig.
+ * Solche Schlüssel hängen an einem Konto statt an einem Workspace, und die API
+ * kann deshalb nicht selbst bestimmen, in wessen Namen die Anfrage läuft — sie
+ * antwortet dann mit 400 und genau dieser Begründung.
+ *
+ * Ein gewöhnlicher, auf einen Workspace ausgestellter Schlüssel braucht den
+ * Header nicht. Deshalb wird er nur gesetzt, wenn die Variable vorhanden ist:
+ * Ein leerer Header wäre bei einem normalen Schlüssel selbst wieder ein Fehler.
+ */
+export function buildHeaders(apiKey: string): Record<string, string> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    'x-api-key': apiKey,
+    'anthropic-version': ANTHROPIC_VERSION,
+  };
+
+  const workspaceId = process.env.ANTHROPIC_WORKSPACE_ID?.trim();
+  if (workspaceId) headers['anthropic-workspace-id'] = workspaceId;
+
+  return headers;
+}
+
 async function requestAnthropic(
   apiKey: string,
   messages: readonly VectorMessage[],
@@ -101,11 +126,7 @@ async function requestAnthropic(
   try {
     return await fetch(ANTHROPIC_ENDPOINT, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': ANTHROPIC_VERSION,
-      },
+      headers: buildHeaders(apiKey),
       body: JSON.stringify({
         model: VECTOR_MODEL,
         max_tokens: 500,
@@ -170,6 +191,28 @@ export async function generateVectorAnswer(
      */
     const detail = payload.error?.message ?? 'kein Grund übermittelt';
     console.error(`[vector] Anthropic antwortete mit ${response.status}: ${detail}`);
+
+    /*
+     * Ein fehlender Workspace ist kein Ausfall des Anbieters, sondern eine
+     * unvollständige Konfiguration — und zwar eine, die sich in einer Zeile
+     * beheben lässt. Sie als „vorübergehend nicht erreichbar" auszugeben,
+     * schickt den Betreiber auf die Suche nach einer Störung, die es nicht
+     * gibt. Deshalb bekommt genau dieser Fall eine eigene Einordnung.
+     */
+    if (detail.includes('anthropic-workspace-id')) {
+      console.error(
+        '[vector] Der Schlüssel ist identitätsgebunden. Setze ANTHROPIC_WORKSPACE_ID ' +
+          '(Anthropic Console → Settings → Workspaces, Format wrkspc_…) oder verwende ' +
+          'einen auf einen Workspace ausgestellten Schlüssel.',
+      );
+      throw new VectorProviderError(
+        'Vector ist auf diesem Server noch nicht vollständig konfiguriert.',
+        'configuration',
+        response.status,
+        detail,
+      );
+    }
+
     throw new VectorProviderError(
       'Das Sprachmodell ist vorübergehend nicht erreichbar.',
       'provider',

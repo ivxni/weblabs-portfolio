@@ -42,6 +42,11 @@ services:
       # Einziger erforderlicher Wert für Vector. Das Modell ist bewusst im
       # Code festgelegt, damit ein Wechsel versioniert und testbar bleibt.
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      # Nur bei einem identitätsgebundenen Schlüssel nötig. Solche Schlüssel
+      # hängen an einem Konto statt an einem Workspace; ohne diese Angabe
+      # antwortet die API mit 400. Ein auf einen Workspace ausgestellter
+      # Schlüssel braucht sie nicht — dann bleibt die Variable leer.
+      ANTHROPIC_WORKSPACE_ID: ${ANTHROPIC_WORKSPACE_ID:-}
 
     healthcheck:
       test:

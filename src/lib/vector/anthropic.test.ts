@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { generateVectorAnswer, VECTOR_MODEL, VectorProviderError, conversationWindow } from './anthropic';
+import { generateVectorAnswer, VECTOR_MODEL, VectorProviderError, conversationWindow, buildHeaders } from './anthropic';
 import type { VectorSearchResult } from './retrieval';
 
 const context: VectorSearchResult[] = [
@@ -103,5 +103,39 @@ describe('conversationWindow', () => {
   it('endet immer auf der Nutzerfrage', () => {
     const history = [user('1'), assistant('2'), user('3'), assistant('4'), user('5')];
     expect(conversationWindow(history).at(-1)?.role).toBe('user');
+  });
+});
+
+describe('Kopfzeilen', () => {
+  const originalWorkspace = process.env.ANTHROPIC_WORKSPACE_ID;
+
+  afterEach(() => {
+    if (originalWorkspace === undefined) delete process.env.ANTHROPIC_WORKSPACE_ID;
+    else process.env.ANTHROPIC_WORKSPACE_ID = originalWorkspace;
+  });
+
+  it('sendet anthropic-workspace-id, wenn die Variable gesetzt ist', () => {
+    process.env.ANTHROPIC_WORKSPACE_ID = 'wrkspc_test';
+    expect(buildHeaders('sk-ant-test')['anthropic-workspace-id']).toBe('wrkspc_test');
+  });
+
+  it('lässt die Kopfzeile weg, wenn die Variable fehlt', () => {
+    // Wichtig: Ein LEERER Header wäre bei einem gewöhnlichen, auf einen
+    // Workspace ausgestellten Schlüssel selbst wieder ein Fehler. Deshalb darf
+    // er nicht einfach mit leerem Wert mitgeschickt werden.
+    delete process.env.ANTHROPIC_WORKSPACE_ID;
+    expect(buildHeaders('sk-ant-test')).not.toHaveProperty('anthropic-workspace-id');
+  });
+
+  it('ignoriert eine Variable, die nur aus Leerzeichen besteht', () => {
+    process.env.ANTHROPIC_WORKSPACE_ID = '   ';
+    expect(buildHeaders('sk-ant-test')).not.toHaveProperty('anthropic-workspace-id');
+  });
+
+  it('schickt Schlüssel und API-Version immer mit', () => {
+    delete process.env.ANTHROPIC_WORKSPACE_ID;
+    const headers = buildHeaders('sk-ant-test');
+    expect(headers['x-api-key']).toBe('sk-ant-test');
+    expect(headers['anthropic-version']).toBeTruthy();
   });
 });
