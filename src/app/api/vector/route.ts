@@ -90,6 +90,12 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     if (error instanceof VectorProviderError) {
+      // Auch der erwartete Fehlerfall wird protokolliert. Vorher wurde er
+      // still an den Browser durchgereicht — im Serverlog stand dann nichts,
+      // und ein Ausfall liess sich nur durch Raten eingrenzen.
+      console.error(
+        `[vector] Anbieterfehler (${error.kind}${error.status ? ` ${error.status}` : ''}): ${error.detail ?? error.message}`,
+      );
       const status = error.kind === 'configuration' ? 503 : error.kind === 'timeout' ? 504 : 502;
       return NextResponse.json(
         { ok: false, error: error.message },

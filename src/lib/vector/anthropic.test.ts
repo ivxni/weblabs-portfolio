@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { generateVectorAnswer, VECTOR_MODEL, VectorProviderError } from './anthropic';
+import { generateVectorAnswer, VECTOR_MODEL, VectorProviderError, conversationWindow } from './anthropic';
 import type { VectorSearchResult } from './retrieval';
 
 const context: VectorSearchResult[] = [
@@ -71,5 +71,37 @@ describe('Anthropic Client für Vector', () => {
       name: VectorProviderError.name,
       kind: 'configuration',
     });
+  });
+});
+
+describe('conversationWindow', () => {
+  const user = (content: string) => ({ role: 'user' as const, content });
+  const assistant = (content: string) => ({ role: 'assistant' as const, content });
+
+  it('beginnt nie mit einer Assistenzantwort', () => {
+    // Der Auslöser des Fehlers: Bei sieben Nachrichten schnitt `slice(-6)`
+    // mitten in einen Assistenz-Turn, und die Messages-API antwortete mit 400.
+    const history = [
+      user('1'), assistant('2'), user('3'), assistant('4'),
+      user('5'), assistant('6'), user('7'),
+    ];
+    expect(conversationWindow(history)[0]?.role).toBe('user');
+  });
+
+  it('lässt ein bereits gültiges Fenster unverändert', () => {
+    const history = [user('1'), assistant('2'), user('3')];
+    expect(conversationWindow(history)).toEqual(history);
+  });
+
+  it('behält höchstens sechs Nachrichten', () => {
+    const history = Array.from({ length: 8 }, (_, i) =>
+      i % 2 === 0 ? user(String(i)) : assistant(String(i)),
+    );
+    expect(conversationWindow(history).length).toBeLessThanOrEqual(6);
+  });
+
+  it('endet immer auf der Nutzerfrage', () => {
+    const history = [user('1'), assistant('2'), user('3'), assistant('4'), user('5')];
+    expect(conversationWindow(history).at(-1)?.role).toBe('user');
   });
 });

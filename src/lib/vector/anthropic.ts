@@ -43,6 +43,12 @@ export class VectorProviderError extends Error {
     message: string,
     readonly kind: 'configuration' | 'timeout' | 'provider',
     readonly status?: number,
+    /**
+     * Klartextgrund des Anbieters. Geht NIE an den Browser — dort steht die
+     * allgemeine Meldung. Er dient allein dem Serverlog, damit ein Ausfall
+     * überhaupt diagnostizierbar ist.
+     */
+    readonly detail?: string,
   ) {
     super(message);
     this.name = 'VectorProviderError';
@@ -67,6 +73,23 @@ function knowledgeBlock(context: readonly VectorSearchResult[]): string {
     .join('\n');
 }
 
+/**
+ * Die letzten sechs Nachrichten — aber niemals mit einer Assistenzantwort
+ * beginnend.
+ *
+ * Die Messages-API verlangt, dass die erste Nachricht die Rolle `user` hat.
+ * Ein blosses `slice(-6)` konnte bei sieben Einträgen mitten in einem
+ * Assistenz-Turn anfangen und der Anbieter antwortete mit 400. Das trat erst
+ * nach mehreren Fragen auf und sah dann wie ein sporadischer Ausfall aus.
+ */
+export function conversationWindow(
+  messages: readonly VectorMessage[],
+): readonly VectorMessage[] {
+  const window = messages.slice(-6);
+  const firstUser = window.findIndex((message) => message.role === 'user');
+  return firstUser <= 0 ? window : window.slice(firstUser);
+}
+
 async function requestAnthropic(
   apiKey: string,
   messages: readonly VectorMessage[],
@@ -87,7 +110,7 @@ async function requestAnthropic(
         model: VECTOR_MODEL,
         max_tokens: 500,
         system: `${SYSTEM_INSTRUCTIONS}\n\n<portfolio_wissen>\n${knowledgeBlock(context)}\n</portfolio_wissen>`,
-        messages: messages.slice(-6),
+        messages: conversationWindow(messages),
       }),
       cache: 'no-store',
       signal: controller.signal,
@@ -119,6 +142,9 @@ export async function generateVectorAnswer(
     if (error instanceof Error && error.name === 'AbortError') {
       throw new VectorProviderError('Vector hat nicht rechtzeitig geantwortet.', 'timeout');
     }
+    // Ohne diese Zeile ist ein Netzwerk- oder DNS-Problem im Container von
+    // aussen nicht von einem abgelehnten Schlüssel zu unterscheiden.
+    console.error('[vector] Transportfehler zur Anthropic-API:', error);
     throw new VectorProviderError('Die Verbindung zum Sprachmodell ist fehlgeschlagen.', 'provider');
   }
 
@@ -130,7 +156,26 @@ export async function generateVectorAnswer(
   }
 
   if (!response.ok) {
-    throw new VectorProviderError('Das Sprachmodell ist vorübergehend nicht erreichbar.', 'provider', response.status);
+    /*
+     * HIER STAND DER EIGENTLICHE FEHLER — und wurde weggeworfen.
+     *
+     * `payload.error.message` enthält den Klartextgrund des Anbieters:
+     * ungültiger Schlüssel, aufgebrauchtes Guthaben, unbekanntes Modell,
+     * überschrittenes Kontingent. Ohne diese Zeile sieht der Betreiber im Log
+     * nichts und im Browser nur „vorübergehend nicht erreichbar" — eine
+     * Meldung, die auf jede dieser Ursachen passt und auf keine hinweist.
+     *
+     * Der Grund geht bewusst NUR ins Serverlog. Eine Anbieterfehlermeldung an
+     * den Browser durchzureichen, verrät Interna.
+     */
+    const detail = payload.error?.message ?? 'kein Grund übermittelt';
+    console.error(`[vector] Anthropic antwortete mit ${response.status}: ${detail}`);
+    throw new VectorProviderError(
+      'Das Sprachmodell ist vorübergehend nicht erreichbar.',
+      'provider',
+      response.status,
+      detail,
+    );
   }
 
   const answer = payload.content
