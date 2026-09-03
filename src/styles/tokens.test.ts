@@ -91,7 +91,7 @@ describe('Palettenstruktur', () => {
     // Die zentrale Entscheidung dieses Entwurfs. Signalfarben und das
     // Markenorange sind ausgenommen: Sie sind funktional bzw. identifizierend,
     // nicht dekorativ. Ein Fehlerzustand in Grau wäre kein Signal mehr.
-    const exempt = new Set(['c-success', 'c-danger', 'c-brand']);
+    const exempt = new Set(['c-success', 'c-danger', 'c-brand', 'c-hero-blue']);
     for (const [token, color] of palette) {
       if (exempt.has(token)) continue;
       expect(color.c, `--${token} ist bunt (Chroma ${color.c})`).toBeLessThan(0.02);

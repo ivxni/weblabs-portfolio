@@ -2,16 +2,15 @@
 // am meisten Luft und am wenigsten Inhalt — sie hat genau eine Aufgabe, und
 // alles daneben würde davon abziehen.
 .section {
-  padding-block: var(--space-section);
-  border-top: 1px solid var(--c-line);
+  padding-block: clamp(var(--space-96), 10vw, var(--space-128));
 }
 
 .heading {
-  font-size: var(--fs-h1);
-  font-weight: var(--fw-bold);
-  line-height: var(--lh-display);
+  font-size: clamp(2.35rem, 4.5vw, 4.5rem);
+  font-weight: var(--fw-semibold);
+  line-height: 0.96;
   letter-spacing: var(--ls-display);
-  max-width: 16ch;
+  max-width: 17ch;
 }
 
 .body {
@@ -19,7 +18,7 @@
   font-size: var(--fs-lead);
   line-height: var(--lh-lead);
   color: var(--c-text-muted);
-  max-width: var(--measure-prose);
+  max-width: 48ch;
 }
 
 .actions {

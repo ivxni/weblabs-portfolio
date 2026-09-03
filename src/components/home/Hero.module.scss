@@ -1,170 +1,270 @@
+// =============================================================================
+// HERO
+// =============================================================================
+// Eine zentrierte Spalte über einem ruhigen blauen Feld. Rechts steht nichts
+// mehr: Das grosse Markenobjekt war ein Zeichen ohne Aussage neben einer
+// Überschrift, die die Aussage bereits trägt.
+//
+// Zentriert statt links ist hier vertretbar, weil im Hero nur VIER Elemente
+// stehen — Markenzeile, Überschrift, ein Satz, zwei Handlungen. Zentrierung
+// wird erst dann zum Problem, wenn längerer Fliesstext darunter hängt; der
+// steht auf dieser Seite in den Sektionen darunter und bleibt dort linksbündig.
+
 .hero {
-  min-block-size: 100svh;
+  position: relative;
+  min-block-size: clamp(44rem, 92svh, 58rem);
+  // Oben Platz für die feste Kopfleiste (4rem) plus Luft.
+  padding: calc(4rem + var(--space-64)) var(--gutter) var(--space-96);
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: var(--space-32);
-  padding: calc(4rem + var(--space-24)) var(--gutter) var(--space-24);
+  place-items: center;
   overflow: clip;
+  // Eigener Stapelkontext: Die Felder liegen auf negativem z-index und würden
+  // sonst hinter den Seitenhintergrund rutschen.
+  isolation: isolate;
+  border-bottom: 1px solid var(--c-line);
+  background: linear-gradient(180deg, oklch(12.5% 0.008 260deg), var(--c-void));
+
+  @include mq-below('lg') {
+    padding-inline: var(--space-48);
+  }
+
+  @include mq-below('md') {
+    min-block-size: auto;
+    padding-block: calc(4rem + var(--space-64)) var(--space-96);
+  }
+
+  @include mq-below('sm') {
+    padding-block-start: calc(4rem + var(--space-48));
+  }
 }
 
-.meta,
-.bottom {
+// Randabdunklung. Sie hält die Felder von den Kanten weg, damit sie nicht als
+// abgeschnittene Kreise lesbar werden, und führt den Hero unten in den
+// Seitengrund über.
+.hero::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--c-bg) 0%, transparent 22%, transparent 82%, var(--c-bg) 100%),
+    linear-gradient(180deg, transparent 55%, var(--c-bg) 100%);
+}
+
+// -----------------------------------------------------------------------------
+// Blaue Felder
+// -----------------------------------------------------------------------------
+// Drei Stück, bewusst ungleich gross und ungleich verteilt. Drei gleich grosse
+// Kreise auf gleichen Abständen läsen sich als Muster; unterschiedliche Grössen
+// auf zueinander primen Dauern ergeben ein Bild, das sich nie exakt wiederholt.
+//
+// Blau ist die einzige Farbe auf einer sonst monochromen Seite. Sie ist deshalb
+// hier gedeckelt: keines der Felder geht über 0.2 Deckkraft, und sie liegen
+// alle hinter der Abdunklung. Ein Farbfeld, das man als Farbe wahrnimmt statt
+// als Licht, wäre genau der Effekt, der billig aussieht.
+
+.atmosphere {
+  position: absolute;
+  z-index: -3;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+// Gemeinsame Grundlage aller drei Felder.
+%field {
+  position: absolute;
+  display: block;
+  background: var(--c-hero-blue);
+  border-radius: 50%;
+  // Der starke Weichzeichner macht aus dem Kreis ein Licht. Er wird EINMAL beim
+  // Zeichnen berechnet, nicht pro Bild — bewegt wird nur `transform`.
+  filter: blur(150px);
+  will-change: transform;
+}
+
+.fieldBlue {
+  @extend %field;
+  inline-size: min(64rem, 72vw);
+  block-size: min(34rem, 46vw);
+  inset-inline-end: -20%;
+  inset-block-start: 4%;
+  opacity: 0.19;
+  animation: fieldBlue 22s var(--ease-in-out) infinite alternate;
+}
+
+.fieldBlueTwo {
+  @extend %field;
+  inline-size: min(46rem, 58vw);
+  block-size: min(26rem, 36vw);
+  inset-inline-start: -16%;
+  inset-block-end: 2%;
+  opacity: 0.15;
+  filter: blur(170px);
+  animation: fieldBlueTwo 29s var(--ease-in-out) infinite alternate;
+}
+
+// Das kleinste Feld sitzt mittig hinter der Überschrift und hebt sie leicht
+// vom Grund ab. Deutlich schwächer als die beiden anderen — hier steht Text.
+.fieldBlueThree {
+  @extend %field;
+  inline-size: min(34rem, 48vw);
+  block-size: min(20rem, 28vw);
+  inset-inline-start: 50%;
+  inset-block-start: 18%;
+  translate: -50% 0;
+  opacity: 0.11;
+  filter: blur(130px);
+  animation: fieldBlueThree 36s var(--ease-in-out) infinite alternate;
+}
+
+@keyframes fieldBlue {
+  to { transform: translate(-8%, 6%) scale(1.08); }
+}
+
+@keyframes fieldBlueTwo {
+  to { transform: translate(10%, -7%) scale(1.12); }
+}
+
+@keyframes fieldBlueThree {
+  to { transform: translate(0, 5%) scale(1.14); }
+}
+
+@include reduced-motion {
+  // Ruhiger Zustand: Die Felder stehen. Sie sind Hintergrund, nicht Inhalt —
+  // stehend sagen sie exakt dasselbe.
+  .fieldBlue,
+  .fieldBlueTwo,
+  .fieldBlueThree {
+    animation: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Inhalt
+// -----------------------------------------------------------------------------
+.shell {
+  position: relative;
+  z-index: 1;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-24);
-  @include micro-label;
-  color: var(--c-text-subtle);
+  text-align: center;
+  inline-size: min(100%, 54rem);
 }
 
-.meta p:last-child { display: none; }
-
-.main {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-48);
+.brandLine {
+  display: flex;
   align-items: center;
-  min-width: 0;
-  padding-block: var(--space-48);
+  gap: var(--space-16);
 }
 
-.copy { min-width: 0; }
+.mark {
+  inline-size: 2.75rem;
+  block-size: auto;
+
+  @include mq-below('sm') {
+    inline-size: 2.35rem;
+  }
+}
 
 .eyebrow {
   @include micro-label;
-  color: var(--c-text-subtle);
+  color: var(--c-text-muted);
 }
 
-.copy h1 {
-  display: flex;
-  flex-direction: column;
+.shell h1 {
+  // Weiter als in der linksbündigen Fassung (dort 10ch): Zentrierte Zeilen
+  // brauchen mehr Breite, sonst entsteht eine schmale Säule statt eines Satzes.
+  max-inline-size: 14ch;
   margin-block-start: var(--space-32);
-  font-size: clamp(2.7rem, 12.4vw, 4.1rem);
+  color: var(--c-text);
+  font-size: clamp(3.5rem, 5.5vw, 5.5rem);
   font-weight: var(--fw-bold);
-  line-height: 0.8;
-  letter-spacing: -0.065em;
+  line-height: 0.88;
+  letter-spacing: -0.058em;
   text-transform: uppercase;
-  white-space: nowrap;
+  text-wrap: balance;
+
+  @include mq-below('md') {
+    font-size: clamp(3.5rem, 10vw, 5.25rem);
+  }
+
+  @include mq-below('sm') {
+    margin-block-start: var(--space-24);
+    font-size: clamp(2.85rem, 14vw, 4rem);
+  }
 }
 
-.introRow {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-24);
-  align-items: end;
-  margin-block-start: var(--space-48);
-  padding-block-start: var(--space-24);
-  border-top: 1px solid var(--c-line);
-}
+.lead {
+  max-inline-size: 46ch;
+  margin-block-start: var(--space-32);
+  color: var(--c-text-muted);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
 
-.introRow > p {
-  max-width: 46ch;
-  font-size: var(--fs-body);
-  line-height: 1.5;
+  @include mq-below('sm') {
+    max-inline-size: 32ch;
+    margin-block-start: var(--space-24);
+    font-size: var(--fs-body);
+  }
 }
 
 .actions {
-  display: grid;
-  gap: var(--space-16);
-  justify-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-12);
+  margin-block-start: var(--space-48);
+
+  @include mq-below('sm') {
+    margin-block-start: var(--space-32);
+  }
 }
 
 .actions a {
   display: inline-flex;
+  min-block-size: 2.875rem;
   align-items: center;
+  justify-content: center;
   gap: var(--space-12);
-  padding-block-end: var(--space-4);
-  border-bottom: 1px solid var(--c-line-strong);
-  @include micro-label;
+  padding-inline: var(--space-24);
+  border: 1px solid var(--c-border-control);
+  border-radius: var(--radius-md);
   color: var(--c-text);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
   text-decoration: none;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
-.actions a:first-child { border-bottom-color: var(--c-text); }
+.actions a:first-child {
+  color: var(--c-on-emphasis);
+  background: var(--c-emphasis);
+  border-color: var(--c-emphasis);
+}
+
+// 2px Versatz, keine Vergrösserung: Ein Versatz sagt „anklickbar", eine
+// Skalierung lässt nur die Kanten flimmern.
+.actions a:hover {
+  transform: translateY(-2px);
+}
 
 .actions svg {
   transition: transform var(--dur-fast) var(--ease-out);
 }
 
-.actions a:hover svg { transform: translateX(var(--space-4)); }
-
-.visual {
-  position: relative;
-  justify-self: center;
-  inline-size: min(100%, 34rem);
-  min-width: 0;
-}
-
-.bottom {
-  padding-block-start: var(--space-16);
-  border-top: 1px solid var(--c-line);
-}
-
-.bottom p { display: none; }
-
-.bottom a {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-12);
-  margin-inline-start: auto;
-  color: var(--c-text-subtle);
-  text-decoration: none;
-}
-
-@include mq('sm') {
-  .actions {
-    grid-template-columns: repeat(2, auto);
-    gap: var(--space-24);
-  }
-}
-
-@include mq('md') {
-  .hero {
-    gap: var(--space-48);
-    padding-block-start: calc(4rem + var(--space-32));
-  }
-
-  .meta p:last-child { display: block; }
-
-  .copy h1 {
-    font-size: clamp(4.25rem, 9.6vw, 6.1rem);
-  }
-
-  .introRow > p {
-    font-size: var(--fs-lead);
-    line-height: 1.45;
-  }
-
-  .visual { inline-size: min(76vw, 34rem); }
-  .bottom p { display: block; }
-}
-
-@include mq('lg') {
-  .main {
-    grid-template-columns: minmax(0, 1.42fr) minmax(17rem, 0.72fr);
-    gap: clamp(var(--space-32), 5vw, var(--space-96));
-    padding-block: var(--space-32);
-  }
-
-  .copy h1 {
-    font-size: clamp(4.6rem, 7.1vw, 8.2rem);
-  }
-
-  .copy h1 span:nth-child(2) { padding-inline-start: 15%; }
-
-  .visual {
-    justify-self: end;
-    inline-size: min(100%, 31rem);
-  }
-}
-
-@include mq('xl') {
-  .introRow {
-    grid-template-columns: minmax(18rem, 34rem) auto;
-    gap: var(--space-48);
-  }
+.actions a:hover svg {
+  transform: translateX(var(--space-4));
 }
 
 @include reduced-motion {
-  .actions a:hover svg { transform: none; }
+  .actions a:hover,
+  .actions a:hover svg {
+    transform: none;
+  }
 }

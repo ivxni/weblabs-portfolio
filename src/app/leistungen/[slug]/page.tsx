@@ -7,6 +7,7 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Container } from '@/components/ui/Container';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Section } from '@/components/ui/Section';
+import { ServiceFaq } from '@/components/services/ServiceFaq';
 import {
   absoluteUrl,
   breadcrumbEntity,
@@ -158,19 +159,14 @@ export default async function ServicePage({ params }: PageProps) {
       </Section>
 
       <Section ruled compact>
-        <Container width="narrow">
-          <div className={styles.chapterHead}>
-            <p className={styles.label}>Klarheit vor dem Start</p>
-            <h2>Häufige Fragen.</h2>
+        <Container>
+          <div className={styles.faqLayout}>
+            <div className={styles.chapterHead}>
+              <p className={styles.label}>Klarheit vor dem Start</p>
+              <h2>Häufige Fragen.</h2>
+            </div>
+            <ServiceFaq entries={service.faq} />
           </div>
-          <dl className={styles.faq}>
-            {service.faq.map((entry) => (
-              <div key={entry.question}>
-                <dt>{entry.question}</dt>
-                <dd>{entry.answer}</dd>
-              </div>
-            ))}
-          </dl>
         </Container>
       </Section>
 

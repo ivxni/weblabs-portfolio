@@ -15,7 +15,9 @@ export const metadata = createPageMetadata({
 /**
  * Diese Erklärung beschreibt, was der Code TATSÄCHLICH tut — nicht, was eine
  * Vorlage üblicherweise auflistet. Konkret gibt es hier kein Analytics, keine
- * Cookies, keinen externen Schriftabruf und keine Einbettungen. Genau das steht
+ * Cookies, keinen externen Schriftabruf und keine Einbettungen. Vector sendet
+ * erst nach einer bewussten Frage einen begrenzten Gesprächsausschnitt an
+ * Anthropic. Genau das steht
  * deshalb auch drin. Ein Abschnitt über Google Fonts oder Cookie-Einwilligung
  * wäre falsch und würde die übrigen Angaben unglaubwürdig machen.
  */
@@ -25,7 +27,7 @@ export default function PrivacyPage() {
       <PageHeader
         label="Rechtliches"
         title="Datenschutzerklärung"
-        lead="Diese Website erhebt so wenig Daten wie technisch möglich. Es gibt keine Analyse-Werkzeuge, keine Cookies zur Wiedererkennung und keine eingebetteten Inhalte Dritter."
+        lead="Diese Website erhebt so wenig Daten wie technisch möglich. Es gibt keine Analysewerkzeuge, keine Cookies zur Wiedererkennung und keine eingebetteten Inhalte Dritter. Vector wird nur aktiv, wenn Sie selbst eine Frage senden."
       />
 
       <Section>
@@ -100,6 +102,48 @@ export default function PrivacyPage() {
           </div>
 
           <div className={styles.block}>
+            <h2 className={styles.heading}>Vector Portfolio Assistenz</h2>
+            <div className={styles.body}>
+              <p>
+                Vector ist eine freiwillige Portfolio Assistenz. Erst wenn Sie eine Frage
+                absenden, werden die Nachricht, höchstens fünf vorherige Nachrichten dieses
+                Gesprächs und passende öffentliche Portfolioinhalte an die Anthropic PBC in den
+                USA übermittelt. Die Verarbeitung erfolgt über die Anthropic API, damit aus dem
+                bereitgestellten Wissen eine Antwort formuliert werden kann.
+              </p>
+              <p>
+                WebLabs speichert den Gesprächsverlauf nicht in einer Datenbank und nicht im
+                Browserspeicher. Er bleibt während des geöffneten Seitenbesuchs im Arbeitsspeicher
+                des Browsers. Zur Begrenzung automatisierter Anfragen wird die IP-Adresse für ein
+                Zeitfenster von zehn Minuten im Arbeitsspeicher des Servers verarbeitet.
+              </p>
+              <p>
+                Anthropic gibt für die reguläre API eine automatische Löschung von Ein- und
+                Ausgaben innerhalb von 30 Tagen an, soweit keine gesetzlichen oder
+                sicherheitsbezogenen Ausnahmen greifen. Daten aus kommerziellen API-Angeboten
+                werden nach Angaben von Anthropic standardmäßig nicht zum Training generativer
+                Modelle verwendet. Bitte geben Sie trotzdem keine vertraulichen Daten,
+                Zugangsdaten oder besonderen Kategorien personenbezogener Daten ein.
+              </p>
+              <p>
+                Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Das berechtigte Interesse liegt
+                in der verständlichen und direkten Information über Leistungen und Projekte. Bei
+                einer konkreten vorvertraglichen Anfrage gilt ergänzend Art. 6 Abs. 1 lit. b
+                DSGVO. Weitere Angaben stellt das{' '}
+                <a
+                  href="https://privacy.anthropic.com/"
+                  className={styles.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Anthropic Privacy Center
+                </a>{' '}
+                bereit.
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.block}>
             <h2 className={styles.heading}>Cookies, Analyse und Tracking</h2>
             <div className={styles.body}>
               <p>
@@ -159,7 +203,7 @@ export default function PrivacyPage() {
             </div>
           </div>
 
-          <p className={styles.updated}>Stand: 31. August 2026</p>
+          <p className={styles.updated}>Stand: 1. September 2026</p>
         </Container>
       </Section>
     </>

@@ -1,174 +1,168 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import * as Accordion from '@radix-ui/react-accordion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useReducedMotion } from 'motion/react';
 import { MarketSignalDemo } from './MarketSignalDemo';
 import { SecurityLabDemo } from './SecurityLabDemo';
 import styles from './FocusTabs.module.scss';
 
-type Focus = 'web' | 'ai' | 'security';
+const disciplines = [
+  { id: 'web', number: '01', title: 'Software & Web', summary: 'Produkte von der Oberfläche bis zum stabilen Betrieb.' },
+  { id: 'ai', number: '02', title: 'KI-Systeme', summary: 'Computer Vision, Agenten und ML-Pipelines mit kontrollierten Grenzen.' },
+  { id: 'security', number: '03', title: 'Security Research', summary: 'Systemnahe Forschung an FPGA, PCIe und Windows.' },
+] as const;
 
-const tabs: readonly { id: Focus; number: string; label: string }[] = [
-  { id: 'web', number: '01', label: 'Web Development' },
-  { id: 'ai', number: '02', label: 'KI & Agents' },
-  { id: 'security', number: '03', label: 'IT Security / RE' },
-];
-
-function PanelHeader({ number, title, text }: { number: string; title: string; text: string }) {
+function CaseLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <header className={styles.panelHeader}>
-      <p>{number} / Focus</p>
-      <h3>{title}</h3>
-      <p className={styles.panelLead}>{text}</p>
-    </header>
+    <Link className={styles.caseLink} href={href}>
+      {children}
+      <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
+    </Link>
   );
 }
 
 export function FocusTabs() {
-  const [active, setActive] = useState<Focus>('web');
-  const prefersReducedMotion = useReducedMotion();
+  const reducedMotion = useReducedMotion();
+  const scrollTimer = useRef<number | null>(null);
+  const openDisciplines = useRef<string[]>(['web']);
 
   useEffect(() => {
-    const requested = new URLSearchParams(window.location.search).get('focus');
-    if (requested === 'web' || requested === 'ai' || requested === 'security') setActive(requested);
+    return () => {
+      if (scrollTimer.current !== null) {
+        window.clearTimeout(scrollTimer.current);
+      }
+    };
   }, []);
 
-  const moveTab = (current: Focus, direction: -1 | 1) => {
-    const currentIndex = tabs.findIndex((tab) => tab.id === current);
-    const next = tabs[(currentIndex + direction + tabs.length) % tabs.length];
-    if (!next) return;
-    setActive(next.id);
-    window.requestAnimationFrame(() => document.getElementById(`tab-${next.id}`)?.focus());
-  };
+  function handleValueChange(values: string[]) {
+    const openedDiscipline = values.find((value) => !openDisciplines.current.includes(value));
+    openDisciplines.current = values;
+
+    if (!openedDiscipline) return;
+
+    if (scrollTimer.current !== null) {
+      window.clearTimeout(scrollTimer.current);
+    }
+
+    scrollTimer.current = window.setTimeout(() => {
+      document.getElementById(`focus-${openedDiscipline}`)?.scrollIntoView({
+        behavior: reducedMotion ? 'auto' : 'smooth',
+        block: 'start',
+      });
+      scrollTimer.current = null;
+    }, reducedMotion ? 0 : 120);
+  }
 
   return (
     <section className={styles.section} id="focus" aria-labelledby="focus-heading">
-      <header className={styles.sectionHeader}>
-        <p>Was ich entwickle</p>
-        <div>
-          <h2 id="focus-heading">Drei Felder.<br />Ein roter Faden.</h2>
-          <p>Ich baue Systeme, in denen Oberfläche, Modell und technische Grenze zusammenpassen. Die Fachbereiche unterscheiden sich. Die Arbeitsweise bleibt dieselbe.</p>
-        </div>
+      <header className={styles.header}>
+        <p className={styles.kicker}>Fachbereiche</p>
+        <h2 id="focus-heading">Drei Disziplinen.<br />Ein technischer Anspruch.</h2>
+        <p className={styles.lead}>
+          Kurze Einblicke statt einer langen Leistungsliste. Jeder Bereich öffnet seine eigenen
+          Systeme und technischen Belege.
+        </p>
       </header>
 
-      <div className={styles.tabs} role="tablist" aria-label="Fachbereiche">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            role="tab"
-            id={`tab-${tab.id}`}
-            aria-selected={active === tab.id}
-            aria-controls="focus-panel"
-            tabIndex={active === tab.id ? 0 : -1}
-            className={active === tab.id ? styles.activeTab : undefined}
-            onClick={() => setActive(tab.id)}
-            onKeyDown={(event) => {
-              if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-                event.preventDefault();
-                moveTab(tab.id, -1);
-              }
-              if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-                event.preventDefault();
-                moveTab(tab.id, 1);
-              }
-            }}
+      <Accordion.Root
+        className={styles.accordion}
+        type="multiple"
+        defaultValue={['web']}
+        onValueChange={handleValueChange}
+      >
+        {disciplines.map((discipline) => (
+          <Accordion.Item
+            className={styles.item}
+            value={discipline.id}
+            id={`focus-${discipline.id}`}
+            key={discipline.id}
           >
-            <span>{tab.number}</span>{tab.label}
-          </button>
+            <Accordion.Header>
+              <Accordion.Trigger className={styles.trigger}>
+                <span className={styles.number}>{discipline.number}</span>
+                <strong>{discipline.title}</strong>
+                <span className={styles.summary}>{discipline.summary}</span>
+                <FontAwesomeIcon className={styles.plus} icon={faPlus} aria-hidden="true" />
+              </Accordion.Trigger>
+            </Accordion.Header>
+
+            <Accordion.Content className={styles.content}>
+              <div className={styles.contentInner}>
+                {discipline.id === 'web' && (
+                  <div className={styles.webPanel}>
+                    <Link href="/projekte/unitfly" className={styles.featuredVisual}>
+                      <Image src="/images/work/unitfly.jpg" alt="Administrationsoberfläche der UnitFly Plattform" fill sizes="(max-width: 56rem) 100vw, 62vw" />
+                      <span>Fullstack System</span>
+                    </Link>
+                    <div className={styles.webCopy}>
+                      <p className={styles.panelLabel}>Software Engineering</p>
+                      <h3>Frontend, Backend, Daten und Deployment als ein Produkt.</h3>
+                      <p>Next.js und React im Frontend, Python oder Node im Backend, saubere Datenmodelle, Tests, Docker und ein reproduzierbarer Betrieb.</p>
+                      <nav aria-label="Ausgewählte Softwareprojekte">
+                        <CaseLink href="/projekte/unitfly">UnitFly</CaseLink>
+                        <CaseLink href="/projekte/pa-it-services">PLP IT-Services</CaseLink>
+                        <CaseLink href="/projekte/weblabs">WebLabs</CaseLink>
+                      </nav>
+                    </div>
+                  </div>
+                )}
+
+                {discipline.id === 'ai' && (
+                  <div className={styles.aiPanel}>
+                    <article className={styles.visionStory}>
+                      <div className={styles.videoFrame}>
+                        <video autoPlay={!reducedMotion} muted loop playsInline preload="metadata" poster="/media/realtime-vision-demo-poster.jpg" aria-label="Debug-Viewport einer laufenden Echtzeit-Objekterkennung">
+                          <source src="/media/realtime-vision-demo.webm" type="video/webm" />
+                          <source src="/media/realtime-vision-demo.mp4" type="video/mp4" />
+                        </video>
+                        <span>Realtime inference</span>
+                      </div>
+                      <div className={styles.storyCopy}>
+                        <p className={styles.panelLabel}>Computer Vision</p>
+                        <h3>Realtime Vision Runtime</h3>
+                        <p>YOLO-Inferenz über TensorRT, ONNX Runtime oder OpenVINO. Ein separater Arduino-Layer übernimmt Protokoll, Firmware und Hardware-Ausgabe.</p>
+                        <CaseLink href="/projekte/realtime-vision-runtime">Case Study</CaseLink>
+                      </div>
+                    </article>
+
+                    <article className={styles.marketStory}>
+                      <div className={styles.storyCopy}>
+                        <p className={styles.panelLabel}>Time Series ML</p>
+                        <h3>ML Market Runtime</h3>
+                        <p>Acht Forex-Zeitreihen, Walk-forward-Validierung, Multi-Source-Features und eine deterministische Risikoebene hinter der Modellprognose.</p>
+                        <CaseLink href="/projekte/ml-market-runtime">Case Study</CaseLink>
+                      </div>
+                      <MarketSignalDemo />
+                    </article>
+                    <Link href="/projekte/unitfly" className={styles.agentLink}>
+                      <span>Agent Systems</span>
+                      <strong>Guardrails, Audit und kontrollierte Aktionen in UnitFly</strong>
+                      <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
+                    </Link>
+                  </div>
+                )}
+
+                {discipline.id === 'security' && (
+                  <div className={styles.securityPanel}>
+                    <div className={styles.securityIntro}>
+                      <p className={styles.panelLabel}>Isolated Research</p>
+                      <h3>Security an realen Systemgrenzen</h3>
+                      <p>FPGA, PCIe, Kernel-Internals und Plattformidentität in kontrollierten Laborumgebungen, mit defensivem Fokus und dokumentierten Grenzen.</p>
+                    </div>
+                    <SecurityLabDemo />
+                    <CaseLink href="/projekte/void">Privacy Engineering ansehen</CaseLink>
+                  </div>
+                )}
+              </div>
+            </Accordion.Content>
+          </Accordion.Item>
         ))}
-      </div>
-
-      <div className={styles.panel} role="tabpanel" id="focus-panel" aria-labelledby={`tab-${active}`}>
-        {active === 'web' && (
-          <>
-            <PanelHeader
-              number="01"
-              title="Produkte von der Oberfläche bis zum Betrieb."
-              text="Next.js und React im Frontend, Python oder Node im Backend, relationale Datenmodelle, Tests und containerisierte Auslieferung."
-            />
-            <div className={styles.caseRow}>
-              <Link href="/projekte/unitfly" className={styles.webVisual} aria-label="UnitFly Case Study öffnen">
-                <Image src="/images/work/unitfly.jpg" alt="UnitFly Produktoberfläche" fill sizes="(max-width: 768px) 100vw, 58vw" />
-                <span>Featured system / UnitFly</span>
-              </Link>
-              <div className={styles.caseIndex}>
-                <p className={styles.indexLabel}>Ausgewählte Web-Systeme</p>
-                <Link href="/projekte/unitfly"><span>01</span><strong>UnitFly</strong><small>Fullstack · AI</small></Link>
-                <Link href="/projekte/pa-it-services"><span>02</span><strong>PLP IT-Services</strong><small>Platform</small></Link>
-                <Link href="/projekte/weblabs"><span>03</span><strong>WebLabs</strong><small>Portfolio system</small></Link>
-                <Link href="/projekte" className={styles.allLink}>Alle Projekte →</Link>
-              </div>
-            </div>
-          </>
-        )}
-
-        {active === 'ai' && (
-          <>
-            <PanelHeader
-              number="02"
-              title="Modelle als kontrollierte Systemkomponenten."
-              text="Computer Vision, Agenten und Zeitreihenmodelle mit messbarer Pipeline, Fallbacks und deterministischen Grenzen außerhalb des Modells."
-            />
-            <article className={`${styles.caseRow} ${styles.visionCase}`}>
-              <div className={styles.videoFrame}>
-                <video
-                  autoPlay={!prefersReducedMotion}
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster="/media/realtime-vision-demo-poster.jpg"
-                  aria-label="Anonymisierter Debug-Viewport einer laufenden Echtzeit-Objekterkennung"
-                >
-                  <source src="/media/realtime-vision-demo.mp4" type="video/mp4" />
-                  <source src="/media/realtime-vision-demo.webm" type="video/webm" />
-                </video>
-                <span>Realtime inference</span>
-              </div>
-              <div className={styles.caseCopy}>
-                <p>Computer Vision / Private Case</p>
-                <h4>Realtime Vision Runtime</h4>
-                <p>Capture und OpenCV-Pipeline mit YOLO-Inferenz über TensorRT, ONNX Runtime oder OpenVINO; ein getrennt entwickelter Arduino-Layer übernimmt Protokoll, Firmware und Hardware-Ausgabe.</p>
-                <ul role="list"><li>TensorRT</li><li>ONNX Runtime</li><li>Arduino</li></ul>
-                <Link href="/projekte/realtime-vision-runtime">Technische Case Study →</Link>
-              </div>
-            </article>
-            <article className={`${styles.caseRow} ${styles.reverseCase} ${styles.marketCase}`}>
-              <MarketSignalDemo />
-              <div className={styles.caseCopy}>
-                <p>ML Systems / Time Series</p>
-                <h4>ML Market Runtime</h4>
-                <p>XGBoost-Pipeline für acht Forex-Paare mit technischen, makroökonomischen und nachrichtenbasierten Features, Walk-forward-Validierung und deterministischen Risiko-Gates.</p>
-                <ul role="list"><li>XGBoost</li><li>Multi-source data</li><li>Risk gates</li></ul>
-                <Link href="/projekte/ml-market-runtime">Technische Case Study →</Link>
-              </div>
-            </article>
-            <Link href="/projekte/unitfly" className={styles.crossLink}><span>Agent systems</span><strong>UnitFly: Guardrails, Audit und kontrollierte Aktionen</strong><i>Case Study →</i></Link>
-          </>
-        )}
-
-        {active === 'security' && (
-          <>
-            <PanelHeader
-              number="03"
-              title="Security Research an realen Systemgrenzen."
-              text="FPGA, PCIe, Windows Kernel und Geräteidentität, analysiert in isolierten Testumgebungen und öffentlich bewusst ohne operative Umgehungsanleitungen."
-            />
-            <div className={styles.securityLayout}>
-              <SecurityLabDemo />
-              <div className={styles.securityIndex}>
-                <article><span>01</span><div><h4>PCIe Device Research</h4><p>SystemVerilog, Konfigurationsraum, BAR-Logik, TLP-Verarbeitung und IOMMU-Verhalten.</p><small>Vivado · Artix-7 · PCIe</small></div></article>
-                <article><span>02</span><div><h4>Driver Security Research</h4><p>Defensive Analyse von BYOVD-Angriffsflächen, Speicherabbildung und x64-Seitentabellen.</p><small>C++ · WinDbg · Kernel internals</small></div></article>
-                <article><span>03</span><div><h4>Platform Integrity</h4><p>Windows-Geräteidentitäten und die Vertrauensgrenzen von Registry, SMBIOS und Netzwerkmerkmalen.</p><small>C++ · C# · Windows internals</small></div></article>
-              </div>
-            </div>
-            <Link href="/projekte/void" className={styles.crossLink}><span>Privacy engineering</span><strong>VOiD: Adversarial Computer Vision und verschlüsselte Verarbeitung</strong><i>Case Study →</i></Link>
-          </>
-        )}
-      </div>
+      </Accordion.Root>
     </section>
   );
 }

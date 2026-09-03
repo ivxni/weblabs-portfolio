@@ -18,29 +18,34 @@
       "static/css/app/page.css",
       "static/chunks/app/page.js"
     ],
+    "/kontakt/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/kontakt/page.css",
+      "static/chunks/app/kontakt/page.js"
+    ],
     "/erfahrung/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/erfahrung/page.css",
       "static/chunks/app/erfahrung/page.js"
     ],
-    "/projekte/page": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/projekte/page.css",
-      "static/chunks/app/projekte/page.js"
+      "static/css/app/_not-found/page.css",
+      "static/chunks/app/_not-found/page.js"
+    ],
+    "/api/health/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/health/route.js"
     ],
     "/projekte/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/projekte/[slug]/page.css",
       "static/chunks/app/projekte/[slug]/page.js"
-    ],
-    "/kontakt/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/kontakt/page.css",
-      "static/chunks/app/kontakt/page.js"
     ]
   }
 }

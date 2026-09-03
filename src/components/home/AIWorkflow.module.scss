@@ -1,0 +1,74 @@
+.workflow { border-block: 1px solid var(--c-line-strong); }
+
+.brief {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 1fr);
+  gap: var(--space-32);
+  padding-block: var(--space-24);
+}
+
+.brief > p,
+.brief dt,
+.steps > li > span,
+.workflow footer span,
+.workflow footer strong { @include micro-label; color: var(--c-text-subtle); }
+
+.brief dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-24); }
+.brief dl div { display: grid; gap: var(--space-8); }
+.brief dd { margin: 0; color: var(--c-text-muted); font-size: var(--fs-small); line-height: 1.45; }
+
+.steps { margin: 0; padding: 0; border-top: 1px solid var(--c-line); list-style: none; }
+.steps li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) 1rem;
+  gap: var(--space-16);
+  align-items: center;
+  min-block-size: 4.5rem;
+  border-bottom: 1px solid var(--c-line);
+  opacity: 0.44;
+  transition: opacity 700ms var(--ease-out), padding-inline 700ms var(--ease-out);
+}
+
+.steps strong { display: block; font-size: var(--fs-body); font-weight: var(--fw-medium); }
+.steps small { display: block; margin-block-start: var(--space-4); color: var(--c-text-subtle); font-size: var(--fs-small); }
+.steps i { color: var(--c-text); font-family: var(--font-mono); font-size: var(--fs-small); font-style: normal; text-align: right; }
+.steps .complete { opacity: 0.7; }
+.steps .active { padding-inline: var(--space-8); opacity: 1; }
+
+.workflow footer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-24);
+  align-items: center;
+  padding-block: var(--space-16);
+}
+
+.toolLine { display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: center; }
+
+.toolMark {
+  display: inline-flex;
+  gap: var(--space-8);
+  align-items: center;
+  min-block-size: 2rem;
+  padding-inline: var(--space-12);
+  border: 1px solid var(--c-line-strong);
+  border-radius: 999px;
+  color: var(--c-text-muted);
+}
+
+.toolMark svg { inline-size: 0.72rem; color: var(--c-text); }
+.toolMark b { color: var(--c-text); font-size: var(--fs-micro); font-weight: var(--fw-medium); letter-spacing: 0.04em; }
+.workflow footer strong { color: var(--c-text); font-weight: var(--fw-regular); }
+
+@include mq-below('sm') {
+  .brief { grid-template-columns: 1fr; }
+  .brief dl { grid-template-columns: 1fr; gap: var(--space-16); }
+  .brief dl div { grid-template-columns: 5rem 1fr; }
+  .workflow footer { grid-template-columns: 1fr auto; }
+  .workflow footer span { display: none; }
+  .workflow footer .toolMark { display: inline-flex; }
+}
+
+@include reduced-motion {
+  .steps li { transition: none; }
+}

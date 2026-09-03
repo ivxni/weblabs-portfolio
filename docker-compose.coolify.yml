@@ -38,6 +38,11 @@ services:
       # Postfach, in dem die Anfragen landen.
       CONTACT_TO: ${CONTACT_TO:-}
 
+      # ---- Vector Portfolio Assistenz ------------------------------------
+      # Einziger erforderlicher Wert für Vector. Das Modell ist bewusst im
+      # Code festgelegt, damit ein Wechsel versioniert und testbar bleibt.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+
     healthcheck:
       test:
         - CMD

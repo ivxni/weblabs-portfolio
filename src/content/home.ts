@@ -66,7 +66,7 @@ export const delivery = {
 export const aiPractice = {
   heading: 'AI beschleunigt meine Arbeit. Die Verantwortung bleibt bei mir.',
   body:
-    'Ich arbeite seit der frühen Verbreitung generativer KI-Systeme kontinuierlich mit AI-Werkzeugen. Gutes Prompt Engineering bedeutet für mich: Kontext und Grenzen präzisieren, Arbeit in prüfbare Schritte zerlegen und jedes Ergebnis fachlich, visuell und technisch abnehmen.',
+    'Codex und Claude nutze ich als Engineering-Werkzeuge für Analyse, Implementierung und Review. Gutes Prompt Engineering bedeutet für mich: Kontext und Grenzen präzisieren, Arbeit in prüfbare Schritte zerlegen und jedes Ergebnis fachlich, visuell und technisch abnehmen.',
   principles: [
     {
       title: 'Kontext vor Ausgabe',
@@ -98,7 +98,7 @@ export const experienceTeaser = {
 } as const;
 
 export const closing = {
-  heading: 'Sie haben einen Prozess, für den Standardsoftware nicht sauber passt?',
+  heading: 'Lassen Sie uns über Ihr System sprechen.',
   body:
-    'Ich entwickle individuelle Software-, Web- und AI-Systeme für Unternehmen im Raum Stuttgart und deutschlandweit. Im ersten Gespräch klären wir Problem, vorhandene Systeme und den kleinsten belastbaren Start direkt mit dem Entwickler.',
+    'Im ersten Gespräch klären wir das Problem, vorhandene Systeme und den kleinsten belastbaren Start.',
 } as const;

@@ -38,8 +38,9 @@ zurückgekehrt ist.
 Ein CMS mit Datenbank würde dafür Migrationen, Backups und einen zweiten
 laufenden Dienst kosten — und diese Prüfungen unmöglich machen.
 
-Die einzigen serverseitigen Routen sind der Healthcheck und das Kontaktformular.
-Sie speichern keine Inhalte in einer Datenbank.
+Die serverseitigen Routen sind der Healthcheck, das Kontaktformular und Vector.
+Sie speichern keine Inhalte in einer Datenbank. Vector durchsucht eine kuratierte
+öffentliche Wissensbasis lokal und sendet nur passende Ausschnitte an Anthropic.
 
 ---
 
@@ -50,6 +51,7 @@ src/
 ├─ app/                     Routen (App Router)
 │  ├─ api/health/           Healthcheck für Docker und Coolify
 │  ├─ api/kontakt/          Kontaktformular: Validierung, Rate Limit, SMTP
+│  ├─ api/vector/           RAG Assistenz: Retrieval, Rate Limit, Anthropic
 │  ├─ leistungen/[slug]/    SEO-Landingpages, zur Bauzeit erzeugt
 │  ├─ projekte/[slug]/      Case-Studies, zur Bauzeit erzeugt
 │  ├─ manifest.ts           Web-App- und Markenmetadaten
@@ -59,9 +61,10 @@ src/
 ├─ components/
 │  ├─ ui/                   Container, Section, Button, Reveal, PageHeader
 │  ├─ layout/               Header, Footer, Logo
-│  └─ home/                 Sektionen der Startseite
+│  ├─ home/                 Sektionen der Startseite
+│  └─ vector/               zugänglicher Vector Dialog
 ├─ content/                 ALLE Inhalte, typisiert
-├─ lib/                     SEO, color, rate-limit, contact-schema
+├─ lib/                     SEO, Validierung, Rate Limit und Vector Retrieval
 └─ styles/                  Token, Reset, Basis, Mixins, Breakpoints
 ```
 
@@ -155,13 +158,45 @@ Instanzen zählt jede für sich; die Seite läuft als eine Instanz.
 
 ---
 
+## Vector Portfolio Assistenz
+
+Vector verwendet eine kuratierte Wissensbasis unter `src/lib/vector/knowledge.ts`.
+Die Inhalte werden nicht automatisch aus privaten Anhängen, Repositories oder
+beliebigen Seiten übernommen. Eine lokale hybride Suche verbindet Begriffe,
+Synonyme und unscharfe Textähnlichkeit. Nur die besten Treffer werden an die
+Anthropic Messages API gesendet. Fachfremde Fragen werden ohne Cloud-Aufruf
+beantwortet.
+
+Für den Betrieb ist genau eine geheime Umgebungsvariable nötig:
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Der Schlüssel bleibt ausschließlich im Route Handler auf dem Server. Er darf
+nicht mit `NEXT_PUBLIC_` beginnen. Das Modell `claude-sonnet-4-6` ist bewusst in
+`src/lib/vector/anthropic.ts` festgelegt. Ein späterer Modellwechsel erfolgt als
+normale Codeänderung und ist damit versioniert, testbar und im Deployment
+nachvollziehbar.
+
+Schutzmaßnahmen: maximal acht Nachrichten und 6.000 Zeichen pro Anfrage,
+harte Request-Größengrenze, zwölf Anfragen je zehn Minuten und Absender,
+zusätzliches globales Kostenlimit, serverseitige Validierung,
+Zeitlimit für Provider-Aufrufe, keine Browserpersistenz und keine Protokollierung
+der Fragen durch die Anwendung.
+
+---
+
 ## Deployment auf Coolify
 
 1. **Neue Resource → Docker Compose**, Repository verbinden.
 2. Compose-Datei: `docker-compose.coolify.yml`.
 3. Unter **Domains** beim Dienst `web` eintragen: `https://web-labs.io:3000`.
-4. Unter **Environment Variables** die SMTP-Werte setzen (optional, siehe oben).
-5. Optional `GOOGLE_SITE_VERIFICATION` als **Build Variable** setzen.
+4. Unter **Environment Variables** `ANTHROPIC_API_KEY` setzen, wenn Vector live
+   antworten soll. Der Wert ist eine normale Runtime Variable und keine Build
+   Variable.
+5. Die SMTP-Werte setzen, wenn das Kontaktformular E-Mails versenden soll.
+6. Optional `GOOGLE_SITE_VERIFICATION` als **Build Variable** setzen.
 
 **Keine Traefik-Labels von Hand eintragen.** Coolify schreibt sie selbst,
 sobald eine Domain gesetzt ist. Handgeschriebene Labels kollidieren damit — man
@@ -195,8 +230,8 @@ curl -s https://web-labs.io/api/health
 
 ## Tests
 
-132 Tests. Zwei davon sind ungewöhnlich und der eigentliche Grund für den
-Aufbau:
+Die Testsuite deckt Inhalte, Styling, Formulare und Vector ab. Zwei Bereiche
+sind ungewöhnlich und der eigentliche Grund für den Aufbau:
 
 **`src/styles/tokens.test.ts`** liest die echte Datei `_tokens.scss`,
 konvertiert jede oklch-Farbe nach sRGB und rechnet die Kontraste — Fließtext

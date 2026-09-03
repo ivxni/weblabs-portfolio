@@ -4,6 +4,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { site } from '@/content/site';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { VectorChat } from '@/components/vector/VectorChat';
 import { businessEntity, personEntity } from '@/lib/seo';
 import '@/lib/fontawesome';
 import './globals.scss';
@@ -147,6 +148,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="inhalt">{children}</main>
         <Footer />
+        <VectorChat />
         <JsonLd data={identityJsonLd} />
       </body>
     </html>

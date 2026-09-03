@@ -80,6 +80,10 @@
   // Marke. Nur Favicon und Vorschaubild.
   --c-brand:         oklch(0.665 0.212 44);    // = #FF5C00
 
+  // Einziger atmosphärischer Akzent im Hero. Blau steht hier für den aktiven
+  // Systemzustand und wird nicht als allgemeine Dekorationsfarbe verteilt.
+  --c-hero-blue:     oklch(0.690 0.145 261);
+
   // ---------------------------------------------------------------------------
   // Leuchten
   // ---------------------------------------------------------------------------

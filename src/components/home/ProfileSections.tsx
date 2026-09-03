@@ -1,46 +1,28 @@
 import { aiPractice } from '@/content/home';
-import { AIDeliveryDemo } from './AIDeliveryDemo';
+import { AIWorkflow } from './AIWorkflow';
 import styles from './ProfileSections.module.scss';
-
-const engineering = [
-  ['01', 'Product interfaces', 'React · Next.js · TypeScript'],
-  ['02', 'Systems & data', 'Python · FastAPI · PostgreSQL'],
-  ['03', 'Reliable delivery', 'Tests · Docker · CI/CD'],
-] as const;
-
-export function EngineeringSection() {
-  return (
-    <section className={styles.engineering} aria-labelledby="engineering-heading">
-      <p className={styles.index}>01 / Engineering</p>
-      <div className={styles.statement}>
-        <h2 id="engineering-heading">Frontend bis Betrieb.<br /><em>Ein System.</em></h2>
-        <p>Ich verbinde Oberfläche, API, Daten und Deployment, ohne an den Übergängen Verantwortung abzugeben.</p>
-      </div>
-      <ol className={styles.disciplines} role="list">
-        {engineering.map(([number, title, stack]) => <li key={number}><span>{number}</span><strong>{title}</strong><small>{stack}</small></li>)}
-      </ol>
-    </section>
-  );
-}
 
 export function WorkingPrinciples() {
   return (
     <section className={styles.principles} aria-labelledby="principles-heading">
-      <p className={styles.index}>04 / Arbeitsweise</p>
-      <h2 id="principles-heading">AI beschleunigt.<br /><em>Ich verantworte.</em></h2>
+      <header className={styles.principlesHeader}>
+        <p className={styles.index}>Arbeitsweise</p>
+        <h2 id="principles-heading">AI beschleunigt.<br />Verantwortung bleibt menschlich.</h2>
+        <p className={styles.practiceLead}>
+          {aiPractice.body}
+        </p>
+      </header>
+
       <div className={styles.practiceLayout}>
-        <div className={styles.practiceCopy}>
-          <p className={styles.practiceLead}>{aiPractice.body}</p>
-          <div className={styles.principleList}>
-            {aiPractice.principles.map((principle, index) => (
-              <article key={principle.title}>
-                <span>0{index + 1}</span>
-                <div><h3>{principle.title}</h3><p>{principle.text}</p></div>
-              </article>
-            ))}
-          </div>
+        <div className={styles.principleList}>
+          {aiPractice.principles.map((principle, index) => (
+            <article key={principle.title}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div><h3>{principle.title}</h3><p>{principle.text}</p></div>
+            </article>
+          ))}
         </div>
-        <AIDeliveryDemo />
+        <AIWorkflow />
       </div>
     </section>
   );

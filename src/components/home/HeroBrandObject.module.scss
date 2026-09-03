@@ -1,0 +1,105 @@
+.figure {
+  inline-size: min(100%, 34rem);
+  justify-self: end;
+  margin: 0;
+}
+
+.object {
+  position: relative;
+  display: grid;
+  aspect-ratio: 1.08;
+  place-items: center;
+  overflow: hidden;
+}
+
+.depthStack {
+  position: relative;
+  z-index: 1;
+  inline-size: 72%;
+  aspect-ratio: 309 / 189;
+  transform: rotate(-7deg) skewX(-3deg);
+  transform-style: preserve-3d;
+  animation: objectFloat 12s var(--ease-in-out) infinite alternate;
+}
+
+.depthLayer,
+.primaryMark {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.depthLayer {
+  background: linear-gradient(130deg, var(--c-hero-blue), var(--c-text));
+  mask: url('/brand/weblabs-mark-light.svg') center / contain no-repeat;
+  opacity: 0.08;
+}
+
+.depthLayer[data-layer='1'] { transform: translate(-5.4rem, 4.3rem); opacity: 0.025; }
+.depthLayer[data-layer='2'] { transform: translate(-4.5rem, 3.6rem); opacity: 0.035; }
+.depthLayer[data-layer='3'] { transform: translate(-3.6rem, 2.9rem); opacity: 0.045; }
+.depthLayer[data-layer='4'] { transform: translate(-2.7rem, 2.2rem); opacity: 0.055; }
+.depthLayer[data-layer='5'] { transform: translate(-1.8rem, 1.45rem); opacity: 0.07; }
+.depthLayer[data-layer='6'] { transform: translate(-0.9rem, 0.72rem); opacity: 0.1; }
+.depthLayer[data-layer='7'] { transform: translate(-0.35rem, 0.28rem); opacity: 0.16; }
+
+.primaryMark {
+  z-index: 2;
+  object-fit: contain;
+  filter: drop-shadow(0 1.2rem 3rem oklch(0 0 0 / 0.45));
+}
+
+.light {
+  position: absolute;
+  inline-size: 42%;
+  aspect-ratio: 1;
+  inset-inline-end: 7%;
+  inset-block-start: 12%;
+  background: var(--c-hero-blue);
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.22;
+  animation: lightDrift 14s var(--ease-in-out) infinite alternate;
+}
+
+.figure figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-24);
+  padding-block-start: var(--space-16);
+  border-top: 1px solid var(--c-line-strong);
+  @include micro-label;
+  color: var(--c-text-subtle);
+}
+
+.figure figcaption span:last-child { text-align: right; }
+
+@keyframes objectFloat {
+  to { transform: translate(1.2rem, -0.75rem) rotate(-4deg) skewX(-2deg); }
+}
+
+@keyframes lightDrift {
+  to { transform: translate(-28%, 24%) scale(1.12); opacity: 0.3; }
+}
+
+@include mq-below('md') {
+  .figure { inline-size: min(100%, 38rem); justify-self: stretch; }
+}
+
+@include mq-below('sm') {
+  .object { aspect-ratio: 1.45; }
+  .depthStack { inline-size: 62%; }
+  .depthLayer[data-layer='1'] { transform: translate(-3.5rem, 2.8rem); }
+  .depthLayer[data-layer='2'] { transform: translate(-3rem, 2.4rem); }
+  .depthLayer[data-layer='3'] { transform: translate(-2.5rem, 2rem); }
+  .depthLayer[data-layer='4'] { transform: translate(-2rem, 1.6rem); }
+  .depthLayer[data-layer='5'] { transform: translate(-1.5rem, 1.2rem); }
+  .depthLayer[data-layer='6'] { transform: translate(-1rem, 0.8rem); }
+  .figure figcaption { display: none; }
+}
+
+@include reduced-motion {
+  .depthStack,
+  .light { animation: none; }
+}

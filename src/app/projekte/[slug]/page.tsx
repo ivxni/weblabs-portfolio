@@ -8,6 +8,7 @@ import { getProject, projects, statusLabel } from '@/content/projects';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { ProjectLiveDemo, type ProjectDemoType } from '@/components/projects/ProjectLiveDemo';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { site } from '@/content/site';
 import { absoluteUrl, breadcrumbEntity, createPageMetadata, PERSON_ID } from '@/lib/seo';
@@ -50,6 +51,11 @@ export default async function CaseStudyPage({ params }: PageProps) {
   // Projekt, statt in eine Sackgasse zu führen.
   const next = projects[(currentIndex + 1) % projects.length];
   const projectUrl = absoluteUrl(`/projekte/${project.slug}`);
+  const demoType: ProjectDemoType | null = project.slug === 'realtime-vision-runtime'
+    ? 'vision'
+    : project.slug === 'ml-market-runtime'
+      ? 'market'
+      : null;
   const projectJsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -156,6 +162,14 @@ export default async function CaseStudyPage({ params }: PageProps) {
                 <span>{project.name} · {project.year}</span>
               </figcaption>
             </figure>
+          </Container>
+        </Section>
+      )}
+
+      {demoType && (
+        <Section ruled compact>
+          <Container>
+            <ProjectLiveDemo type={demoType} />
           </Container>
         </Section>
       )}
